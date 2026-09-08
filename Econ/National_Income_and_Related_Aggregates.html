@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>National Income &amp; Related Aggregates — Flashcards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#070B14;
+    --bg-1:#0B1220;
+    --bg-2:#0F1830;
+    --glass:rgba(255,255,255,0.055);
+    --glass-strong:rgba(255,255,255,0.09);
+    --border:rgba(255,255,255,0.12);
+    --border-soft:rgba(255,255,255,0.07);
+    --text-hi:#EEF2F9;
+    --text-mid:#AAB4C7;
+    --text-low:#6C7690;
+    --emerald:#33E6A4;
+    --cyan:#3FD9FF;
+    --amber:#FFC24B;
+    --crimson:#FF6B81;
+    --violet:#B79CFF;
+    --shadow:0 20px 60px rgba(0,0,0,0.45);
+    --radius-lg:22px;
+    --radius-md:14px;
+    --radius-sm:9px;
+  }
+  [data-theme="light"]{
+    --bg-0:#EFF3FA;
+    --bg-1:#F6F8FC;
+    --bg-2:#E7ECF6;
+    --glass:rgba(255,255,255,0.75);
+    --glass-strong:rgba(255,255,255,0.92);
+    --border:rgba(15,24,48,0.10);
+    --border-soft:rgba(15,24,48,0.06);
+    --text-hi:#0E1526;
+    --text-mid:#4A5573;
+    --text-low:#8994AC;
+    --emerald:#0FA870;
+    --cyan:#0090C4;
+    --amber:#B77A00;
+    --crimson:#D43A57;
+    --violet:#6E4CD9;
+    --shadow:0 20px 50px rgba(20,30,60,0.12);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;height:100%;}
+  body{
+    font-family:'IBM Plex Sans', sans-serif;
+    background:
+      radial-gradient(circle at 12% 8%, rgba(63,217,255,0.10), transparent 40%),
+      radial-gradient(circle at 88% 92%, rgba(51,230,164,0.09), transparent 42%),
+      linear-gradient(180deg, var(--bg-0), var(--bg-1) 45%, var(--bg-2));
+    color:var(--text-hi);
+    min-height:100vh;
+    transition:background .4s ease, color .4s ease;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:112px;
+  }
+  h1,h2,h3, .display{font-family:'Sora', sans-serif;}
+
+  /* ============ TOP BAR ============ */
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 20px 8px;
+    max-width:920px; margin:0 auto;
+  }
+  .brand{display:flex; flex-direction:column; gap:2px;}
+  .brand .eyebrow{
+    font-size:12.5px; color:var(--cyan); font-weight:600; letter-spacing:0.02em;
+  }
+  .brand h1{
+    font-size:20px; margin:0; font-weight:700; line-height:1.15;
+    background:linear-gradient(90deg, var(--text-hi), var(--cyan));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .top-actions{display:flex; gap:8px;}
+  .icon-btn{
+    width:40px; height:40px; border-radius:12px;
+    background:var(--glass); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; color:var(--text-hi);
+    transition:transform .15s ease, background .2s ease, border-color .2s ease;
+  }
+  .icon-btn:hover{background:var(--glass-strong); transform:translateY(-1px);}
+  .icon-btn svg{width:18px; height:18px;}
+
+  /* ============ PROGRESS ============ */
+  .progress-wrap{
+    max-width:920px; margin:6px auto 0; padding:0 20px;
+  }
+  .progress-row{
+    display:flex; align-items:center; justify-content:space-between;
+    font-size:13px; color:var(--text-mid); margin-bottom:7px;
+  }
+  .progress-row .count strong{color:var(--emerald); font-weight:700;}
+  .progress-track{
+    height:5px; border-radius:99px; background:var(--border-soft); overflow:hidden;
+  }
+  .progress-fill{
+    height:100%; border-radius:99px;
+    background:linear-gradient(90deg, var(--cyan), var(--emerald));
+    transition:width .35s cubic-bezier(.4,0,.2,1);
+  }
+
+  /* ============ FILTER PANEL ============ */
+  .filter-shell{max-width:920px; margin:14px auto 0; padding:0 20px;}
+  .filter-toggle{
+    display:flex; align-items:center; gap:8px;
+    background:var(--glass); border:1px solid var(--border);
+    border-radius:12px; padding:9px 14px; cursor:pointer;
+    font-size:13.5px; color:var(--text-mid); width:fit-content;
+    user-select:none;
+  }
+  .filter-toggle svg{width:15px; height:15px; transition:transform .2s ease;}
+  .filter-toggle.open svg.chev{transform:rotate(180deg);}
+  .filter-panel{
+    max-height:0; overflow:hidden; transition:max-height .3s ease, margin .3s ease;
+  }
+  .filter-panel.open{max-height:400px; margin-top:10px;}
+  .chip-row{display:flex; flex-wrap:wrap; gap:8px; padding:2px 2px 4px;}
+  .chip{
+    padding:8px 13px; border-radius:99px; font-size:12.5px; font-weight:600;
+    border:1px solid var(--border); background:var(--glass); color:var(--text-mid);
+    cursor:pointer; transition:all .15s ease; white-space:nowrap;
+  }
+  .chip[data-active="true"]{
+    color:var(--bg-0); border-color:transparent;
+  }
+  .chip-sub{display:flex; gap:8px; align-items:center; margin-top:4px;}
+  .mini-toggle{
+    font-size:12px; color:var(--text-mid); background:var(--glass);
+    border:1px solid var(--border); padding:7px 12px; border-radius:10px; cursor:pointer;
+  }
+  .mini-toggle[data-active="true"]{border-color:var(--crimson); color:var(--crimson);}
+
+  /* ============ STAGE ============ */
+  .stage{
+    max-width:640px; margin:22px auto 0; padding:0 20px;
+    perspective:1800px;
+  }
+  .card-badge-row{
+    display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;
+  }
+  .exam-badge{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:11.5px; font-weight:700; letter-spacing:0.01em;
+    padding:6px 11px; border-radius:99px; color:var(--bg-0);
+  }
+  .mastery-pill{
+    font-size:11.5px; font-weight:600; padding:5px 10px; border-radius:99px;
+    background:var(--glass); border:1px solid var(--border); color:var(--text-mid);
+  }
+  .mastery-pill[data-state="mastered"]{color:var(--emerald); border-color:var(--emerald);}
+
+  .flip-zone{
+    position:relative; width:100%; min-height:400px; cursor:pointer;
+  }
+  .flip-inner{
+    position:relative; width:100%; height:100%; min-height:400px;
+    transform-style:preserve-3d; transition:transform .55s cubic-bezier(.4,0.1,.2,1);
+  }
+  .flip-inner.flipped{transform:rotateY(180deg);}
+  .face{
+    position:absolute; inset:0; backface-visibility:hidden;
+    border-radius:var(--radius-lg);
+    background:var(--glass); border:1px solid var(--border);
+    box-shadow:var(--shadow);
+    padding:26px 26px 22px;
+    display:flex; flex-direction:column;
+    backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
+    overflow-y:auto;
+  }
+  .face::-webkit-scrollbar{width:6px;}
+  .face::-webkit-scrollbar-thumb{background:var(--border); border-radius:99px;}
+  .face-front{justify-content:center; align-items:center; text-align:center;}
+  .face-back{transform:rotateY(180deg); justify-content:flex-start;}
+
+  .front-tag{
+    font-size:11px; text-transform:none; color:var(--text-low);
+    font-weight:600; margin-bottom:14px; letter-spacing:0.03em;
+  }
+  .front-prompt{
+    font-family:'Sora', sans-serif; font-weight:700; font-size:22px; line-height:1.35;
+    color:var(--text-hi);
+  }
+  .front-hint{
+    margin-top:16px; font-size:12.5px; color:var(--text-low); font-style:normal;
+  }
+  .flip-cue{
+    position:absolute; bottom:16px; right:18px; font-size:11px; color:var(--text-low);
+    display:flex; align-items:center; gap:5px;
+  }
+
+  .back-title{
+    font-family:'Sora', sans-serif; font-weight:700; font-size:16.5px; margin:0 0 12px;
+    color:var(--text-hi); padding-right:70px;
+  }
+  .section-block{margin-bottom:14px;}
+  .section-label{
+    font-size:11px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase;
+    margin-bottom:6px; display:flex; align-items:center; gap:6px;
+  }
+  .section-label.def{color:var(--cyan);}
+  .section-label.formula{color:var(--amber);}
+  .section-label.graph{color:var(--violet);}
+  .section-label.pitfall{color:var(--crimson);}
+  ul.bullets{margin:0; padding-left:18px;}
+  ul.bullets li{font-size:14px; line-height:1.55; color:var(--text-mid); margin-bottom:5px;}
+  ul.bullets li strong{color:var(--text-hi); font-weight:600;}
+  .formula-box{
+    font-family:'IBM Plex Mono', monospace; font-size:13.5px; font-weight:600;
+    background:var(--glass-strong); border:1px solid var(--border-soft);
+    border-radius:var(--radius-sm); padding:9px 12px; margin-bottom:6px;
+    color:var(--amber); line-height:1.5; white-space:pre-wrap;
+  }
+
+  /* ============ NAV CLUSTER ============ */
+  .nav-cluster{
+    position:fixed; bottom:18px; left:50%; transform:translateX(-50%);
+    display:flex; align-items:center; gap:8px;
+    background:var(--glass-strong); border:1px solid var(--border);
+    border-radius:20px; padding:9px; box-shadow:var(--shadow);
+    backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+    z-index:40;
+  }
+  .nav-btn{
+    width:46px; height:46px; border-radius:14px; border:none; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    background:transparent; color:var(--text-hi); transition:background .15s ease, transform .15s ease;
+  }
+  .nav-btn:hover{background:var(--border-soft);}
+  .nav-btn:active{transform:scale(0.92);}
+  .nav-btn svg{width:19px; height:19px;}
+  .nav-btn.primary{
+    background:linear-gradient(135deg, var(--emerald), var(--cyan));
+    color:#04140F; width:52px; height:52px; border-radius:16px;
+  }
+  .nav-btn.primary:hover{filter:brightness(1.08);}
+  .nav-divider{width:1px; height:26px; background:var(--border);}
+
+  /* ============ GRID VIEW ============ */
+  .grid-shell{max-width:920px; margin:20px auto 0; padding:0 20px; display:none;}
+  .grid-shell.active{display:block;}
+  .stage.hidden{display:none;}
+  .search-box{
+    display:flex; align-items:center; gap:9px;
+    background:var(--glass); border:1px solid var(--border); border-radius:12px;
+    padding:10px 14px; margin-bottom:14px;
+  }
+  .search-box svg{width:16px; height:16px; color:var(--text-low); flex-shrink:0;}
+  .search-box input{
+    background:transparent; border:none; outline:none; color:var(--text-hi);
+    font-size:14px; width:100%; font-family:'IBM Plex Sans', sans-serif;
+  }
+  .search-box input::placeholder{color:var(--text-low);}
+  .grid-list{display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:12px;}
+  .grid-card{
+    background:var(--glass); border:1px solid var(--border); border-radius:var(--radius-md);
+    padding:15px; cursor:pointer; transition:transform .15s ease, border-color .15s ease;
+  }
+  .grid-card:hover{transform:translateY(-2px); border-color:var(--border);}
+  .grid-card .gc-badge{
+    font-size:10px; font-weight:700; padding:4px 8px; border-radius:99px; color:var(--bg-0);
+    display:inline-block; margin-bottom:9px;
+  }
+  .grid-card h4{margin:0 0 6px; font-size:14.5px; font-family:'Sora',sans-serif; color:var(--text-hi); line-height:1.3;}
+  .grid-card p{margin:0; font-size:12.5px; color:var(--text-mid); line-height:1.5;}
+  .grid-card .gc-mastered{
+    margin-top:9px; font-size:11px; font-weight:600; color:var(--emerald);
+  }
+
+  .empty-state{
+    text-align:center; padding:60px 20px; color:var(--text-mid);
+  }
+  .empty-state svg{width:40px; height:40px; opacity:0.5; margin-bottom:12px;}
+  .empty-state h3{font-size:16px; color:var(--text-hi); margin:0 0 6px;}
+  .empty-state p{font-size:13.5px; margin:0;}
+
+  .kbd-hint{
+    text-align:center; font-size:11.5px; color:var(--text-low); margin-top:16px;
+    max-width:640px; margin-left:auto; margin-right:auto; padding:0 20px;
+  }
+  .kbd-hint kbd{
+    background:var(--glass); border:1px solid var(--border); border-radius:5px;
+    padding:1px 6px; font-family:'IBM Plex Mono', monospace; font-size:10.5px;
+  }
+
+  @media (max-width:480px){
+    .front-prompt{font-size:19px;}
+    .flip-zone{min-height:430px;}
+    .flip-inner{min-height:430px;}
+    .face{padding:22px 18px 18px;}
+    .back-title{padding-right:0;}
+  }
+</style>
+</head>
+<body data-theme="dark"><a href="index.html" id="__fcBackBtn" title="Back to chapter list" style="position:fixed;top:10px;left:10px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;background:rgba(15,20,35,0.72);color:#fff;font:600 12.5px -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;text-decoration:none;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 4px 14px rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.14);">&#8592;&nbsp;Chapters</a><style>body{padding-top:46px}</style>
+
+<div class="topbar">
+  <div class="brand">
+    <span class="eyebrow">CBSE Class XII · Macroeconomics</span>
+    <h1>National Income &amp; Related Aggregates</h1>
+  </div>
+  <div class="top-actions">
+    <div class="icon-btn" id="gridToggleBtn" title="Toggle grid view">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    </div>
+    <div class="icon-btn" id="themeToggleBtn" title="Toggle theme">
+      <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8L6 18M18 6l1.8-1.8"/></svg>
+    </div>
+  </div>
+</div>
+
+<div class="progress-wrap" id="progressWrap">
+  <div class="progress-row">
+    <span class="count">Card <strong id="cardIndex">1</strong> of <span id="cardTotal">37</span></span>
+    <span id="deckLabel">All cards</span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:2.7%"></div></div>
+</div>
+
+<div class="filter-shell">
+  <div class="filter-toggle" id="filterToggle">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+    <span>Filter categories &amp; review status</span>
+    <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="filter-panel" id="filterPanel">
+    <div class="chip-row" id="chipRow"></div>
+    <div class="chip-sub">
+      <div class="mini-toggle" id="needsReviewToggle">Show only: Needs Review</div>
+    </div>
+  </div>
+</div>
+
+<div class="stage" id="stage">
+  <div class="card-badge-row">
+    <span class="exam-badge" id="examBadge">Curve &amp; Graph Shift</span>
+    <span class="mastery-pill" id="masteryPill" data-state="review">Needs Review</span>
+  </div>
+
+  <div class="flip-zone" id="flipZone">
+    <div class="flip-inner" id="flipInner">
+      <div class="face face-front">
+        <div class="front-tag" id="frontTag">Concept</div>
+        <div class="front-prompt" id="frontPrompt">Loading…</div>
+        <div class="flip-cue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3.2-6.9M21 3v6h-6"/></svg>
+          Tap to flip
+        </div>
+      </div>
+      <div class="face face-back" id="backFace">
+      </div>
+    </div>
+  </div>
+  <div class="kbd-hint">
+    <kbd>Space</kbd> flip · <kbd>&larr;</kbd> <kbd>&rarr;</kbd> navigate · <kbd>R</kbd> shuffle
+  </div>
+</div>
+
+<div class="grid-shell" id="gridShell">
+  <div class="search-box">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    <input type="text" id="gridSearch" placeholder="Search formulas, terms, schemes…">
+  </div>
+  <div class="grid-list" id="gridList"></div>
+</div>
+
+<div class="nav-cluster">
+  <button class="nav-btn" id="prevBtn" title="Previous (Left arrow)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <button class="nav-btn" id="shuffleBtn" title="Shuffle (R)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+  </button>
+  <div class="nav-divider"></div>
+  <button class="nav-btn primary" id="flipBtn" title="Flip (Space)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2.1l4 4-4 4M3 12.7V12A8 8 0 0 1 17 6.3M7 21.9l-4-4 4-4M21 11.3V12a8 8 0 0 1-14 5.7"/></svg>
+  </button>
+  <div class="nav-divider"></div>
+  <button class="nav-btn" id="masterBtn" title="Toggle mastered">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+  </button>
+  <button class="nav-btn" id="nextBtn" title="Next (Right arrow)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+</div>
+
+<script>
+/* ================= CATEGORY DEFINITIONS ================= */
+const CATEGORIES = {
+  core:      { label:"Macro Core Concepts",      color:"var(--cyan)"    },
+  formula:   { label:"Formulas & Numericals",     color:"var(--amber)"  },
+  aggregate: { label:"Aggregates Conversion",     color:"var(--emerald)"},
+  pitfall:   { label:"Common Pitfalls",           color:"var(--crimson)"},
+  cuet:      { label:"CUET Shortcuts & Facts",    color:"var(--violet)" }
+};
+
+/* ================= CARD DATA ================= */
+const CARDS = [
+{id:1, cat:"core", badge:"Board Concept", tag:"Scope of Macroeconomics",
+ front:"What does Macroeconomics study, and how is it different from Microeconomics?",
+ back:{title:"Scope of Macroeconomics",
+  def:["Macroeconomics studies the economy as a whole using <strong>aggregates</strong> — total output, total employment, general price level, money supply, and balance of payments","Microeconomics studies individual units — a single consumer, firm, or industry — using concepts like individual demand and firm-level pricing","Four core areas tested: <strong>National Income determination</strong>, <strong>Money and Banking</strong>, <strong>Government Budget</strong>, <strong>Balance of Payments</strong>"],
+  pitfalls:["Do not confuse 'aggregate demand' (macro) with 'market demand for a good' (micro) — a common assertion-reasoning trap"]}},
+
+{id:2, cat:"core", badge:"Board Concept", tag:"Basic Concept",
+ front:"Distinguish between Stock and Flow with one example each.",
+ back:{title:"Stock vs Flow",
+  def:["<strong>Stock:</strong> a quantity measured at a point in time — has no time dimension attached to its unit (e.g. capital, wealth, money supply on 31 March)","<strong>Flow:</strong> a quantity measured over a period of time — always has a time dimension (e.g. income per month, investment per year)","National Income is a <strong>flow</strong>; National Wealth is a <strong>stock</strong>"],
+  pitfalls:["Capital is a stock, but Investment (change in capital over a period) is a flow — this pairing is a favourite 1-mark MCQ"]}},
+
+{id:3, cat:"core", badge:"Board Concept", tag:"Basic Concept",
+ front:"Distinguish between Final Goods and Intermediate Goods.",
+ back:{title:"Final Goods vs Intermediate Goods",
+  def:["<strong>Final goods:</strong> goods that leave the production boundary for final use — either final consumption or final investment; not resold or further processed","<strong>Intermediate goods:</strong> goods used up entirely as raw material in the same year, or resold for resale — value already embedded in the final good's price"],
+  pitfalls:["The same physical good can be final or intermediate depending on <strong>use</strong>, not on its physical nature — sugar bought by a household is final; sugar bought by a bakery is intermediate","Only final goods are counted in National Income to avoid double counting"]}},
+
+{id:4, cat:"core", badge:"Board Concept", tag:"Basic Concept",
+ front:"Distinguish between Consumption Goods and Capital Goods.",
+ back:{title:"Consumption Goods vs Capital Goods",
+  def:["<strong>Consumption goods:</strong> final goods used directly to satisfy human wants (durable, semi-durable, non-durable, services)","<strong>Capital goods:</strong> final goods used as fixed assets by producers to produce other goods; used repeatedly over more than one year"],
+  pitfalls:["A capital good must be used in the <strong>production process</strong>, must have a life of more than a year, and must be of a certain minimum value — a pen used by an office does not qualify despite lasting years"]}},
+
+{id:5, cat:"core", badge:"Board Numerical Clue", tag:"Basic Concept",
+ front:"What is Depreciation, and how does it differ from Gross and Net Investment?",
+ back:{title:"Depreciation, Gross Investment, Net Investment",
+  def:["<strong>Depreciation (Consumption of Fixed Capital):</strong> the fall in value of fixed capital assets due to normal wear and tear and expected obsolescence","<strong>Gross Investment:</strong> total addition to the stock of capital, including replacement of worn-out capital","<strong>Net Investment:</strong> the real addition to capital stock"],
+  formulas:["Net Investment = Gross Investment − Depreciation"],
+  pitfalls:["Depreciation covers <em>expected</em> obsolescence (normal technological change); <em>unexpected</em> obsolescence (e.g. sudden new invention) or destruction by war/flood is a <strong>capital loss</strong>, not depreciation"]}},
+
+{id:6, cat:"core", badge:"Board Concept", tag:"Basic Concept",
+ front:"Distinguish between Domestic Territory and Normal Resident.",
+ back:{title:"Domestic Territory vs Normal Resident",
+  def:["<strong>Domestic territory:</strong> the geographical area administered by a government, including territorial waters, airspace, embassies abroad, ships/aircraft owned and operated by residents, and fishing vessels/oil rigs operated by residents in international waters","<strong>Normal resident:</strong> a person or institution ordinarily residing in a country and whose centre of economic interest lies in that country (a period of one year or more is the general rule)"],
+  pitfalls:["Foreign embassies located within a country are <strong>not</strong> part of that country's domestic territory — they belong to the home country of the embassy","A student studying abroad for under a year remains a normal resident of the home country; an international student staying over a year becomes a resident of the host country"]}},
+
+{id:7, cat:"core", badge:"Curve & Graph Shift", tag:"Circular Flow",
+ front:"Explain the Real Flow and Money Flow in a simple two-sector circular flow of income.",
+ back:{title:"Circular Flow of Income — Two-Sector Model",
+  def:["<strong>Real flow:</strong> flow of factor services from households to firms, and flow of goods and services from firms to households","<strong>Money flow:</strong> flow of factor payments (rent, wages, interest, profit) from firms to households, and flow of consumption expenditure from households to firms","The two flows move in opposite directions and are of equal value, showing that <strong>income = expenditure = output</strong> for the economy"],
+  graphRules:["Diagram: outer loop = real flow (services out from households, goods back); inner loop = money flow (factor payments out from firms, consumption expenditure back)"]}},
+
+{id:8, cat:"core", badge:"Board Numerical Clue", tag:"Circular Flow",
+ front:"What are Injections and Leakages/Withdrawals in the circular flow?",
+ back:{title:"Injections and Leakages",
+  def:["<strong>Leakages (Withdrawals):</strong> money removed from the circular flow — Savings (S), Taxes (T), Imports (M)","<strong>Injections:</strong> money added into the circular flow from outside the household-firm loop — Investment (I), Government spending (G), Exports (X)"],
+  formulas:["Equilibrium condition (three-sector, open economy): S + T + M = I + G + X"],
+  pitfalls:["If leakages exceed injections, national income tends to fall in the next round; if injections exceed leakages, national income tends to rise"]}},
+
+{id:9, cat:"core", badge:"Board Concept", tag:"Basic Concept",
+ front:"Distinguish between Factor Income and Transfer Income.",
+ back:{title:"Factor Income vs Transfer Income",
+  def:["<strong>Factor income:</strong> income received in return for rendering productive services / for the use of a factor of production — rent, wages, interest, profit","<strong>Transfer income:</strong> income received without rendering any productive service in return — old-age pension, scholarships, gifts, donations"],
+  pitfalls:["Only factor income is included in National Income; transfer income is <strong>excluded</strong> because it does not add to the current flow of goods and services"]}},
+
+{id:10, cat:"core", badge:"Board Numerical Clue", tag:"NFIA",
+ front:"What is Net Factor Income from Abroad (NFIA), and what are its three components?",
+ back:{title:"Net Factor Income from Abroad (NFIA)",
+  def:["NFIA = income earned by normal residents of a country from the rest of the world, minus income earned by non-residents within the domestic territory of that country","This is the bridge between the <strong>domestic</strong> concept (GDP) and the <strong>national</strong> concept (GNP)"],
+  formulas:["NFIA = (i) Net compensation of employees from abroad\n+ (ii) Net income from property & entrepreneurship from abroad (rent, interest, profit)\n+ (iii) Net retained earnings of resident companies abroad"],
+  pitfalls:["NFIA can be negative for a country — e.g. if a large amount of profit is repatriated abroad by foreign-owned companies operating domestically"]}},
+
+{id:11, cat:"aggregate", badge:"Board Numerical Clue", tag:"GDP–GNP Link",
+ front:"How is GNP derived from GDP?",
+ back:{title:"GDP → GNP",
+  def:["GDP measures output produced <strong>within domestic territory</strong>, regardless of who produces it","GNP measures output produced <strong>by normal residents</strong>, regardless of where in the world it is produced"],
+  formulas:["GNP = GDP + Net Factor Income from Abroad (NFIA)"],
+  pitfalls:["If NFIA is negative, GNP < GDP; if NFIA is positive, GNP > GDP — a frequent numerical trap in board papers"]}},
+
+{id:12, cat:"formula", badge:"Board Numerical Clue", tag:"Value Added Method",
+ front:"Outline the steps of the Value Added Method (Product Method) of estimating national income.",
+ back:{title:"Value Added Method — Steps",
+  def:["Step 1: Identify and classify all production units into primary, secondary, and tertiary sectors","Step 2: Estimate Gross Value Added at Market Price (GVAmp) for each production unit"],
+  formulas:["Gross Value Added (GVAmp) = Value of Output − Intermediate Consumption","Value of Output = Sales + Change in Stock (Closing Stock − Opening Stock)"],
+  graphRules:["Step 3: Sum GVAmp across all sectors to get GDPmp = ΣGVAmp of all sectors"]}},
+
+{id:13, cat:"formula", badge:"Board Numerical Clue", tag:"Value Added Method",
+ front:"What precautions must be taken while using the Value Added Method?",
+ back:{title:"Value Added Method — Precautions",
+  def:["Only the value added by each firm should be included, to avoid double counting of intermediate goods","Sale and purchase of second-hand goods should be excluded — no new production; but any brokerage/commission on the resale <strong>is</strong> included (a new service)","Imputed value of self-consumed production (e.g. a farmer keeping part of the crop) should be included at prevailing market prices","Imputed rent of owner-occupied houses must be included as part of value of output","Own-account production of fixed capital assets (a firm building its own machinery) should be included","Change in stock (inventory) should be treated as part of Gross Domestic Capital Formation"]}},
+
+{id:14, cat:"formula", badge:"Board Numerical Clue", tag:"Value Added Method",
+ front:"Write the formula chain from GVAmp to GDPmp under the Value Added Method.",
+ back:{title:"GDPmp via Value Added Method",
+  formulas:["GDPmp = Σ GVAmp (Primary + Secondary + Tertiary sectors)","GVAmp = Value of Output − Intermediate Consumption"],
+  def:["This is also called the <strong>Product Method</strong> or <strong>Output Method</strong>","Used mainly for the commodity-producing sectors of the economy"]}},
+
+{id:15, cat:"formula", badge:"Board Numerical Clue", tag:"Income Method",
+ front:"What are the four components of Compensation of Employees under the Income Method?",
+ back:{title:"Income Method — Compensation of Employees",
+  formulas:["Compensation of Employees = Wages & Salaries in cash\n+ Wages & Salaries in kind\n+ Employers' contribution to social security schemes"],
+  def:["'Wages in kind' includes free housing, free medical facilities, free education — valued at market price","Employer's contribution to Provident Fund, Gratuity, etc. is included as it is deferred income for the employee"]}},
+
+{id:16, cat:"formula", badge:"Board Numerical Clue", tag:"Income Method",
+ front:"What is Operating Surplus, and what are its components?",
+ back:{title:"Operating Surplus",
+  def:["Operating Surplus is the income earned from ownership of property and entrepreneurship, taken together"],
+  formulas:["Operating Surplus = Rent + Interest + Profit","Profit = Corporate Tax + Dividend + Undistributed Profit (Retained Earnings)"],
+  pitfalls:["Royalty is also included under 'rent' broadly in some listings, but should be shown separately if the question asks — check the marking scheme's convention"]}},
+
+{id:17, cat:"formula", badge:"Board Numerical Clue", tag:"Income Method",
+ front:"What precautions must be taken while using the Income Method?",
+ back:{title:"Income Method — Precautions",
+  def:["Transfer incomes (gifts, donations, scholarships, old-age pension) are excluded — no productive contribution","Income from sale of second-hand goods is excluded — no new production; but brokerage earned is included","Windfall gains (lottery winnings) are excluded — no productive activity","Imputed rent of owner-occupied houses is included — treated as if the owner pays rent to themself","Corporate profit tax is included — it is only a means of profit distribution, not a separate income"]}},
+
+{id:18, cat:"formula", badge:"Board Numerical Clue", tag:"Income Method",
+ front:"Write the formula chain from factor incomes to NDPfc under the Income Method.",
+ back:{title:"NDPfc via Income Method",
+  formulas:["NDPfc (Domestic Income) = Compensation of Employees\n+ Operating Surplus (Rent + Interest + Profit)\n+ Mixed Income of Self-Employed"],
+  def:["<strong>Mixed Income of Self-Employed</strong> covers unincorporated units like small farmers, doctors, lawyers, and shopkeepers — it combines labour income and capital income that cannot be separated","GNPfc = NDPfc + NFIA"]}},
+
+{id:19, cat:"formula", badge:"Board Numerical Clue", tag:"Expenditure Method",
+ front:"What are the four components of the Expenditure Method?",
+ back:{title:"Expenditure Method — Components",
+  formulas:["GDPmp = Private Final Consumption Expenditure (C)\n+ Government Final Consumption Expenditure (G)\n+ Gross Domestic Capital Formation (Investment, I)\n+ Net Exports (X − M)"],
+  def:["<strong>Gross Domestic Capital Formation</strong> = Gross Fixed Capital Formation + Change in Stock","<strong>Net Exports</strong> = Exports − Imports; can be negative for a trade-deficit economy"]}},
+
+{id:20, cat:"formula", badge:"Board Numerical Clue", tag:"Expenditure Method",
+ front:"What precautions must be taken while using the Expenditure Method?",
+ back:{title:"Expenditure Method — Precautions",
+  def:["Expenditure on second-hand goods is excluded — no new production in the current year","Expenditure on intermediate goods is excluded — already embedded in final good prices, to avoid double counting","Purchase of financial assets (shares, debentures, bonds) is excluded — no addition to current output","Transfer payments made by government are excluded — not an expenditure on goods/services produced"]}},
+
+{id:21, cat:"formula", badge:"Board Numerical Clue", tag:"Expenditure Method",
+ front:"Write the short formula for GDPmp via the Expenditure Method.",
+ back:{title:"GDPmp via Expenditure Method",
+  formulas:["GDPmp = C + I + G + (X − M)"],
+  def:["This method sums up final expenditure by all sectors of the economy: households, firms, government, and the foreign sector","It is the method most directly linked to Aggregate Demand in the income-determination chapter"]}},
+
+{id:22, cat:"aggregate", badge:"Board Numerical Clue", tag:"GNPmp → GNPfc",
+ front:"How do you move from GNP at Market Price to GNP at Factor Cost?",
+ back:{title:"GNPmp → GNPfc",
+  formulas:["GNPfc = GNPmp − Net Indirect Taxes","Net Indirect Taxes = Indirect Taxes − Subsidies"],
+  def:["<strong>Market Price</strong> includes indirect taxes (which raise price above factor cost) and excludes subsidies (which lower price below factor cost)","<strong>Factor Cost</strong> reflects what producers actually receive as payment to factors of production"]}},
+
+{id:23, cat:"aggregate", badge:"Board Numerical Clue", tag:"GNPfc → NNPfc",
+ front:"How do you move from GNP at Factor Cost to National Income (NNPfc)?",
+ back:{title:"GNPfc → NNPfc (National Income)",
+  formulas:["NNPfc (National Income) = GNPfc − Depreciation"],
+  def:["<strong>NNPfc is also called National Income</strong> — the sum of factor incomes accruing to normal residents of a country during a year","Depreciation is subtracted because it does not represent income to any factor — it is a provision for replacing worn-out capital"]}},
+
+{id:24, cat:"aggregate", badge:"Board Numerical Clue", tag:"National Income → Private Income",
+ front:"How is Private Income derived from National Income (NNPfc)?",
+ back:{title:"National Income → Private Income",
+  formulas:["Private Income = NNPfc (National Income)\n− Net Domestic Product accruing to Government (Income from property & entrepreneurship of government departments)\n− Savings of non-departmental public enterprises\n+ Net Factor Income from Abroad (if not already in NNPfc — check whether NNPfc given is domestic or national)\n+ Current Transfers from Government\n+ Interest on National Debt\n+ Current Transfers from Rest of the World"],
+  def:["Private Income is income (factor + transfer) that accrues to private sector, including corporate sector and households"]}},
+
+{id:25, cat:"aggregate", badge:"Board Numerical Clue", tag:"Private Income → Personal Income",
+ front:"How is Personal Income derived from Private Income?",
+ back:{title:"Private Income → Personal Income",
+  formulas:["Personal Income = Private Income\n− Corporate Tax\n− Undistributed Profits (Retained Earnings/Savings of private corporate sector)"],
+  def:["Personal Income is income that <strong>actually reaches households</strong> — it excludes profit retained by companies and tax paid directly by companies, since households never receive these"]}},
+
+{id:26, cat:"aggregate", badge:"Board Numerical Clue", tag:"Personal Income → Disposable Income",
+ front:"How is Personal Disposable Income derived from Personal Income?",
+ back:{title:"Personal Income → Personal Disposable Income",
+  formulas:["Personal Disposable Income = Personal Income − Direct Personal Taxes − Miscellaneous Fees/Fines paid to government"],
+  def:["This is the income households can actually <strong>spend or save</strong> — the true measure of purchasing power in the hands of the household sector"],
+  graphRules:["Personal Disposable Income = Personal Consumption Expenditure + Personal Savings"]}},
+
+{id:27, cat:"aggregate", badge:"CUET Fact/Date", tag:"National Disposable Income",
+ front:"Distinguish between Gross National Disposable Income and Net National Disposable Income.",
+ back:{title:"National Disposable Income (Gross vs Net)",
+  formulas:["Net National Disposable Income = NNPfc + Net Indirect Taxes + Net Current Transfers from Rest of the World\n= NNPmp + Net Current Transfers from Rest of the World","Gross National Disposable Income = Net National Disposable Income + Depreciation"],
+  def:["National Disposable Income shows the total income available to the whole nation for consumption and saving, including net current transfers received from abroad"]}},
+
+{id:28, cat:"pitfall", badge:"Board Numerical Clue", tag:"Real vs Nominal GDP",
+ front:"Distinguish between Real GDP and Nominal GDP, and give the GDP Deflator formula.",
+ back:{title:"Real GDP vs Nominal GDP",
+  def:["<strong>Nominal GDP:</strong> GDP measured at current year prices","<strong>Real GDP:</strong> GDP measured at constant/base year prices — removes the effect of price changes to isolate change in physical output"],
+  formulas:["GDP Deflator = (Nominal GDP / Real GDP) × 100"],
+  pitfalls:["Real GDP is a better indicator of actual economic growth and welfare than Nominal GDP, because Nominal GDP can rise purely due to inflation with no rise in output"]}},
+
+{id:29, cat:"pitfall", badge:"Assertion-Reasoning", tag:"GDP & Welfare",
+ front:"Why is GDP not a perfect index of a country's welfare? Give the key limitations.",
+ back:{title:"GDP as an Index of Welfare — Limitations",
+  def:["<strong>Distribution of GDP:</strong> a rising GDP may still come with worsening income inequality","<strong>Non-monetary exchanges:</strong> barter and unpaid household work are excluded, understating true welfare","<strong>Externalities:</strong> GDP does not net out negative externalities like pollution from production, which reduce actual welfare","<strong>Composition of output:</strong> GDP does not distinguish between welfare-enhancing goods and defence/harmful goods"],
+  pitfalls:["This is a frequently tested 4/6-mark analytical question — always structure the answer under these four headings"]}},
+
+{id:30, cat:"pitfall", badge:"Board Numerical Clue", tag:"Depreciation vs Capital Loss",
+ front:"Distinguish between Depreciation and Capital Loss.",
+ back:{title:"Depreciation vs Capital Loss",
+  def:["<strong>Depreciation:</strong> fall in value of fixed capital due to <em>normal</em> wear and tear and <em>expected/foreseen</em> obsolescence — a regular, provisioned cost","<strong>Capital Loss:</strong> loss in value of capital due to <em>unforeseen obsolescence</em> (a sudden new invention making machines useless) or physical destruction (fire, flood, earthquake, war)"],
+  pitfalls:["Depreciation is deducted while moving from Gross to Net concepts; capital loss is <strong>not</strong> part of this standard national income accounting deduction"]}},
+
+{id:31, cat:"pitfall", badge:"Assertion-Reasoning", tag:"Transfer Payments",
+ front:"Why are transfer payments excluded from National Income estimation?",
+ back:{title:"Why Transfer Payments Are Excluded",
+  def:["Transfer payments (old-age pensions, scholarships, unemployment allowance, gifts) are received <strong>without any corresponding productive service</strong> being rendered in return","Including them would mean counting income that does not correspond to any current addition in the flow of goods and services — a form of double counting of purchasing power"],
+  pitfalls:["Old-age pension is a transfer payment; salary of a government employee is a factor payment — a distinction tested repeatedly via case-based MCQs"]}},
+
+{id:32, cat:"pitfall", badge:"Board Numerical Clue", tag:"Double Counting",
+ front:"What is the problem of Double Counting, and how is it avoided?",
+ back:{title:"Double Counting — Problem &amp; Solution",
+  def:["Double counting occurs when the value of the same good is counted more than once while estimating national income — e.g. counting the full value of flour separately after already counting it inside the value of bread","This overstates national income"],
+  formulas:["Solution 1: Value Added Method — count only value added at each stage of production","Solution 2: Final Output Method — count only the value of final goods, excluding intermediate goods entirely"]}},
+
+{id:33, cat:"pitfall", badge:"CUET Fact/Date", tag:"Net Exports",
+ front:"Can Net Exports be negative? What does that mean for GDP?",
+ back:{title:"Net Exports — Can It Be Negative?",
+  formulas:["Net Exports (X − M) = Exports − Imports"],
+  def:["Yes — when a country's Imports exceed its Exports, Net Exports is negative, indicating a <strong>trade deficit</strong>","A negative (X − M) reduces GDPmp under the Expenditure Method, since domestic expenditure is partly met by foreign production rather than domestic production"]}},
+
+{id:34, cat:"cuet", badge:"CUET Fact/Date", tag:"Base Year",
+ front:"What is a Base Year, and why is it needed to calculate Real GDP?",
+ back:{title:"Base Year and Real GDP",
+  def:["A <strong>base year</strong> is a normal, relatively stable reference year against which prices in other years are compared","Real GDP is calculated by valuing the current year's physical output at <strong>base year prices</strong>, isolating the pure quantity effect from the price effect"],
+  formulas:["Real GDP = Current year output quantities × Base year prices"],
+  pitfalls:["India's current GDP base year (as per official NSO series) is <strong>2011–12</strong> — a recurring CUET fact/date question"]}},
+
+{id:35, cat:"cuet", badge:"Assertion-Reasoning", tag:"Exclusions",
+ front:"List items that are NOT included while estimating National Income.",
+ back:{title:"Items Excluded from National Income",
+  def:["Sale and purchase of second-hand goods (no new production)","Sale and purchase of financial assets — shares, bonds, debentures (mere claim transfer)","All types of transfer payments — gifts, donations, pensions, scholarships","Illegal income and activities — not officially recorded/legal production","Production for self-consumption of goods that is not marketed and difficult to value, and purely domestic/non-market services (e.g. a homemaker's own housework)","Windfall gains such as lottery winnings"]}},
+
+{id:36, cat:"cuet", badge:"Assertion-Reasoning", tag:"Inclusions Despite No Market Sale",
+ front:"List items that ARE included in National Income despite having no direct market transaction.",
+ back:{title:"Items Included Despite No Market Sale",
+  def:["<strong>Imputed rent of owner-occupied houses</strong> — treated as if the owner pays rent to themselves, valued at market rent for a similar house","<strong>Production for self-consumption where a similar good is sold in the market</strong> (e.g. a farmer consuming part of their own harvest) — valued at prevailing market price","<strong>Imputed value of own-account production of fixed capital</strong> — e.g. a firm constructing its own building using its own resources","<strong>Payment in kind to employees</strong> — valued at market price of the goods/services provided"],
+  pitfalls:["The dividing line is whether a market equivalent price <strong>can reasonably be imputed</strong> — pure domestic services like a homemaker cooking for the family cannot be, and are excluded"]}},
+
+{id:37, cat:"core", badge:"Board Concept", tag:"Summary Card",
+ front:"SUMMARY: Trace the full chain of aggregates from GDPmp down to Personal Disposable Income.",
+ back:{title:"Full Aggregates Chain — Summary",
+  formulas:[
+    "GDPmp\n  + NFIA → GNPmp",
+    "GNPmp\n  − Net Indirect Taxes → GNPfc",
+    "GNPfc\n  − Depreciation → NNPfc (National Income)",
+    "NNPfc\n  − Govt's NDP share − PSE savings + Transfers + Interest on debt → Private Income",
+    "Private Income\n  − Corporate Tax − Undistributed Profit → Personal Income",
+    "Personal Income\n  − Direct Personal Taxes − Misc. fees → Personal Disposable Income"
+  ],
+  def:["Use this card as the master map before attempting any numerical problem — identify which two aggregates the question links, then apply only that one step"]}}
+];
+
+/* ================= STATE ================= */
+let state = {
+  order: CARDS.map(c=>c.id),
+  pos: 0,
+  flipped: false,
+  activeFilters: new Set(),
+  needsReviewOnly: false,
+  view: "study",
+  mastered: JSON.parse(localStorage.getItem("nia_mastered")||"{}"),
+  theme: localStorage.getItem("nia_theme") || "dark"
+};
+
+function catColor(cat){ return CATEGORIES[cat].color; }
+function byId(id){ return CARDS.find(c=>c.id===id); }
+
+function getFilteredDeck(){
+  let list = CARDS.slice();
+  if(state.activeFilters.size>0){
+    list = list.filter(c=>state.activeFilters.has(c.cat));
+  }
+  if(state.needsReviewOnly){
+    list = list.filter(c=>!state.mastered[c.id]);
+  }
+  return list;
+}
+
+function rebuildOrderPreservingCurrent(shufflePreserve){
+  const filtered = getFilteredDeck();
+  const ids = filtered.map(c=>c.id);
+  if(shufflePreserve){
+    // keep same shuffle order if possible, just filter
+    state.order = state.order.filter(id=>ids.includes(id));
+    ids.forEach(id=>{ if(!state.order.includes(id)) state.order.push(id); });
+  } else {
+    state.order = ids;
+  }
+  if(state.pos >= state.order.length) state.pos = Math.max(0, state.order.length-1);
+}
+
+/* ================= RENDER: STUDY CARD ================= */
+function renderCard(){
+  const total = state.order.length;
+  document.getElementById('cardTotal').textContent = total;
+  const emptyExisting = document.getElementById('emptyState');
+  if(emptyExisting) emptyExisting.remove();
+
+  if(total===0){
+    document.getElementById('stage').querySelector('.flip-zone').style.display='none';
+    document.querySelector('.card-badge-row').style.display='none';
+    const wrap = document.getElementById('stage');
+    const empty = document.createElement('div');
+    empty.className='empty-state';
+    empty.id='emptyState';
+    empty.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 10h.01M15 10h.01M9.5 15a4 4 0 0 0 5 0"/></svg>
+      <h3>No cards match this filter</h3><p>Clear a filter or turn off "Needs Review" to see cards again.</p>`;
+    wrap.appendChild(empty);
+    document.getElementById('cardIndex').textContent = 0;
+    document.getElementById('progressFill').style.width = '0%';
+    return;
+  }
+  document.getElementById('stage').querySelector('.flip-zone').style.display='';
+  document.querySelector('.card-badge-row').style.display='flex';
+
+  const card = byId(state.order[state.pos]);
+  document.getElementById('cardIndex').textContent = state.pos+1;
+  document.getElementById('progressFill').style.width = ((state.pos+1)/total*100)+'%';
+
+  const badge = document.getElementById('examBadge');
+  badge.textContent = card.badge;
+  badge.style.background = catColor(card.cat);
+
+  document.getElementById('frontTag').textContent = card.tag;
+  document.getElementById('frontPrompt').textContent = card.front;
+
+  const pill = document.getElementById('masteryPill');
+  const isMastered = !!state.mastered[card.id];
+  pill.textContent = isMastered ? "Mastered" : "Needs Review";
+  pill.dataset.state = isMastered ? "mastered" : "review";
+
+  const back = card.back;
+  let html = `<div class="back-title">${back.title}</div>`;
+  if(back.def && back.def.length){
+    html += `<div class="section-block"><div class="section-label def"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 3v12M6 9l6 6 6-6"/></svg>Definition &amp; Mechanism</div><ul class="bullets">${back.def.map(d=>`<li>${d}</li>`).join('')}</ul></div>`;
+  }
+  if(back.formulas && back.formulas.length){
+    html += `<div class="section-block"><div class="section-label formula"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h10M4 17h7"/></svg>Formulas</div>${back.formulas.map(f=>`<div class="formula-box">${f}</div>`).join('')}</div>`;
+  }
+  if(back.graphRules && back.graphRules.length){
+    html += `<div class="section-block"><div class="section-label graph"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3 3v18h18M7 15l4-5 3 3 5-7"/></svg>Rule / Sequence</div><ul class="bullets">${back.graphRules.map(d=>`<li>${d}</li>`).join('')}</ul></div>`;
+  }
+  if(back.pitfalls && back.pitfalls.length){
+    html += `<div class="section-block"><div class="section-label pitfall"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 9v4M12 17h.01M10.3 3.9L2.9 17a2 2 0 0 0 1.7 3h14.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>Common Pitfall / Distinction</div><ul class="bullets">${back.pitfalls.map(d=>`<li>${d}</li>`).join('')}</ul></div>`;
+  }
+  document.getElementById('backFace').innerHTML = html;
+
+  const inner = document.getElementById('flipInner');
+  inner.classList.toggle('flipped', state.flipped);
+}
+
+/* ================= RENDER: FILTER CHIPS ================= */
+function renderChips(){
+  const row = document.getElementById('chipRow');
+  row.innerHTML='';
+  Object.keys(CATEGORIES).forEach(key=>{
+    const chip = document.createElement('div');
+    chip.className='chip';
+    chip.textContent = CATEGORIES[key].label;
+    const active = state.activeFilters.has(key);
+    chip.dataset.active = active;
+    if(active){ chip.style.background = CATEGORIES[key].color; chip.style.borderColor = CATEGORIES[key].color; }
+    chip.onclick = ()=>{
+      if(state.activeFilters.has(key)) state.activeFilters.delete(key);
+      else state.activeFilters.add(key);
+      state.pos = 0; state.flipped=false;
+      rebuildOrderPreservingCurrent(false);
+      renderChips(); renderCard(); renderGrid();
+      updateDeckLabel();
+    };
+    row.appendChild(chip);
+  });
+}
+
+function updateDeckLabel(){
+  const lbl = document.getElementById('deckLabel');
+  const parts=[];
+  if(state.activeFilters.size>0) parts.push([...state.activeFilters].map(k=>CATEGORIES[k].label).join(', '));
+  if(state.needsReviewOnly) parts.push('Needs Review only');
+  lbl.textContent = parts.length ? parts.join(' · ') : 'All cards';
+}
+
+/* ================= RENDER: GRID VIEW ================= */
+function renderGrid(){
+  const list = document.getElementById('gridList');
+  const q = (document.getElementById('gridSearch').value||'').toLowerCase();
+  let deck = getFilteredDeck();
+  if(q){
+    deck = deck.filter(c=>{
+      const hay = (c.front+' '+c.tag+' '+JSON.stringify(c.back)).toLowerCase();
+      return hay.includes(q);
+    });
+  }
+  list.innerHTML='';
+  if(deck.length===0){
+    list.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><h3>No matches</h3><p>Try a different search term or filter.</p></div>`;
+    return;
+  }
+  deck.forEach(card=>{
+    const el = document.createElement('div');
+    el.className='grid-card';
+    const isMastered = !!state.mastered[card.id];
+    el.innerHTML = `<span class="gc-badge" style="background:${catColor(card.cat)}">${card.badge}</span>
+      <h4>${card.front}</h4>
+      <p>${card.tag}</p>
+      ${isMastered ? '<div class="gc-mastered">✓ Mastered</div>' : ''}`;
+    el.onclick = ()=>{
+      const idx = state.order.indexOf(card.id);
+      if(idx>=0){ state.pos = idx; } else { rebuildOrderPreservingCurrent(false); state.pos = state.order.indexOf(card.id); }
+      state.flipped = false;
+      setView('study');
+      renderCard();
+    };
+    list.appendChild(el);
+  });
+}
+
+/* ================= VIEW SWITCH ================= */
+function setView(v){
+  state.view = v;
+  document.getElementById('stage').classList.toggle('hidden', v!=='study');
+  document.getElementById('gridShell').classList.toggle('active', v==='grid');
+  document.getElementById('progressWrap').style.display = v==='study' ? '' : 'none';
+  if(v==='grid') renderGrid();
+}
+
+/* ================= ACTIONS ================= */
+function flipCard(){
+  if(state.order.length===0) return;
+  state.flipped = !state.flipped;
+  document.getElementById('flipInner').classList.toggle('flipped', state.flipped);
+}
+function nextCard(){
+  if(state.order.length===0) return;
+  state.pos = (state.pos+1) % state.order.length;
+  state.flipped=false;
+  renderCard();
+}
+function prevCard(){
+  if(state.order.length===0) return;
+  state.pos = (state.pos-1+state.order.length) % state.order.length;
+  state.flipped=false;
+  renderCard();
+}
+function shuffleDeck(){
+  for(let i=state.order.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [state.order[i], state.order[j]] = [state.order[j], state.order[i]];
+  }
+  state.pos = 0; state.flipped=false;
+  renderCard();
+}
+function toggleMastered(){
+  if(state.order.length===0) return;
+  const id = state.order[state.pos];
+  state.mastered[id] = !state.mastered[id];
+  localStorage.setItem('nia_mastered', JSON.stringify(state.mastered));
+  renderCard();
+}
+function toggleTheme(){
+  state.theme = state.theme==='dark' ? 'light' : 'dark';
+  document.body.dataset.theme = state.theme;
+  localStorage.setItem('nia_theme', state.theme);
+  updateThemeIcon();
+}
+function updateThemeIcon(){
+  const icon = document.getElementById('themeIcon');
+  if(state.theme==='light'){
+    icon.innerHTML = '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>';
+  } else {
+    icon.innerHTML = '<circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8L6 18M18 6l1.8-1.8"/>';
+  }
+}
+
+/* ================= EVENT WIRING ================= */
+document.getElementById('flipZone').addEventListener('click', flipCard);
+document.getElementById('flipBtn').addEventListener('click', flipCard);
+document.getElementById('nextBtn').addEventListener('click', nextCard);
+document.getElementById('prevBtn').addEventListener('click', prevCard);
+document.getElementById('shuffleBtn').addEventListener('click', shuffleDeck);
+document.getElementById('masterBtn').addEventListener('click', toggleMastered);
+document.getElementById('themeToggleBtn').addEventListener('click', toggleTheme);
+document.getElementById('gridSearch').addEventListener('input', renderGrid);
+
+document.getElementById('gridToggleBtn').addEventListener('click', ()=>{
+  setView(state.view==='grid' ? 'study' : 'grid');
+});
+
+document.getElementById('filterToggle').addEventListener('click', ()=>{
+  const panel = document.getElementById('filterPanel');
+  const toggle = document.getElementById('filterToggle');
+  panel.classList.toggle('open');
+  toggle.classList.toggle('open');
+});
+
+document.getElementById('needsReviewToggle').addEventListener('click', function(){
+  state.needsReviewOnly = !state.needsReviewOnly;
+  this.dataset.active = state.needsReviewOnly;
+  state.pos = 0; state.flipped=false;
+  rebuildOrderPreservingCurrent(false);
+  renderCard(); renderGrid();
+  updateDeckLabel();
+});
+
+document.addEventListener('keydown', (e)=>{
+  if(document.activeElement && document.activeElement.tagName==='INPUT') return;
+  if(e.code==='Space' || e.code==='ArrowUp'){ e.preventDefault(); flipCard(); }
+  else if(e.code==='ArrowRight'){ nextCard(); }
+  else if(e.code==='ArrowLeft'){ prevCard(); }
+  else if(e.code==='KeyR'){ shuffleDeck(); }
+});
+
+/* ================= INIT ================= */
+document.body.dataset.theme = state.theme;
+updateThemeIcon();
+renderChips();
+renderCard();
+updateDeckLabel();
+</script>
+</body>
+</html>

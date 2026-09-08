@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Regional Aspirations — Political Science XII</title>
+<style>
+:root{
+  --font:'Calibri','Segoe UI','Segoe UI Variable',Candara,'Helvetica Neue',Helvetica,Arial,sans-serif;
+
+  --bg:#0a0e1c;
+  --bg-elev:#121830;
+  --bg-elev2:#1a2140;
+  --glass:rgba(255,255,255,0.055);
+  --glass-border:rgba(255,255,255,0.09);
+  --violet:#8b5cf6;
+  --violet-dim:rgba(139,92,246,0.16);
+  --violet-text:#d9c9ff;
+  --cyan:#22d3ee;
+  --cyan-dim:rgba(34,211,238,0.16);
+  --crimson:#fb4570;
+  --crimson-dim:rgba(251,69,112,0.16);
+  --crimson-text:#ff8aa8;
+  --amber:#f5b942;
+  --amber-dim:rgba(245,185,66,0.16);
+  --text:#e8ebf5;
+  --text-dim:#9aa3c0;
+  --text-faint:#6b7394;
+  --glow1:rgba(139,92,246,0.14);
+  --glow2:rgba(34,211,238,0.10);
+  --scrollbar:rgba(255,255,255,0.12);
+  --card-face:linear-gradient(160deg, var(--bg-elev2), var(--bg-elev));
+  --kw-bg:rgba(255,255,255,0.07);
+  --kw-text:#ffffff;
+  --mastered-bg:rgba(34,197,94,0.16);
+  --mastered-border:#22c55e;
+  --mastered-text:#86efac;
+}
+[data-theme="light"]{
+  --bg:#f4f5fb;
+  --bg-elev:#ffffff;
+  --bg-elev2:#eef0fb;
+  --glass:rgba(20,20,45,0.045);
+  --glass-border:rgba(20,20,45,0.11);
+  --violet:#7c3aed;
+  --violet-dim:rgba(124,58,237,0.12);
+  --violet-text:#6d28d9;
+  --cyan:#0e7490;
+  --cyan-dim:rgba(14,116,144,0.12);
+  --crimson:#e11d48;
+  --crimson-dim:rgba(225,29,72,0.11);
+  --crimson-text:#be123c;
+  --amber:#b45309;
+  --amber-dim:rgba(180,83,9,0.13);
+  --text:#191d2e;
+  --text-dim:#4b5170;
+  --text-faint:#7b8098;
+  --glow1:rgba(124,58,237,0.07);
+  --glow2:rgba(14,116,144,0.06);
+  --scrollbar:rgba(20,20,45,0.16);
+  --card-face:linear-gradient(160deg, #ffffff, #f3f4fc);
+  --kw-bg:rgba(20,20,45,0.07);
+  --kw-text:#191d2e;
+  --mastered-bg:rgba(22,163,74,0.13);
+  --mastered-border:#16a34a;
+  --mastered-text:#15803d;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+html,body{margin:0; padding:0;}
+body{
+  background:
+    radial-gradient(ellipse 900px 500px at 15% -5%, var(--glow1), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 100% 10%, var(--glow2), transparent 55%),
+    var(--bg);
+  color:var(--text);
+  font-family:var(--font);
+  min-height:100vh;
+  padding-bottom:104px;
+  transition:background-color .25s ease, color .25s ease;
+}
+@media (prefers-reduced-motion: reduce){ *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;} }
+
+.topbar{ padding:18px 16px 10px; max-width:640px; margin:0 auto; }
+.top-row{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:2px; }
+.book{ font-size:12px; color:var(--text-faint); letter-spacing:0.02em; }
+.theme-btn{
+  border:1px solid var(--glass-border); background:var(--glass); color:var(--text-dim);
+  width:32px; height:32px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+  cursor:pointer; flex-shrink:0;
+}
+.theme-btn svg{ width:16px; height:16px; }
+.topbar h1{ font-family:var(--font); font-weight:700; font-size:22px; line-height:1.25; margin:0 0 10px; color:var(--text); }
+.progress-row{ display:flex; align-items:center; gap:10px; font-size:13px; color:var(--text-dim); }
+.progress-track{ flex:1; height:4px; background:var(--glass); border-radius:2px; overflow:hidden; }
+.progress-fill{ height:100%; background:linear-gradient(90deg, var(--violet), var(--cyan)); border-radius:2px; transition:width .35s ease; }
+
+.filter-toggle{ max-width:640px; margin:10px auto 0; padding:0 16px; display:flex; justify-content:flex-end; }
+.filter-toggle button{
+  background:var(--glass); border:1px solid var(--glass-border); color:var(--text-dim);
+  font-family:var(--font); font-size:12.5px; padding:6px 12px; border-radius:20px;
+  cursor:pointer; display:flex; align-items:center; gap:6px;
+}
+.filter-toggle button:hover{ color:var(--text); border-color:var(--glass-border); }
+.filter-panel{ max-width:640px; margin:8px auto 0; padding:0 16px; max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.filter-panel.open{ max-height:260px; }
+.filter-inner{ background:var(--glass); border:1px solid var(--glass-border); border-radius:14px; padding:12px 14px; }
+.filter-group-label{ font-size:11px; color:var(--text-faint); margin:6px 0 6px; }
+.chip-row{ display:flex; flex-wrap:wrap; gap:7px; margin-bottom:4px;}
+.chip{
+  font-family:var(--font); font-size:12px; padding:6px 11px; border-radius:16px;
+  background:var(--glass); border:1px solid var(--glass-border); color:var(--text-dim);
+  cursor:pointer; user-select:none; transition:background .15s, color .15s, border-color .15s;
+}
+.chip[data-active="true"]{ background:var(--violet-dim); border-color:var(--violet); color:var(--violet-text); }
+.chip .count{ opacity:0.65; margin-left:3px; }
+
+.stage{ max-width:640px; margin:18px auto 0; padding:0 16px; }
+.card-scene{ perspective:1600px; height:420px; }
+.card{ position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform .55s cubic-bezier(.4,.2,.2,1); cursor:pointer; }
+.card.flipped{ transform:rotateY(180deg); }
+.face{
+  position:absolute; inset:0; backface-visibility:hidden;
+  border-radius:20px; border:1px solid var(--glass-border);
+  background:var(--card-face);
+  padding:26px 24px; overflow-y:auto;
+  display:flex; flex-direction:column;
+}
+.face::-webkit-scrollbar{ width:5px; }
+.face::-webkit-scrollbar-thumb{ background:var(--scrollbar); border-radius:3px; }
+.face-front{ justify-content:center; }
+.face-back{ transform:rotateY(180deg); justify-content:flex-start; }
+
+.badge{ align-self:flex-start; font-size:11.5px; padding:5px 11px; border-radius:8px; margin-bottom:16px; font-weight:700; letter-spacing:0.01em; }
+.badge.amber{ background:var(--amber-dim); color:var(--amber); }
+.badge.cyan{ background:var(--cyan-dim); color:var(--cyan); }
+.badge.crimson{ background:var(--crimson-dim); color:var(--crimson-text); }
+.badge.violet{ background:var(--violet-dim); color:var(--violet-text); }
+
+.front-prompt{ font-family:var(--font); font-size:21px; line-height:1.42; font-weight:700; color:var(--text); white-space:pre-line; }
+.tap-hint{ margin-top:auto; padding-top:14px; font-size:12px; color:var(--text-faint); text-align:center; }
+
+.back-title{ font-family:var(--font); font-size:16px; font-weight:700; color:var(--cyan); margin:0 0 10px; }
+.back-title.rep{ margin-top:16px; }
+.bullets{ margin:0 0 4px; padding-left:18px; color:var(--text); font-size:14.5px; line-height:1.55; }
+.bullets li{ margin-bottom:6px; }
+.bullets b{ color:var(--text); }
+.kw-row{ display:flex; flex-wrap:wrap; gap:6px; margin:2px 0 4px; }
+.kw{ font-size:12px; padding:3px 9px; border-radius:7px; background:var(--kw-bg); color:var(--kw-text); font-weight:700; }
+.seq-list{ counter-reset:seq; list-style:none; padding:0; margin:0 0 4px; }
+.seq-list li{ counter-increment:seq; position:relative; padding-left:26px; margin-bottom:8px; font-size:14px; color:var(--text); line-height:1.5; }
+.seq-list li::before{ content:counter(seq); position:absolute; left:0; top:0; width:18px; height:18px; border-radius:50%; background:var(--violet-dim); color:var(--violet-text); font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+.distinction-box{ background:var(--crimson-dim); border-left:3px solid var(--crimson); border-radius:6px; padding:10px 12px; font-size:13.5px; color:var(--crimson-text); margin-top:10px; line-height:1.5; }
+.mastery-row{ margin-top:auto; padding-top:14px; display:flex; gap:8px; }
+.mastery-btn{ flex:1; padding:9px 8px; border-radius:10px; border:1px solid var(--glass-border); background:var(--glass); color:var(--text-dim); font-family:var(--font); font-size:12.5px; font-weight:700; cursor:pointer; }
+.mastery-btn[data-state="mastered"]{ background:var(--mastered-bg); border-color:var(--mastered-border); color:var(--mastered-text); }
+.mastery-btn[data-state="review"]{ background:var(--crimson-dim); border-color:var(--crimson); color:var(--crimson-text); }
+
+.controls{ position:fixed; left:0; right:0; bottom:0; display:flex; justify-content:center; padding:14px 16px calc(14px + env(safe-area-inset-bottom)); background:linear-gradient(0deg, var(--bg) 55%, transparent); pointer-events:none; }
+.control-cluster{ pointer-events:auto; display:flex; align-items:center; gap:8px; background:var(--glass); border:1px solid var(--glass-border); backdrop-filter:blur(14px); border-radius:22px; padding:8px; }
+.ctrl-btn{ border:none; background:var(--kw-bg); color:var(--text); width:44px; height:44px; border-radius:16px; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+.ctrl-btn:active{ filter:brightness(1.2); }
+.ctrl-btn.primary{ background:linear-gradient(135deg, var(--violet), #6d28d9); width:56px; height:44px; }
+.ctrl-btn.primary svg{ stroke:#fff; }
+.ctrl-btn svg{ width:19px; height:19px; stroke:var(--text); }
+.ctrl-btn:disabled{ opacity:0.3; }
+
+.grid-toggle-row{ max-width:640px; margin:14px auto 0; padding:0 16px; display:flex; gap:8px; }
+.mode-btn{ flex:1; padding:9px; border-radius:12px; border:1px solid var(--glass-border); background:var(--glass); color:var(--text-dim); font-family:var(--font); font-size:13px; font-weight:700; cursor:pointer; }
+.mode-btn[data-active="true"]{ background:var(--violet-dim); color:var(--violet-text); border-color:var(--violet); }
+
+.grid-wrap{ max-width:960px; margin:16px auto 0; padding:0 16px 20px; display:none; }
+.grid-wrap.active{ display:block; }
+.grid-search{ width:100%; padding:11px 14px; border-radius:12px; border:1px solid var(--glass-border); background:var(--glass); color:var(--text); font-family:var(--font); font-size:14px; margin-bottom:14px; }
+.grid-cards{ display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:12px; }
+.gcard{ background:var(--bg-elev); border:1px solid var(--glass-border); border-radius:14px; padding:16px; }
+.gcard .front-prompt{ font-size:15px; margin-bottom:8px; }
+.gcard .bullets{ font-size:13px; }
+
+.stage.hidden, .grid-toggle-row.hidden{ display:none; }
+.empty-state{ text-align:center; color:var(--text-faint); padding:40px 20px; font-size:14px; }
+
+@media (max-width:400px){
+  .card-scene{ height:460px; }
+  .front-prompt{ font-size:19px; }
+  .topbar h1{ font-size:19px; }
+}
+</style>
+</head>
+<body><a href="index.html" id="__fcBackBtn" title="Back to chapter list" style="position:fixed;top:10px;left:10px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;background:rgba(15,20,35,0.72);color:#fff;font:600 12.5px -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;text-decoration:none;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 4px 14px rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.14);">&#8592;&nbsp;Chapters</a><style>body{padding-top:46px}</style>
+
+<div class="topbar">
+  <div class="top-row">
+    <div class="book">Politics in India Since Independence · CBSE Class XII Political Science</div>
+    <button class="theme-btn" id="themeToggle" title="Toggle light/dark theme"></button>
+  </div>
+  <h1>Regional Aspirations</h1>
+  <div class="progress-row">
+    <span id="progressLabel">Card 1 of 25</span>
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+</div>
+
+<div class="filter-toggle">
+  <button id="filterToggleBtn">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M8 12h8M11 18h2"/></svg>
+    Filters
+  </button>
+</div>
+<div class="filter-panel" id="filterPanel">
+  <div class="filter-inner">
+    <div class="filter-group-label">EXAM TAG</div>
+    <div class="chip-row" id="tagChips"></div>
+    <div class="filter-group-label">TOPIC</div>
+    <div class="chip-row" id="catChips"></div>
+    <div class="filter-group-label">STATUS</div>
+    <div class="chip-row" id="statusChips">
+      <div class="chip" data-status="all" data-active="true">All</div>
+      <div class="chip" data-status="review">Needs Review</div>
+      <div class="chip" data-status="mastered">Mastered</div>
+    </div>
+  </div>
+</div>
+
+<div class="grid-toggle-row">
+  <button class="mode-btn" id="studyModeBtn" data-active="true">Study Mode</button>
+  <button class="mode-btn" id="gridModeBtn" data-active="false">Quick Reference Grid</button>
+</div>
+
+<div class="stage" id="stage">
+  <div class="card-scene">
+    <div class="card" id="card">
+      <div class="face face-front">
+        <div class="badge" id="frontBadge"></div>
+        <div class="front-prompt" id="frontPrompt"></div>
+        <div class="tap-hint">Tap card or press Space to flip</div>
+      </div>
+      <div class="face face-back" id="backFace"></div>
+    </div>
+  </div>
+</div>
+
+<div class="grid-wrap" id="gridWrap">
+  <input class="grid-search" id="gridSearch" placeholder="Search cards…">
+  <div class="grid-cards" id="gridCards"></div>
+</div>
+
+<div class="controls">
+  <div class="control-cluster">
+    <button class="ctrl-btn" id="prevBtn" title="Previous (←)">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <button class="ctrl-btn" id="shuffleBtn" title="Shuffle (R)">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+    </button>
+    <button class="ctrl-btn primary" id="flipBtn" title="Flip (Space)">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M17 2.1l4 4-4 4M3 12.7V12a9 9 0 019-9c2.7 0 5.1 1.2 6.7 3.1M7 21.9l-4-4 4-4M21 11.3v.7a9 9 0 01-9 9c-2.7 0-5.1-1.2-6.7-3.1"/></svg>
+    </button>
+    <button class="ctrl-btn" id="nextBtn" title="Next (→)">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+const CARDS = [{"id": "ra-01", "front": "What does this chapter mean by 'regional aspirations', and what key point does it make about them?", "badge": "Board 6-Marker Clue", "category": "6-Marker Core Concepts", "definition": ["Demands by regional, linguistic, ethnic, or religious groups for greater autonomy, recognition, or, in some cases, separation", "A key NCERT point: regional aspirations are a normal feature of a large, diverse democracy, not inherently anti-national", "Most such movements have been accommodated within India's democratic and federal framework rather than through force alone"], "keywords": ["Regional aspirations", "Unity in diversity"], "sequence": [], "distinction": null}, {"id": "ra-02", "front": "What was the Akali Dal's core early demand, and what is 'Punjabi Suba'?", "badge": "Board 6-Marker Clue", "category": "6-Marker Core Concepts", "definition": ["The Akali Dal, representing Sikh political interests, demanded a Punjabi-speaking state ('Punjabi Suba')", "This demand was framed on a linguistic basis (similar to other states' linguistic reorganisation), though it carried religious undertones as well", "Led to Punjab's 1966 reorganisation into linguistic Punjab, Haryana, and Himachal Pradesh"], "keywords": ["Akali Dal", "Punjabi Suba"], "sequence": [], "distinction": null}, {"id": "ra-03", "front": "What was the Anandpur Sahib Resolution?", "badge": "CUET Fact/Date", "category": "Treaties & Chronology", "definition": ["A 1973 Akali Dal resolution demanding greater regional autonomy for Punjab within the Indian Union", "Sought a redefinition of Centre-state relations, with more powers devolved to states", "Became a key reference point in later Punjab political negotiations, though it was interpreted differently by moderates and extremists"], "keywords": ["Anandpur Sahib Resolution 1973"], "sequence": [], "distinction": null}, {"id": "ra-04", "front": "What is 'Khalistan', as defined in this chapter?", "badge": "CUET Fact/Date", "category": "CUET Shortcut", "definition": ["A proposed separate, independent homeland for Sikhs, demanded by a section of Sikh militants and political activists in Punjab", "Emerged from the escalation of the autonomy movement into extremism during the late 1970s and 1980s"], "keywords": ["Khalistan"], "sequence": [], "distinction": null}, {"id": "ra-05", "front": "What was Operation Blue Star?", "badge": "CUET Fact/Date", "category": "Treaties & Chronology", "definition": ["Code name for the Indian Army's June 1984 operation to remove armed militants who had fortified themselves inside the Golden Temple complex, Amritsar", "Caused significant damage to the shrine and deeply hurt Sikh religious sentiments across the community", "A pivotal, highly controversial event in the Punjab crisis"], "keywords": ["Operation Blue Star", "June 1984"], "sequence": [], "distinction": null}, {"id": "ra-06", "front": "What happened on 31 October 1984, and what followed?", "badge": "CUET Fact/Date", "category": "Treaties & Chronology", "definition": ["Prime Minister Indira Gandhi was assassinated by her own Sikh bodyguards, in apparent retaliation for Operation Blue Star", "Triggered horrific anti-Sikh riots across northern India, especially in Delhi", "More than two thousand Sikhs were killed in Delhi alone during the violence"], "keywords": ["Indira Gandhi assassination", "Anti-Sikh riots"], "sequence": [], "distinction": null}, {"id": "ra-07", "front": "What was the Punjab Accord (Rajiv Gandhi-Longowal Accord)?", "badge": "CUET Fact/Date", "category": "Treaties & Chronology", "definition": ["Signed in July 1985 between Prime Minister Rajiv Gandhi and Akali Dal president Harchand Singh Longowal", "Aimed to restore normalcy in Punjab after years of violence", "Key provisions: transfer of Chandigarh to Punjab, a tribunal to resolve the Punjab-Haryana border/river-water dispute, and rollback of special police powers"], "keywords": ["Punjab Accord 1985", "Longowal"], "sequence": [], "distinction": null}, {"id": "ra-08", "front": "How long did it take for Punjab to return to political normalcy, and what marked that return?", "badge": "Board 6-Marker Clue", "category": "6-Marker Core Concepts", "definition": ["Violence continued for nearly a decade after the Punjab Accord", "Normal, largely peaceful elections returned to Punjab by the mid-to-late 1990s", "The 1997 state election, won by an Akali Dal–BJP alliance, is often cited as marking the first genuinely 'normal' post-militancy election"], "keywords": ["Punjab normalcy mid-1990s"], "sequence": [], "distinction": null}, {"id": "ra-09", "front": "What are the 'Seven Sisters', and why is the North-East strategically distinct?", "badge": "CUET Fact/Date", "category": "CUET Shortcut", "definition": ["A popular term for the seven contiguous North-Eastern states: Assam, Nagaland, Manipur, Tripura, Mizoram, Meghalaya, and Arunachal Pradesh (Sikkim is sometimes added as the 'brother' state)", "Home to only about 4% of India's population but a much larger share of India's land area", "Connected to the rest of India only by the narrow Siliguri Corridor, and borders China, Myanmar, and Bangladesh"], "keywords": ["Seven Sisters", "Siliguri Corridor"], "sequence": [], "distinction": null}, {"id": "ra-10", "front": "What three broad kinds of regional aspiration are seen across the North-East?", "badge": "Board 6-Marker Clue", "category": "6-Marker Core Concepts", "definition": ["Demands for greater autonomy within the Indian Union", "Secessionist movements seeking full independence", "Movements against 'outsiders' (migrants from other parts of India or neighbouring countries)"], "keywords": ["Autonomy, secession, anti-outsider"], "sequence": [], "distinction": null}, {"id": "ra-11", "front": "What triggered the Mizo National Front (MNF) insurgency?", "badge": "Board 6-Marker Clue", "category": "6-Marker Core Concepts", "definition": ["Mizo Hills, then part of Assam, suffered a severe famine in 1959", "The state government's inadequate response bred deep resentment", "The Mizo National Front, led by Laldenga, launched an armed insurgency demanding independence"], "keywords": ["Mizo famine 1959", "Laldenga"], "sequence": [], "distinction": null}, {"id": "ra-12", "front": "How was the Mizoram issue eventually resolved?", "badge": "CUET Fact/Date", "category": "Treaties & Chronology", "definition": ["Mizoram was made a Union Territory in January 1972 as a first step, but this did not fully satisfy Mizo demands", "In 1986, a peace agreement (Mizoram Accord) was signed between Prime Minister Rajiv Gandhi and Laldenga", "Elevated Mizoram to full statehood; MNF agreed to give up its secessionist armed struggle", "Widely cited as one of India's most successful conflict resolutions, making Mizoram a stable, peaceful state"], "keywords": ["Mizoram Accord 1986", "Full statehood"], "sequence": [], "distinction": null}, {"id": "ra-13", "front": "What has been the trajectory of the Naga movement, compared to Mizoram?", "badge": "Board 6-Marker Clue", "category": "6-Marker Core Concepts", "definition": ["The Naga movement for autonomy/independence, led early on by the Naga National Council, began even before Mizoram's", "Nagaland attained statehood in 1963", "Unlike Mizoram, the Naga issue has not reached a comparably complete or lasting political settlement, with negotiations continuing over the decades"], "keywords": ["Nagaland 1963", "Ongoing negotiations"], "sequence": [], "distinction": null}, {"id": "ra-14", "front": "What was the anti-Hindi agitation in Tamil Nadu?", "badge": "Board 6-Marker Clue", "category": "6-Marker Core Concepts", "definition": ["Protests, especially strong in 1965, against the perceived imposition of Hindi as the sole official language", "Fuelled fears among non-Hindi-speaking states of being disadvantaged in education, jobs, and administration", "Strengthened the Dravidian movement and helped propel regional parties like the DMK to power in Tamil Nadu"], "keywords": ["Anti-Hindi agitation 1965"], "sequence": [], "distinction": null}, {"id": "ra-15", "front": "How does the rise of regional parties (e.g. DMK in Tamil Nadu) fit into India's federal story?", "badge": "Board 6-Marker Clue", "category": "6-Marker Core Concepts", "definition": ["Regional parties channel specific linguistic, cultural, or regional identities into mainstream democratic politics", "Their growth reflects India's diversity being expressed through elections rather than only through protest or conflict", "This is presented as evidence that regional aspirations generally strengthen, rather than threaten, India's federal democracy"], "keywords": ["Regional parties", "Federal democracy strengthened"], "sequence": [], "distinction": null}, {"id": "ra-16", "front": "What was the essence of the Kashmir issue, distinct from Punjab or the North-East?", "badge": "Board 6-Marker Clue", "category": "6-Marker Core Concepts", "definition": ["Rooted in the special circumstances of accession (Article 370) and unresolved territorial disputes with Pakistan", "Complicated further by cross-border militancy and insurgency from the late 1980s onward", "Unlike Punjab or Mizoram, the Kashmir issue combines domestic regional aspiration with an active international/bilateral dimension"], "keywords": ["Kashmir distinct dimension"], "sequence": [], "distinction": null}, {"id": "ra-17", "front": "Distinguish: Mizoram vs Khalistan movement outcomes.", "badge": "Board 6-Marker Clue", "category": "6-Marker Core Concepts", "definition": ["Mizoram: negotiated political settlement (1986 Accord) led to peaceful full statehood and lasting stability", "Khalistan movement: suppressed through a mix of military action (Operation Blue Star) and later political accord (1985), but with a far higher human cost and longer road to normalcy"], "keywords": ["Mizoram vs Khalistan"], "distinction": "A key comparative point: political negotiation (Mizoram) achieved a cleaner, more durable resolution than the more violent trajectory in Punjab.", "sequence": []}, {"id": "ra-18", "front": "CUET-style: Match — Anandpur Sahib Resolution, Operation Blue Star, Punjab Accord, Mizoram Accord.", "badge": "CUET Fact/Date", "category": "CUET Shortcut", "definition": ["Anandpur Sahib Resolution (1973) = Akali Dal's autonomy demand", "Operation Blue Star (1984) = Army action at the Golden Temple", "Punjab Accord (1985) = Rajiv Gandhi-Longowal peace agreement", "Mizoram Accord (1986) = Rajiv Gandhi-Laldenga peace agreement granting statehood"], "keywords": ["Match the following"], "sequence": [], "distinction": null}, {"id": "ra-19", "front": "Build the chronology of the Punjab crisis and its resolution.", "badge": "CUET Fact/Date", "category": "Treaties & Chronology", "definition": [], "sequence": ["1966 — Punjab reorganised on linguistic lines into Punjab, Haryana, and Himachal Pradesh", "1973 — Anandpur Sahib Resolution demands greater autonomy", "June 1984 — Operation Blue Star", "31 October 1984 — Indira Gandhi assassinated; anti-Sikh riots follow", "July 1985 — Punjab Accord (Rajiv Gandhi-Longowal Accord) signed", "Mid-to-late 1990s — Normal elections return to Punjab"], "keywords": ["Chronology Punjab crisis"], "distinction": null}, {"id": "ra-20", "front": "Assertion: All regional movements in India have sought full secession from the Union.\nReason: Regional aspirations always escalate into armed insurgency.", "badge": "Assertion-Reasoning", "category": "Assertion & Reason Prep", "definition": ["Both Assertion and Reason are false", "Most regional movements sought autonomy or recognition within the Union rather than secession, and many (like the Tamil Nadu anti-Hindi movement) were resolved through electoral/democratic politics, not armed insurgency"], "keywords": ["Both false"], "sequence": [], "distinction": null}, {"id": "ra-21", "front": "Assertion: The Mizoram Accord is considered one of India's most successful conflict resolutions.\nReason: It granted Mizoram full statehood and ended the MNF's armed insurgency.", "badge": "Assertion-Reasoning", "category": "Assertion & Reason Prep", "definition": ["Both Assertion and Reason are true, and the Reason correctly explains the Assertion"], "keywords": ["Both true"], "sequence": [], "distinction": null}, {"id": "ra-22", "front": "Assertion: Operation Blue Star had no connection to Indira Gandhi's assassination.\nReason: She was assassinated by her own Sikh bodyguards in October 1984.", "badge": "Assertion-Reasoning", "category": "Assertion & Reason Prep", "definition": ["Assertion is false, Reason is true", "Her assassination (the true Reason) is widely understood as a direct act of retaliation for Operation Blue Star, so the Assertion of 'no connection' is false"], "keywords": ["A false, R true"], "sequence": [], "distinction": null}, {"id": "ra-23", "front": "Assertion: The rise of regional parties like the DMK weakened Indian federalism.\nReason: Regional parties represent narrow, sub-national interests only.", "badge": "Assertion-Reasoning", "category": "Assertion & Reason Prep", "definition": ["Both Assertion and Reason are false", "NCERT frames the rise of regional parties as strengthening federal democracy by channelling diverse identities into mainstream politics, not weakening it"], "keywords": ["Both false"], "sequence": [], "distinction": null}, {"id": "ra-24", "front": "Map/Cartoon Anchor: A political map highlights Punjab, Mizoram, Nagaland, Kashmir, and Tamil Nadu in different shades. What theme does this illustrate?", "badge": "Map/Cartoon Anchor", "category": "CUET Shortcut", "definition": ["The variety of regional aspiration movements across India — from autonomy demands to insurgency to identity-based regional party politics", "A frequent map-labelling exercise testing recall of each region's specific movement and outcome"], "keywords": ["Map-based question"], "sequence": [], "distinction": null}, {"id": "ra-25", "front": "6-Marker framing: 'Compare the Punjab crisis and the Mizoram movement in terms of causes, response, and resolution.'", "badge": "Board 6-Marker Clue", "category": "6-Marker Core Concepts", "definition": ["State the causes: Punjab — autonomy demand escalating into militancy/Khalistan; Mizoram — famine-driven resentment escalating into armed insurgency", "State the government response: Punjab — Operation Blue Star (military) followed by the 1985 Accord (political); Mizoram — Union Territory status followed by the 1986 Accord (fully political)", "Compare the outcome: Mizoram achieved quicker, more durable peace and statehood; Punjab's normalcy took longer and came at a higher human cost", "Conclude: negotiated political settlement, where achievable early, tends to produce more lasting resolution than reliance on force"], "keywords": ["Answer structure"], "sequence": [], "distinction": null}];
+const BADGE_CLASS = {"Board 6-Marker Clue":"amber","CUET Fact/Date":"cyan","Map/Cartoon Anchor":"crimson","Assertion-Reasoning":"violet"};
+
+// ---- Theme ----
+const SUN_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+const MOON_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z"/></svg>';
+const root = document.documentElement;
+let theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
+function applyTheme(){
+  root.setAttribute('data-theme', theme);
+  document.getElementById('themeToggle').innerHTML = theme === 'dark' ? SUN_SVG : MOON_SVG;
+}
+document.getElementById('themeToggle').addEventListener('click', ()=>{
+  theme = theme === 'dark' ? 'light' : 'dark';
+  applyTheme();
+});
+applyTheme();
+
+// ---- State ----
+window.__MASTERY_MEM__ = {};
+let deck = CARDS.slice();
+let idx = 0;
+let flipped = false;
+let activeTag = null;
+let activeCat = null;
+let activeStatus = "all";
+
+function applyFilters(){
+  deck = CARDS.filter(c=>{
+    if(activeTag && c.badge!==activeTag) return false;
+    if(activeCat && c.category!==activeCat) return false;
+    if(activeStatus==="mastered" && window.__MASTERY_MEM__[c.id]!=="mastered") return false;
+    if(activeStatus==="review" && window.__MASTERY_MEM__[c.id]!=="review") return false;
+    return true;
+  });
+  idx = 0; flipped = false;
+  render();
+}
+
+function renderBack(c){
+  let h = "";
+  h += `<div class="back-title">Core Points</div><ul class="bullets">${c.definition.map(d=>`<li>${d}</li>`).join("")}</ul>`;
+  if(c.keywords && c.keywords.length){
+    h += `<div class="back-title rep">Key Terms</div><div class="kw-row">${c.keywords.map(k=>`<span class="kw">${k}</span>`).join("")}</div>`;
+  }
+  if(c.sequence && c.sequence.length){
+    h += `<div class="back-title rep">Sequence</div><ol class="seq-list">${c.sequence.map(s=>`<li>${s}</li>`).join("")}</ol>`;
+  }
+  if(c.distinction){
+    h += `<div class="distinction-box">${c.distinction}</div>`;
+  }
+  h += `<div class="mastery-row">
+    <button class="mastery-btn" data-act="review">Needs Review</button>
+    <button class="mastery-btn" data-act="mastered">Mastered</button>
+  </div>`;
+  return h;
+}
+
+function render(){
+  const total = deck.length;
+  document.getElementById("progressLabel").textContent = total ? `Card ${idx+1} of ${total}` : "No cards match filters";
+  document.getElementById("progressFill").style.width = total ? `${((idx+1)/total)*100}%` : "0%";
+  const stage = document.getElementById("stage");
+  if(!total){ stage.innerHTML = '<div class="empty-state">No cards match the current filters. Try clearing a filter.</div>'; return; }
+  if(!document.getElementById("card")){ location.reload(); return; }
+  const c = deck[idx];
+  const card = document.getElementById("card");
+  card.classList.remove("flipped"); flipped = false;
+  document.getElementById("frontBadge").className = "badge " + (BADGE_CLASS[c.badge]||"cyan");
+  document.getElementById("frontBadge").textContent = c.badge;
+  document.getElementById("frontPrompt").textContent = c.front;
+  document.getElementById("backFace").innerHTML = renderBack(c);
+  bindMasteryButtons(c);
+  document.getElementById("prevBtn").disabled = idx===0;
+  document.getElementById("nextBtn").disabled = idx===total-1;
+}
+
+function bindMasteryButtons(c){
+  document.querySelectorAll(".mastery-btn").forEach(btn=>{
+    const act = btn.dataset.act;
+    if(window.__MASTERY_MEM__[c.id]===act) btn.dataset.state = act;
+    btn.onclick = (e)=>{
+      e.stopPropagation();
+      window.__MASTERY_MEM__[c.id] = window.__MASTERY_MEM__[c.id]===act ? undefined : act;
+      document.querySelectorAll(".mastery-btn").forEach(b=>b.removeAttribute("data-state"));
+      if(window.__MASTERY_MEM__[c.id]) btn.dataset.state = window.__MASTERY_MEM__[c.id];
+    };
+  });
+}
+
+function flip(){ if(!deck.length) return; const card = document.getElementById("card"); flipped=!flipped; card.classList.toggle("flipped", flipped); }
+function next(){ if(idx<deck.length-1){ idx++; render(); } }
+function prev(){ if(idx>0){ idx--; render(); } }
+function shuffle(){
+  for(let i=deck.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [deck[i],deck[j]]=[deck[j],deck[i]]; }
+  idx=0; render();
+}
+
+document.getElementById("card").addEventListener("click", flip);
+document.getElementById("flipBtn").addEventListener("click", flip);
+document.getElementById("nextBtn").addEventListener("click", next);
+document.getElementById("prevBtn").addEventListener("click", prev);
+document.getElementById("shuffleBtn").addEventListener("click", shuffle);
+
+document.addEventListener("keydown", (e)=>{
+  if(document.getElementById("gridSearch")===document.activeElement) return;
+  if(e.code==="Space" || e.code==="ArrowUp"){ e.preventDefault(); flip(); }
+  else if(e.code==="ArrowLeft"){ prev(); }
+  else if(e.code==="ArrowRight"){ next(); }
+  else if(e.code==="KeyR"){ shuffle(); }
+});
+
+// ---- Filters setup ----
+const tags = [...new Set(CARDS.map(c=>c.badge))];
+const cats = [...new Set(CARDS.map(c=>c.category))];
+document.getElementById("tagChips").innerHTML = tags.map(t=>`<div class="chip" data-tag="${t}">${t} <span class="count">${CARDS.filter(c=>c.badge===t).length}</span></div>`).join("");
+document.getElementById("catChips").innerHTML = cats.map(c=>`<div class="chip" data-cat="${c}">${c} <span class="count">${CARDS.filter(x=>x.category===c).length}</span></div>`).join("");
+
+document.getElementById("tagChips").addEventListener("click", (e)=>{
+  const chip = e.target.closest(".chip"); if(!chip) return;
+  const t = chip.dataset.tag;
+  activeTag = activeTag===t ? null : t;
+  document.querySelectorAll("#tagChips .chip").forEach(c=>c.dataset.active = (c.dataset.tag===activeTag) ? "true":"false");
+  applyFilters();
+});
+document.getElementById("catChips").addEventListener("click", (e)=>{
+  const chip = e.target.closest(".chip"); if(!chip) return;
+  const c = chip.dataset.cat;
+  activeCat = activeCat===c ? null : c;
+  document.querySelectorAll("#catChips .chip").forEach(x=>x.dataset.active = (x.dataset.cat===activeCat) ? "true":"false");
+  applyFilters();
+});
+document.getElementById("statusChips").addEventListener("click", (e)=>{
+  const chip = e.target.closest(".chip"); if(!chip) return;
+  activeStatus = chip.dataset.status;
+  document.querySelectorAll("#statusChips .chip").forEach(c=>c.dataset.active = (c.dataset.status===activeStatus)?"true":"false");
+  applyFilters();
+});
+document.getElementById("filterToggleBtn").addEventListener("click", ()=>{
+  document.getElementById("filterPanel").classList.toggle("open");
+});
+
+// ---- Mode toggle ----
+document.getElementById("studyModeBtn").addEventListener("click", ()=>{
+  document.getElementById("studyModeBtn").dataset.active="true";
+  document.getElementById("gridModeBtn").dataset.active="false";
+  document.getElementById("stage").classList.remove("hidden");
+  document.querySelector(".controls").style.display="flex";
+  document.getElementById("gridWrap").classList.remove("active");
+});
+document.getElementById("gridModeBtn").addEventListener("click", ()=>{
+  document.getElementById("studyModeBtn").dataset.active="false";
+  document.getElementById("gridModeBtn").dataset.active="true";
+  document.getElementById("stage").classList.add("hidden");
+  document.querySelector(".controls").style.display="none";
+  document.getElementById("gridWrap").classList.add("active");
+  renderGrid(CARDS);
+});
+function renderGrid(list){
+  document.getElementById("gridCards").innerHTML = list.map(c=>`
+    <div class="gcard">
+      <div class="badge ${BADGE_CLASS[c.badge]||'cyan'}">${c.badge}</div>
+      <div class="front-prompt">${c.front}</div>
+      <ul class="bullets">${c.definition.slice(0,3).map(d=>`<li>${d}</li>`).join("")}</ul>
+    </div>`).join("") || '<div class="empty-state">No matches.</div>';
+}
+document.getElementById("gridSearch").addEventListener("input", (e)=>{
+  const q = e.target.value.toLowerCase();
+  const list = CARDS.filter(c=> c.front.toLowerCase().includes(q) || c.definition.join(" ").toLowerCase().includes(q) || (c.keywords||[]).join(" ").toLowerCase().includes(q));
+  renderGrid(list);
+});
+
+render();
+</script>
+</body>
+</html>

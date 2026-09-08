@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+<title>Planning — Flashcards</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#f5f7fc; --bg-2:#eaeef8;
+    --grid-line: rgba(40,55,100,0.055);
+    --surface: rgba(255,255,255,0.62); --surface-hi: rgba(255,255,255,0.88);
+    --surface-border: rgba(30,40,80,0.10); --surface-border-hi: rgba(30,40,80,0.18);
+    --text:#171c2c; --text-dim:#454f68; --text-mute:#7a8298;
+    --emerald:#0a9668; --emerald-ink:#052617; --emerald-dim: rgba(10,150,104,0.12);
+    --cyan:#0891a8; --cyan-dim: rgba(8,145,168,0.12);
+    --amber:#a4650a; --amber-dim: rgba(164,101,10,0.12);
+    --violet:#6d5bd0; --violet-dim: rgba(109,91,208,0.12);
+    --rose:#c33a5d; --rose-dim: rgba(195,58,93,0.12);
+    --success:#0f8a5f; --success-dim: rgba(15,138,95,0.12);
+    --shadow-lg: 0 30px 60px -25px rgba(30,40,80,0.28);
+    --shadow-md: 0 12px 28px -12px rgba(30,40,80,0.30);
+    --nav-bg: rgba(255,255,255,0.80);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#080b13; --bg-2:#0b0f1a;
+      --grid-line: rgba(150,220,200,0.045);
+      --surface: rgba(255,255,255,0.05); --surface-hi: rgba(255,255,255,0.085);
+      --surface-border: rgba(255,255,255,0.10); --surface-border-hi: rgba(255,255,255,0.18);
+      --text:#eaf5f0; --text-dim:#a8b8c5; --text-mute:#70808f;
+      --emerald:#2af0a8; --emerald-ink:#04170f; --emerald-dim: rgba(42,240,168,0.16);
+      --cyan:#3fe0f5; --cyan-dim: rgba(63,224,245,0.14);
+      --amber:#ffc247; --amber-dim: rgba(255,194,71,0.14);
+      --violet:#b3a1ff; --violet-dim: rgba(179,161,255,0.15);
+      --rose:#ff8fa3; --rose-dim: rgba(255,143,163,0.15);
+      --success:#2af0a8; --success-dim: rgba(42,240,168,0.16);
+      --shadow-lg: 0 30px 60px -20px rgba(0,0,0,0.65);
+      --shadow-md: 0 12px 30px -10px rgba(0,0,0,0.6);
+      --nav-bg: rgba(11,15,23,0.82);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#080b13; --bg-2:#0b0f1a;
+    --grid-line: rgba(150,220,200,0.045);
+    --surface: rgba(255,255,255,0.05); --surface-hi: rgba(255,255,255,0.085);
+    --surface-border: rgba(255,255,255,0.10); --surface-border-hi: rgba(255,255,255,0.18);
+    --text:#eaf5f0; --text-dim:#a8b8c5; --text-mute:#70808f;
+    --emerald:#2af0a8; --emerald-ink:#04170f; --emerald-dim: rgba(42,240,168,0.16);
+    --cyan:#3fe0f5; --cyan-dim: rgba(63,224,245,0.14);
+    --amber:#ffc247; --amber-dim: rgba(255,194,71,0.14);
+    --violet:#b3a1ff; --violet-dim: rgba(179,161,255,0.15);
+    --rose:#ff8fa3; --rose-dim: rgba(255,143,163,0.15);
+    --success:#2af0a8; --success-dim: rgba(42,240,168,0.16);
+    --shadow-lg: 0 30px 60px -20px rgba(0,0,0,0.65);
+    --shadow-md: 0 12px 30px -10px rgba(0,0,0,0.6);
+    --nav-bg: rgba(11,15,23,0.82);
+    color-scheme: dark;
+  }
+
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; height:100%; background:var(--bg); color:var(--text); font-family:'Manrope',ui-sans-serif,system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
+  body{
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+      radial-gradient(1100px 700px at 15% -10%, var(--emerald-dim), transparent 60%),
+      radial-gradient(900px 600px at 100% 10%, var(--cyan-dim), transparent 55%),
+      linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+    background-size: 34px 34px, 34px 34px, auto, auto, auto;
+    background-attachment: fixed; overflow-x:hidden;
+    animation: ambient-drift 22s ease-in-out infinite;
+  }
+  @keyframes ambient-drift{
+    0%,100%{ background-position: 0 0, 0 0, 15% -10%, 100% 10%, 0 0; }
+    50%{ background-position: 6px 6px, 6px 6px, 19% -6%, 95% 14%, 0 0; }
+  }
+  @media (prefers-reduced-motion: reduce){ *{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; } }
+
+  ::selection{ background:var(--emerald-dim); color:var(--text); }
+  .mono{ font-family:'IBM Plex Mono', ui-monospace, monospace; }
+  a{ color:var(--emerald); }
+
+  .app{ min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; padding-bottom:128px; }
+
+  header.top{
+    position:sticky; top:0; z-index:40;
+    backdrop-filter: blur(14px) saturate(140%); -webkit-backdrop-filter: blur(14px) saturate(140%);
+    background: var(--nav-bg); border-bottom:1px solid var(--surface-border);
+  }
+  .top-inner{ max-width: 980px; margin:0 auto; padding: 14px 18px 12px; }
+  .brand-row{ display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+  .brand{ display:flex; align-items:center; gap:10px; min-width:0; }
+  .brand-mark{
+    flex:none; width:34px; height:34px; border-radius:10px;
+    background: linear-gradient(135deg, var(--emerald), var(--cyan));
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono'; font-weight:600; color:var(--emerald-ink); font-size:13px;
+    box-shadow: 0 6px 18px -6px color-mix(in srgb, var(--emerald) 55%, transparent);
+  }
+  .brand-text h1{ font-family:'Manrope'; font-weight:800; font-size:15.5px; margin:0; letter-spacing:0.1px; line-height:1.25; }
+  .brand-text p{ margin:1px 0 0; font-size:11px; color:var(--text-mute); font-family:'IBM Plex Mono'; letter-spacing:0.3px; }
+
+  .header-controls{ display:flex; align-items:center; gap:8px; flex:none; }
+  .mode-tabs{ display:flex; gap:4px; background:var(--surface); border:1px solid var(--surface-border); padding:4px; border-radius:12px; flex:none; }
+  .mode-tab{ appearance:none; border:none; cursor:pointer; background:transparent; color:var(--text-dim); font-family:'Manrope'; font-weight:700; font-size:12.5px; padding:7px 13px; border-radius:9px; transition: all .18s ease; }
+  .mode-tab.active{ background: var(--emerald); color:var(--emerald-ink); box-shadow: 0 6px 16px -6px color-mix(in srgb, var(--emerald) 50%, transparent); }
+  .mode-tab:not(.active):hover{ color:var(--text); background:var(--surface-hi); }
+  .theme-toggle{ appearance:none; cursor:pointer; width:38px; height:38px; border-radius:12px; flex:none; background:var(--surface); border:1px solid var(--surface-border); color:var(--text-dim); display:flex; align-items:center; justify-content:center; transition:.15s ease; }
+  .theme-toggle:hover{ color:var(--text); background:var(--surface-hi); }
+  .theme-toggle svg{ width:17px; height:17px; display:none; }
+  .theme-toggle[data-theme-state="light"] .icon-sun{ display:block; }
+  .theme-toggle[data-theme-state="dark"] .icon-moon{ display:block; }
+  .theme-toggle[data-theme-state="system"] .icon-auto{ display:block; }
+
+  .progress-row{ margin-top:12px; display:flex; align-items:center; gap:10px; }
+  .progress-track{ flex:1; height:6px; border-radius:99px; background:var(--surface); overflow:hidden; border:1px solid var(--surface-border); }
+  .progress-fill{ height:100%; border-radius:99px; background: linear-gradient(90deg, var(--cyan), var(--emerald)); transition: width .35s cubic-bezier(.4,0,.2,1); }
+  .progress-label{ font-family:'IBM Plex Mono'; font-size:11.5px; color:var(--text-mute); white-space:nowrap; font-variant-numeric: tabular-nums; }
+
+  .stats-row{ margin-top:9px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .streak-chip{ display:inline-flex; align-items:center; gap:5px; flex:none; font-family:'IBM Plex Mono'; font-size:11.5px; font-weight:600; color:var(--text-dim); background:var(--surface); border:1px solid var(--surface-border); padding:5px 10px 5px 8px; border-radius:99px; transition: all .2s ease; }
+  .streak-chip.hot{ color:var(--amber); background:var(--amber-dim); border-color:color-mix(in srgb, var(--amber) 45%, transparent); }
+  .streak-flame{ font-size:13px; filter:grayscale(1) opacity(0.55); transition:filter .25s ease, transform .25s ease; }
+  .streak-chip.hot .streak-flame{ filter:none; animation: flame-pulse 1.1s ease-in-out infinite; }
+  @keyframes flame-pulse{ 0%,100%{ transform:scale(1) rotate(-2deg); } 50%{ transform:scale(1.18) rotate(2deg); } }
+  .mastery-track{ flex:1; min-width:90px; height:6px; border-radius:99px; background:var(--surface); overflow:hidden; border:1px solid var(--surface-border); }
+  .mastery-fill{ height:100%; border-radius:99px; background: linear-gradient(90deg, var(--success), var(--cyan)); transition: width .5s cubic-bezier(.4,0,.2,1); }
+  .mastery-label{ font-family:'IBM Plex Mono'; font-size:11px; color:var(--text-mute); white-space:nowrap; font-variant-numeric: tabular-nums; }
+  .level-badge{ flex:none; font-family:'Manrope'; font-weight:800; font-size:11px; letter-spacing:.3px; text-transform:uppercase; padding:5px 11px; border-radius:99px; color:var(--text-dim); background:var(--surface-hi); transition: background .3s ease, color .3s ease; }
+  .level-badge.lv-solid{ background:var(--cyan-dim); color:var(--cyan); }
+  .level-badge.lv-sharp{ background:var(--violet-dim); color:var(--violet); }
+  .level-badge.lv-ace{ background: linear-gradient(120deg, var(--amber), var(--emerald)); color:var(--emerald-ink); }
+
+  /* ---------- Collapsible filter widget ---------- */
+  .filters-toggle{
+    margin-top:10px; width:100%; display:flex; align-items:center; justify-content:space-between; gap:8px;
+    appearance:none; cursor:pointer; background:var(--surface); border:1px solid var(--surface-border);
+    color:var(--text-dim); font-family:'Manrope'; font-weight:700; font-size:12.5px; padding:9px 12px; border-radius:12px;
+  }
+  .filters-toggle:hover{ color:var(--text); background:var(--surface-hi); }
+  .filters-toggle .chev{ transition: transform .25s ease; }
+  .filters-toggle.open .chev{ transform: rotate(180deg); }
+  .filters-toggle .active-count{
+    font-family:'IBM Plex Mono'; font-size:10.5px; color:var(--emerald); background:var(--emerald-dim);
+    padding:2px 8px; border-radius:99px; margin-left:6px;
+  }
+  .filters-panel{
+    max-height:0; overflow:hidden; transition: max-height .3s cubic-bezier(.4,0,.2,1);
+  }
+  .filters-panel.open{ max-height:400px; }
+  .filters-panel-inner{ padding-top:10px; }
+
+  .filter-row{ display:flex; gap:6px; flex-wrap:wrap; align-items:center; margin-bottom:8px; }
+  .chip{ appearance:none; cursor:pointer; font-family:'IBM Plex Mono'; font-size:11px; font-weight:500; padding:5px 11px; border-radius:99px; border:1px solid var(--surface-border); background:var(--surface); color:var(--text-dim); transition:.15s ease; letter-spacing:.2px; }
+  .chip:hover{ border-color:var(--surface-border-hi); color:var(--text); }
+  .chip.active{ background:var(--emerald-dim); border-color:color-mix(in srgb, var(--emerald) 50%, transparent); color:var(--emerald); }
+  .chip .n{ opacity:.65; margin-left:4px; }
+  .type-chip.active[data-type="board"]{ background:var(--cyan-dim); border-color:color-mix(in srgb, var(--cyan) 50%, transparent); color:var(--cyan); }
+  .type-chip.active[data-type="cuet"]{ background:var(--amber-dim); border-color:color-mix(in srgb, var(--amber) 50%, transparent); color:var(--amber); }
+  .type-chip.active[data-type="process"]{ background:var(--emerald-dim); border-color:color-mix(in srgb, var(--emerald) 50%, transparent); color:var(--emerald); }
+  .type-chip.active[data-type="pitfall"]{ background:var(--rose-dim); border-color:color-mix(in srgb, var(--rose) 50%, transparent); color:var(--rose); }
+  .type-chip.active[data-type="worked"]{ background:var(--violet-dim); border-color:color-mix(in srgb, var(--violet) 50%, transparent); color:var(--violet); }
+  .type-chip.active[data-type="all"]{ background:var(--surface-hi); border-color:var(--surface-border-hi); color:var(--text); }
+  .topic-select{
+    appearance:none; cursor:pointer; font-family:'IBM Plex Mono'; font-size:11px; font-weight:500;
+    padding:6px 30px 6px 12px; border-radius:99px; border:1px solid var(--surface-border); background:var(--surface);
+    color:var(--text-dim); letter-spacing:.2px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M6 9l6 6 6-6'/></svg>");
+    background-repeat:no-repeat; background-position: right 9px center; background-size:13px; max-width:100%;
+  }
+  .topic-select:hover{ border-color:var(--surface-border-hi); color:var(--text); }
+
+  /* ---------- Toasts & celebration burst ---------- */
+  .toast-stack{ position:fixed; top:14px; left:50%; transform:translateX(-50%); z-index:80; display:flex; flex-direction:column; gap:8px; align-items:center; pointer-events:none; }
+  .toast{ font-family:'Manrope'; font-weight:700; font-size:13px; color:var(--text); background:var(--surface-hi); border:1px solid var(--surface-border-hi); backdrop-filter: blur(14px) saturate(160%); -webkit-backdrop-filter: blur(14px) saturate(160%); padding:10px 18px; border-radius:14px; box-shadow: var(--shadow-md); animation: toast-in .35s cubic-bezier(.22,1,.36,1) both; display:flex; align-items:center; gap:8px; }
+  .toast.leaving{ animation: toast-out .3s ease both; }
+  @keyframes toast-in{ from{ opacity:0; transform:translateY(-14px) scale(.92); } to{ opacity:1; transform:translateY(0) scale(1); } }
+  @keyframes toast-out{ to{ opacity:0; transform:translateY(-10px) scale(.94); } }
+  .burst-layer{ position:fixed; inset:0; pointer-events:none; z-index:75; overflow:hidden; }
+  .burst-piece{ position:absolute; top:50%; left:50%; width:8px; height:8px; border-radius:2px; animation: burst-fly 900ms cubic-bezier(.2,.8,.3,1) forwards; }
+  @keyframes burst-fly{ 0%{ transform: translate(-50%,-50%) rotate(0deg) scale(1); opacity:1; } 100%{ transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(.4); opacity:0; } }
+  @media (prefers-reduced-motion: reduce){ .streak-chip.hot .streak-flame{ animation:none; } .burst-piece{ animation:none; display:none; } }
+
+  /* ---------- Study stage ---------- */
+  .stage{ flex:1; display:flex; align-items:center; justify-content:center; padding: 26px 16px 10px; }
+  .card-wrap{ width:100%; max-width:660px; perspective: 1800px; }
+  .card{ position:relative; width:100%; min-height: clamp(300px, 52vh, 460px); transform-style: preserve-3d; transition: transform .55s cubic-bezier(.22,1,.36,1); cursor:pointer; }
+  .card.flipped{ transform: rotateY(180deg); }
+  .face{
+    position:absolute; inset:0; border-radius: 20px;
+    background: linear-gradient(160deg, var(--surface-hi), var(--surface));
+    border:1px solid var(--surface-border); box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(18px) saturate(150%); -webkit-backdrop-filter: blur(18px) saturate(150%);
+    backface-visibility:hidden; display:flex; flex-direction:column; padding: 24px 24px 18px; overflow:hidden;
+  }
+  .face::before{
+    content:''; position:absolute; inset:0; border-radius:inherit; padding:1px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.22), rgba(255,255,255,0) 40%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude; pointer-events:none;
+  }
+  .face.back{ transform: rotateY(180deg); }
+  .face-top{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+  .tag{ display:inline-flex; align-items:center; gap:6px; font-family:'IBM Plex Mono'; font-size:10.5px; font-weight:600; letter-spacing:.4px; text-transform:uppercase; padding:6px 10px; border-radius:8px; border:1px solid; }
+  .tag.board{ color:var(--cyan); border-color:color-mix(in srgb, var(--cyan) 40%, transparent); background:var(--cyan-dim); }
+  .tag.cuet{ color:var(--amber); border-color:color-mix(in srgb, var(--amber) 40%, transparent); background:var(--amber-dim); }
+  .tag.process{ color:var(--emerald); border-color:color-mix(in srgb, var(--emerald) 40%, transparent); background:var(--emerald-dim); }
+  .tag.pitfall{ color:var(--rose); border-color:color-mix(in srgb, var(--rose) 40%, transparent); background:var(--rose-dim); }
+  .tag.worked{ color:var(--violet); border-color:color-mix(in srgb, var(--violet) 40%, transparent); background:var(--violet-dim); }
+  .cat-pill{ font-family:'IBM Plex Mono'; font-size:10px; color:var(--text-mute); white-space:nowrap; padding-top:8px; text-align:right; max-width:45%; }
+
+  .face-body{ flex:1; display:flex; align-items:center; margin-top:14px; overflow-y:auto; padding-right:2px; }
+  .front-prompt{ font-family:'Manrope'; font-weight:800; font-size: clamp(17px, 3.2vw, 22px); line-height:1.36; letter-spacing:0.1px; }
+  .back-content{ font-size:14.5px; line-height:1.6; color:var(--text-dim); width:100%; }
+  .back-content b, .back-content strong{ color:var(--text); }
+  .back-content .def{ margin:0 0 8px; }
+  .back-content ul.pts, .back-content ol.steps{ margin:6px 0 8px; padding-left:20px; }
+  .back-content ul.pts li, .back-content ol.steps li{ margin-bottom:5px; }
+  .back-content .kw-row{ display:flex; flex-wrap:wrap; gap:6px; margin:8px 0; }
+  .back-content .kw{
+    font-family:'IBM Plex Mono'; font-size:10.5px; font-weight:600; color:var(--emerald);
+    background:var(--emerald-dim); border:1px solid color-mix(in srgb, var(--emerald) 35%, transparent);
+    padding:3px 9px; border-radius:99px;
+  }
+  .back-content .callout{
+    margin-top:10px; padding:10px 12px; border-radius:12px; border:1px solid color-mix(in srgb, var(--rose) 35%, transparent);
+    background:var(--rose-dim); font-size:13.5px; line-height:1.55;
+  }
+  .back-content .callout .callout-label{ font-family:'IBM Plex Mono'; font-size:10px; font-weight:700; color:var(--rose); text-transform:uppercase; letter-spacing:.4px; display:block; margin-bottom:4px; }
+
+  .flip-hint{ text-align:center; font-family:'IBM Plex Mono'; font-size:10.5px; color:var(--text-mute); letter-spacing:.4px; margin-top:10px; }
+
+  .assess-row{ display:flex; gap:10px; margin-top:14px; padding-top:14px; border-top:1px solid var(--surface-border); }
+  .assess-btn{ flex:1; appearance:none; cursor:pointer; border-radius:12px; padding:11px 10px; font-family:'Manrope'; font-weight:700; font-size:13px; border:1px solid var(--surface-border); background:var(--surface); color:var(--text-dim); display:flex; align-items:center; justify-content:center; gap:7px; transition:.15s ease; }
+  .assess-btn:hover{ transform: translateY(-1px); }
+  .assess-btn:active, .nav-btn:active, .chip:active, .mode-tab:active, .theme-toggle:active, .filters-toggle:active{ transform: scale(0.94); }
+  .assess-btn.review:hover, .assess-btn.review.active{ background:var(--rose-dim); border-color:color-mix(in srgb, var(--rose) 50%, transparent); color:var(--rose); }
+  .assess-btn.mastered:hover, .assess-btn.mastered.active{ background:var(--success-dim); border-color:color-mix(in srgb, var(--success) 50%, transparent); color:var(--success); }
+
+  .status-dot{ position:absolute; top:14px; right:14px; width:9px; height:9px; border-radius:50%; box-shadow: 0 0 0 3px rgba(255,255,255,0.05); }
+  .status-dot.mastered{ background:var(--success); }
+  .status-dot.review{ background:var(--rose); }
+
+  /* ---------- Bottom nav ---------- */
+  nav.bottom{ position:fixed; left:0; right:0; bottom:0; z-index:50; display:flex; justify-content:center; padding: 14px 14px calc(14px + env(safe-area-inset-bottom)); pointer-events:none; }
+  .nav-cluster{ pointer-events:auto; display:flex; align-items:center; gap:6px; background: var(--nav-bg); border:1px solid var(--surface-border-hi); backdrop-filter: blur(18px) saturate(160%); -webkit-backdrop-filter: blur(18px) saturate(160%); border-radius: 20px; padding:8px; box-shadow: var(--shadow-md); }
+  .nav-btn{ appearance:none; cursor:pointer; border:none; background:transparent; color:var(--text-dim); width:44px; height:44px; border-radius:14px; display:flex; align-items:center; justify-content:center; transition:.15s ease; flex:none; }
+  .nav-btn:hover{ background:var(--surface-hi); color:var(--text); }
+  .nav-btn svg{ width:19px; height:19px; }
+  .nav-btn.primary{ width:auto; padding:0 22px; height:48px; border-radius:15px; gap:8px; background: var(--emerald); color:var(--emerald-ink); font-weight:800; font-family:'Manrope'; font-size:13.5px; box-shadow: 0 10px 22px -8px color-mix(in srgb, var(--emerald) 55%, transparent); }
+  .nav-btn.primary:hover{ filter:brightness(1.06); }
+  .nav-sep{ width:1px; height:26px; background:var(--surface-border); margin:0 2px; }
+
+  /* ---------- Grid mode ---------- */
+  .grid-view{ max-width:1180px; margin:0 auto; padding: 22px 16px 10px; width:100%; }
+  .grid-cards{ display:grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap:14px; }
+  .grid-section-header{ grid-column: 1 / -1; display:flex; align-items:baseline; gap:10px; margin: 6px 0 -2px; padding-bottom:8px; border-bottom:1px solid var(--surface-border); }
+  .grid-section-header:first-child{ margin-top:0; }
+  .grid-section-header h2{ font-family:'Manrope'; font-weight:800; font-size:14px; margin:0; color:var(--text); }
+  .grid-section-header .n{ font-family:'IBM Plex Mono'; font-size:11px; color:var(--text-mute); }
+  .mini-card{ position:relative; min-height:210px; border-radius:16px; background: linear-gradient(160deg, var(--surface-hi), var(--surface)); border:1px solid var(--surface-border); padding:16px; cursor:pointer; display:flex; flex-direction:column; transition: transform .18s ease, border-color .18s ease; }
+  .mini-card:hover{ transform: translateY(-2px); border-color:var(--surface-border-hi); }
+  .mini-card .tag{ font-size:9px; padding:4px 8px; align-self:flex-start; }
+  .mini-card .mini-idx{ position:absolute; top:14px; right:14px; font-family:'IBM Plex Mono'; font-size:10px; color:var(--text-mute); }
+  .mini-front{ font-family:'Manrope'; font-weight:800; font-size:14px; line-height:1.4; margin-top:10px; flex:1; }
+  .mini-back{ font-size:12px; line-height:1.5; color:var(--text-dim); margin-top:10px; display:none; flex:1; overflow-y:auto; max-height:260px; }
+  .mini-back .kw{ font-family:'IBM Plex Mono'; font-size:9.5px; font-weight:600; color:var(--emerald); background:var(--emerald-dim); border:1px solid color-mix(in srgb, var(--emerald) 35%, transparent); padding:2px 7px; border-radius:99px; display:inline-block; margin:2px 3px 2px 0; }
+  .mini-card.flipped .mini-front{ display:none; }
+  .mini-card.flipped .mini-back{ display:block; }
+  .mini-flip-note{ font-family:'IBM Plex Mono'; font-size:9.5px; color:var(--text-mute); margin-top:10px; }
+  .mini-status{ position:absolute; top:14px; left:14px; width:8px; height:8px; border-radius:50%; }
+  .mini-status.mastered{ background:var(--success); }
+  .mini-status.review{ background:var(--rose); }
+  .empty-state{ text-align:center; padding: 60px 20px; color:var(--text-mute); font-family:'IBM Plex Mono'; font-size:13px; grid-column: 1/-1; }
+
+  .face-body::-webkit-scrollbar, .mini-back::-webkit-scrollbar{ width:6px; }
+  .face-body::-webkit-scrollbar-thumb, .mini-back::-webkit-scrollbar-thumb{ background:var(--surface-border-hi); border-radius:99px; }
+
+  @media (max-width: 560px){
+    .card{ min-height: clamp(280px, 48vh, 460px); }
+    .face{ padding:20px 18px 16px; }
+    nav.bottom{ padding: 12px 10px calc(12px + env(safe-area-inset-bottom)); }
+    .nav-cluster{ gap:3px; padding:6px; }
+    .nav-btn{ width:40px; height:40px; }
+    .nav-btn.primary{ padding:0 16px; height:44px; font-size:12.5px; }
+  }
+</style>
+</head>
+<body><a href="index.html" id="__fcBackBtn" title="Back to chapter list" style="position:fixed;top:10px;left:10px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;background:rgba(15,20,35,0.72);color:#fff;font:600 12.5px -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;text-decoration:none;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 4px 14px rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.14);">&#8592;&nbsp;Chapters</a><style>body{padding-top:46px}</style>
+
+<div class="app">
+  <header class="top">
+    <div class="top-inner">
+      <div class="brand-row">
+        <div class="brand">
+          <div class="brand-mark">PL</div>
+          <div class="brand-text">
+            <h1>Planning</h1>
+            <p>BUSINESS STUDIES &middot; CLASS XII &middot; CHAPTER 4</p>
+          </div>
+        </div>
+        <div class="header-controls">
+          <div class="mode-tabs" role="tablist">
+            <button class="mode-tab active" data-mode="study">Study</button>
+            <button class="mode-tab" data-mode="grid">Reference Grid</button>
+          </div>
+          <button class="theme-toggle" id="themeToggle" type="button" title="Theme: Auto">
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.5v2.4M12 19.1v2.4M4.5 12H2M22 12h-2.5M5.3 5.3l1.7 1.7M17 17l1.7 1.7M18.7 5.3L17 7M7 17l-1.7 1.7"/></svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.4A8.5 8.5 0 1 1 9.6 3.5a7 7 0 0 0 10.9 10.9z"/></svg>
+            <svg class="icon-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor" stroke="none"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="progress-row">
+        <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+        <div class="progress-label" id="progressLabel">Card 1 of 47</div>
+      </div>
+
+
+      <button class="filters-toggle" id="filtersToggle" type="button" aria-expanded="false">
+        <span>Filters &amp; card types <span class="active-count" id="activeFilterCount" style="display:none;">1 active</span></span>
+        <svg class="chev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="filters-panel" id="filtersPanel">
+        <div class="filters-panel-inner">
+      <div class="stats-row">
+        <div class="streak-chip" id="streakChip" title="Consecutive cards mastered in a row">
+          <span class="streak-flame" id="streakFlame">🔥</span>
+          <span id="streakCount">0</span> streak
+        </div>
+        <div class="mastery-track" title="Total chapter mastery">
+          <div class="mastery-fill" id="masteryFill" style="width:0%"></div>
+        </div>
+        <div class="mastery-label" id="masteryLabel">0 / 1 mastered</div>
+        <div class="level-badge" id="levelBadge">Rookie</div>
+      </div>
+
+          <div class="filter-row" id="filterRow">
+            <button class="chip active" data-filter="all">All <span class="n" id="cnt-all">47</span></button>
+            <button class="chip" data-filter="review">Needs Review <span class="n" id="cnt-review">0</span></button>
+            <button class="chip" data-filter="mastered">Mastered <span class="n" id="cnt-mastered">0</span></button>
+            <button class="chip" id="shuffleChip">⟲ Shuffle</button>
+            <button class="chip" id="resetOrderChip" style="display:none;">Reset order</button>
+          </div>
+          <div class="filter-row" id="typeRow">
+            <button class="chip type-chip active" data-type="all">All Types <span class="n" id="cnt-type-all">47</span></button>
+            <button class="chip type-chip" data-type="board">Board Case Clue <span class="n" id="cnt-type-board">0</span></button>
+            <button class="chip type-chip" data-type="cuet">CUET Fact <span class="n" id="cnt-type-cuet">0</span></button>
+            <button class="chip type-chip" data-type="process">Process Step <span class="n" id="cnt-type-process">0</span></button>
+            <button class="chip type-chip" data-type="pitfall">Distinction <span class="n" id="cnt-type-pitfall">0</span></button>
+            <button class="chip type-chip" data-type="worked">Example <span class="n" id="cnt-type-worked">0</span></button>
+          </div>
+          <div class="filter-row">
+            <select class="topic-select" id="topicSelect" aria-label="Filter by topic">
+              <option value="all">All Topics</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- STUDY MODE -->
+  <section class="stage" id="studyView">
+    <div class="card-wrap">
+      <div class="card" id="card">
+        <div class="face front">
+          <div class="face-top">
+            <span class="tag" id="frontTag">Board Case Clue</span>
+            <span class="cat-pill" id="frontCat">Category</span>
+          </div>
+          <div class="face-body"><div class="front-prompt" id="frontPrompt">Loading…</div></div>
+          <div class="flip-hint">TAP CARD OR PRESS SPACE TO FLIP</div>
+        </div>
+        <div class="face back">
+          <div class="status-dot" id="backStatusDot"></div>
+          <div class="face-top">
+            <span class="tag" id="backTag">Board Case Clue</span>
+          </div>
+          <div class="face-body"><div class="back-content" id="backContent">…</div></div>
+          <div class="assess-row">
+            <button class="assess-btn review" id="btnReview">↻ Needs Review</button>
+            <button class="assess-btn mastered" id="btnMastered">✓ Mastered</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GRID MODE -->
+  <section class="grid-view" id="gridView" style="display:none;">
+    <div class="grid-cards" id="gridCards"></div>
+    <div class="empty-state" id="gridEmpty" style="display:none;">No cards match this filter yet — keep studying!</div>
+  </section>
+</div>
+
+<div class="toast-stack" id="toastStack" aria-live="polite"></div>
+<div class="burst-layer" id="burstLayer"></div>
+
+<nav class="bottom">
+  <div class="nav-cluster" id="studyNav">
+    <button class="nav-btn" id="btnPrev" title="Previous (←)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <button class="nav-btn primary" id="btnFlip" title="Flip (Space)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 10-3.4 7.03M21 4v6h-6"/></svg>
+      Flip
+    </button>
+    <button class="nav-btn" id="btnNext" title="Next (→)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+    <div class="nav-sep"></div>
+    <button class="nav-btn" id="btnShuffle" title="Shuffle (R)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M4 20L21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6"/><path d="M4 4l5 5"/></svg>
+    </button>
+  </div>
+</nav>
+
+<script>
+(function(){
+
+  /* ===================== CARD DATA ===================== */
+  var CARDS = [
+    {cat:"Meaning & Features", tag:"board", tagLabel:"Board Case Clue", front:"What is Planning?",
+     back:"<div class=\"def\">Planning is deciding in advance WHAT to do, HOW to do it, WHEN to do it, and WHO is to do it. It bridges the gap between where we are and where we want to reach, involving setting objectives and devising a course of action.</div><div class=\"kw-row\"><span class=\"kw\">Planning</span><span class=\"kw\">deciding in advance</span></div>"},
+    {cat:"Meaning & Features", tag:"board", tagLabel:"Board Case Clue", front:"Feature: Planning Focuses on Achieving Objectives",
+     back:"<div class=\"def\">Planning has no meaning unless it contributes to the achievement of predetermined organisational goals — all plans emerge from and lead back to the objectives.</div><div class=\"kw-row\"><span class=\"kw\">focuses on objectives</span></div>"},
+    {cat:"Meaning & Features", tag:"board", tagLabel:"Board Case Clue", front:"Feature: Planning is a Primary Function of Management",
+     back:"<div class=\"def\">Planning lays down the base/foundation for other functions of management (organising, staffing, directing, controlling) — hence it is called a 'primary' function, performed before other functions can begin.</div><div class=\"kw-row\"><span class=\"kw\">primary function</span></div>"},
+    {cat:"Meaning & Features", tag:"board", tagLabel:"Board Case Clue", front:"Feature: Planning is Pervasive",
+     back:"<div class=\"def\">Planning is required at all levels of management (top, middle, supervisory) and in all types of organisations — though the scope of planning varies with the level and type.</div><div class=\"kw-row\"><span class=\"kw\">pervasive</span></div>"},
+    {cat:"Meaning & Features", tag:"board", tagLabel:"Board Case Clue", front:"Feature: Planning is Continuous",
+     back:"<div class=\"def\">Plans are prepared for a specific period, and at the end of that period, new plans have to be drawn taking into account the organisation's current and future requirements — hence planning is a never-ending, continuous activity.</div><div class=\"kw-row\"><span class=\"kw\">continuous</span></div>"},
+    {cat:"Meaning & Features", tag:"board", tagLabel:"Board Case Clue", front:"Feature: Planning is Futuristic / Forward-Looking",
+     back:"<div class=\"def\">Planning essentially involves looking ahead and preparing for the future — it means peeping into the future, analysing it, and predicting the future course of events.</div><div class=\"kw-row\"><span class=\"kw\">futuristic</span><span class=\"kw\">forward-looking</span></div>"},
+    {cat:"Meaning & Features", tag:"board", tagLabel:"Board Case Clue", front:"Feature: Planning Involves Decision-Making",
+     back:"<div class=\"def\">Planning essentially involves choice/decision-making from among various alternatives — if there is only one possible course of action, there is no need for planning as there is nothing to decide.</div><div class=\"kw-row\"><span class=\"kw\">decision-making</span><span class=\"kw\">choice among alternatives</span></div>"},
+    {cat:"Meaning & Features", tag:"board", tagLabel:"Board Case Clue", front:"Feature: Planning is a Mental Exercise",
+     back:"<div class=\"def\">Planning requires application of the mind involving foresight, intelligent imagination and sound judgement — it is basically an intellectual activity of thinking rather than doing.</div><div class=\"kw-row\"><span class=\"kw\">mental exercise</span></div>"},
+    {cat:"Importance of Planning", tag:"cuet", tagLabel:"CUET Fact", front:"Importance: Planning Provides Direction",
+     back:"<div class=\"def\">Planning ensures that the goals/objectives are clearly stated so that they act as a guide for deciding what action should be taken and in which direction — without planning, employees may work in different/conflicting directions.</div><div class=\"kw-row\"><span class=\"kw\">provides direction</span></div>"},
+    {cat:"Importance of Planning", tag:"cuet", tagLabel:"CUET Fact", front:"Importance: Planning Reduces the Risk of Uncertainty",
+     back:"<div class=\"def\">Planning helps a manager cope with future uncertainty because it involves anticipation of future events — although it is not possible to eliminate uncertainty entirely, planning helps foresee and prepare for it.</div><div class=\"kw-row\"><span class=\"kw\">reduces risk of uncertainty</span></div>"},
+    {cat:"Importance of Planning", tag:"cuet", tagLabel:"CUET Fact", front:"Importance: Planning Reduces Overlapping and Wasteful Activities",
+     back:"<div class=\"def\">Planning acts as the basis of coordinating the activities of different departments/individuals, helping avoid confusion, duplication of effort, and wasteful activities. Since well-defined roles are laid down, redundancy is minimised.</div><div class=\"kw-row\"><span class=\"kw\">reduces overlapping activities</span></div>"},
+    {cat:"Importance of Planning", tag:"cuet", tagLabel:"CUET Fact", front:"Importance: Planning Promotes Innovative Ideas",
+     back:"<div class=\"def\">Since planning is the primary function of management, it is done at every level. It is a chance to weigh various alternative courses of action, encouraging managers to think out-of-the-box and innovate.</div><div class=\"kw-row\"><span class=\"kw\">promotes innovative ideas</span></div>"},
+    {cat:"Importance of Planning", tag:"cuet", tagLabel:"CUET Fact", front:"Importance: Planning Facilitates Decision-Making",
+     back:"<div class=\"def\">Planning helps managers to look into the future and make a choice among various alternative courses of action — the best alternative is chosen out of many available options, backed by evaluation.</div><div class=\"kw-row\"><span class=\"kw\">facilitates decision-making</span></div>"},
+    {cat:"Importance of Planning", tag:"cuet", tagLabel:"CUET Fact", front:"Importance: Planning Establishes Standards for Controlling",
+     back:"<div class=\"def\">Planning provides the goals/standards against which actual performance is measured. By comparing actual performance with a standard set in advance, deviations are identified and remedial action can be taken — control is impossible without planning.</div><div class=\"kw-row\"><span class=\"kw\">establishes standards for control</span></div>"},
+    {cat:"Importance of Planning", tag:"cuet", tagLabel:"CUET Fact", front:"Importance — quick recall mnemonic",
+     back:"<div class=\"def\">Remember as 'D-R-O-I-D-C': Direction, Reduces uncertainty, Overlapping reduced, Innovative ideas, Decision-making facilitated, Control standards established.</div><div class=\"kw-row\"><span class=\"kw\">mnemonic DROIDC</span></div>"},
+    {cat:"Limitations of Planning", tag:"pitfall", tagLabel:"Distinction", front:"Limitation: Planning Leads to Rigidity",
+     back:"<div class=\"def\">Once plans are made, managers may hesitate to change them even if circumstances demand a change, since deviating from the plan may be viewed unfavourably — this makes the organisation inflexible.</div><div class=\"kw-row\"><span class=\"kw\">leads to rigidity</span></div>"},
+    {cat:"Limitations of Planning", tag:"pitfall", tagLabel:"Distinction", front:"Limitation: Planning May Not Work in a Dynamic Environment",
+     back:"<div class=\"def\">Business environment is dynamic — nothing is constant, and organisations have to constantly adapt to changing government policy, technology, competition, consumer tastes etc. This can make even the most carefully prepared plan fail.</div><div class=\"kw-row\"><span class=\"kw\">dynamic environment</span></div>"},
+    {cat:"Limitations of Planning", tag:"pitfall", tagLabel:"Distinction", front:"Limitation: Planning Reduces Creativity",
+     back:"<div class=\"def\">Planning is usually done by the top management, and the rest of the members simply implement these plans — so employees may not be able to deviate from the plan and, as a result, are unable to exercise their own initiative/creativity.</div><div class=\"kw-row\"><span class=\"kw\">reduces creativity</span></div>"},
+    {cat:"Limitations of Planning", tag:"pitfall", tagLabel:"Distinction", front:"Limitation: Planning Involves Huge Costs",
+     back:"<div class=\"def\">When plans are formulated, huge costs are involved in their formulation — expenses on forecasting, research, expert consultation, etc. — and these costs may sometimes not justify the benefit derived from the plan.</div><div class=\"kw-row\"><span class=\"kw\">huge costs</span></div>"},
+    {cat:"Limitations of Planning", tag:"pitfall", tagLabel:"Distinction", front:"Limitation: Planning is a Time-Consuming Process",
+     back:"<div class=\"def\">Sometimes plans have to be made in a hurry, without giving sufficient time for a thorough analysis, due to time constraints — planning may thus consume a lot of time and delay action.</div><div class=\"kw-row\"><span class=\"kw\">time-consuming</span></div>"},
+    {cat:"Limitations of Planning", tag:"pitfall", tagLabel:"Distinction", front:"Limitation: Planning Does Not Guarantee Success",
+     back:"<div class=\"def\">Success of an organisation is possible only when plans are properly drawn up AND implemented. Managers may develop a false sense of security thinking that as long as they are planning, they are moving in the right direction — but this is not always true.</div><div class=\"kw-row\"><span class=\"kw\">does not guarantee success</span></div>"},
+    {cat:"Limitations of Planning", tag:"pitfall", tagLabel:"Distinction", front:"Limitations — quick recall mnemonic",
+     back:"<div class=\"def\">Remember as 'R-D-C-C-T-S': Rigidity, Dynamic environment challenge, Creativity reduced, Costly, Time-consuming, Success not guaranteed.</div><div class=\"kw-row\"><span class=\"kw\">mnemonic RDCCTS</span></div>"},
+    {cat:"Planning Process", tag:"process", tagLabel:"Process Step", front:"Planning Process: Step 1 — Setting Objectives",
+     back:"<div class=\"def\">The FIRST and most important step in the process of planning — specifies exactly what an organisation wants to achieve, giving direction to all major plans and reflecting the purpose of the organisation.</div><div class=\"kw-row\"><span class=\"kw\">Setting Objectives</span></div>"},
+    {cat:"Planning Process", tag:"process", tagLabel:"Process Step", front:"Planning Process: Step 2 — Developing Premises",
+     back:"<div class=\"def\">Planning premises are the assumptions/predictions about the future (economic conditions, government policy, prices etc.) on which the plan will be based — a common set of assumptions must be adopted for consistency of the whole planning exercise.</div><div class=\"kw-row\"><span class=\"kw\">Developing Premises</span></div>"},
+    {cat:"Planning Process", tag:"process", tagLabel:"Process Step", front:"Planning Process: Step 3 — Identifying Alternative Courses of Action",
+     back:"<div class=\"def\">Once objectives/premises are set, several alternative courses of action need to be considered — through market analysis or brainstorming/experience.</div><div class=\"kw-row\"><span class=\"kw\">Identifying Alternatives</span></div>"},
+    {cat:"Planning Process", tag:"process", tagLabel:"Process Step", front:"Planning Process: Step 4 — Evaluating Alternative Courses",
+     back:"<div class=\"def\">Positive and negative aspects of each proposal need to be weighed against each other, in light of the objective to be achieved — evaluated against parameters like risk, resource availability, expected returns.</div><div class=\"kw-row\"><span class=\"kw\">Evaluating Alternatives</span></div>"},
+    {cat:"Planning Process", tag:"process", tagLabel:"Process Step", front:"Planning Process: Step 5 — Selecting an Alternative",
+     back:"<div class=\"def\">The best possible/most feasible plan is adopted — this is the real point of decision-making. Sometimes, instead of one 'best' alternative, several alternatives may be adopted in combination rather than a single plan.</div><div class=\"kw-row\"><span class=\"kw\">Selecting an Alternative</span></div>"},
+    {cat:"Planning Process", tag:"process", tagLabel:"Process Step", front:"Planning Process: Step 6 — Implementing the Plan",
+     back:"<div class=\"def\">Putting the plan into action — this is the step where other managerial functions come into play, and resources are allocated to carry out the decided plan.</div><div class=\"kw-row\"><span class=\"kw\">Implementing the Plan</span></div>"},
+    {cat:"Planning Process", tag:"process", tagLabel:"Process Step", front:"Planning Process: Step 7 — Follow-Up Action",
+     back:"<div class=\"def\">Monitoring the plan closely while it is being implemented, and adjusting/modifying it to meet changing requirements. Follow-up is necessary to see that objectives are achieved and plans are implemented according to schedule.</div><div class=\"kw-row\"><span class=\"kw\">Follow-Up Action</span></div>"},
+    {cat:"Types of Plans", tag:"board", tagLabel:"Board Case Clue", front:"Types of Plans: Overview — Single-Use vs Standing",
+     back:"<div class=\"def\">Plans are broadly classified into two categories:</div><ul class=\"pts\"><li><b>Single-use plans:</b> designed for a specific/non-recurring situation, and become obsolete once the goal is achieved (e.g. Objectives, Budget, Programme).</li><li><b>Standing plans:</b> used again and again for recurring situations over a long period (e.g. Policy, Procedure, Method, Rule, Strategy).</li></ul><div class=\"kw-row\"><span class=\"kw\">Single-use vs Standing plans</span></div>"},
+    {cat:"Types of Plans", tag:"board", tagLabel:"Board Case Clue", front:"Type of Plan: Objectives",
+     back:"<div class=\"def\">The ends towards which the activity of the organisation is aimed — the final goals of management, e.g. increasing profit by 5%. Objectives provide direction to all other plans.</div><div class=\"kw-row\"><span class=\"kw\">Objectives</span><span class=\"kw\">single-use</span></div>"},
+    {cat:"Types of Plans", tag:"board", tagLabel:"Board Case Clue", front:"Type of Plan: Strategy",
+     back:"<div class=\"def\">A comprehensive plan that includes: (1) determining long-term objectives, (2) adopting a particular course of action, (3) allocating resources to achieve the objective. Strategy is a standing plan formulated to face competitors/uncertain future situations.</div><div class=\"kw-row\"><span class=\"kw\">Strategy</span><span class=\"kw\">standing plan</span></div>"},
+    {cat:"Types of Plans", tag:"board", tagLabel:"Board Case Clue", front:"Type of Plan: Policy",
+     back:"<div class=\"def\">General statements that guide thinking/action in decision-making — provides a framework within which decisions should be made, e.g. 'promotion on the basis of seniority'. Policies exist at all levels.</div><div class=\"kw-row\"><span class=\"kw\">Policy</span><span class=\"kw\">standing plan</span></div>"},
+    {cat:"Types of Plans", tag:"board", tagLabel:"Board Case Clue", front:"Type of Plan: Procedure",
+     back:"<div class=\"def\">Specifies a chronological sequence of steps to be performed in order to accomplish a given task — describes the exact manner in which a certain activity has to be carried out. E.g. procedure for admitting a new student.</div><div class=\"kw-row\"><span class=\"kw\">Procedure</span><span class=\"kw\">chronological sequence</span></div>"},
+    {cat:"Types of Plans", tag:"board", tagLabel:"Board Case Clue", front:"Type of Plan: Method",
+     back:"<div class=\"def\">Provides the prescribed way/manner in which a particular task has to be performed, taking into account the objective. Methods relate to a single step/task within a procedure — e.g. the best method for a machine operator to handle raw material.</div><div class=\"kw-row\"><span class=\"kw\">Method</span><span class=\"kw\">single step within a procedure</span></div>"},
+    {cat:"Types of Plans", tag:"board", tagLabel:"Board Case Clue", front:"Type of Plan: Rule",
+     back:"<div class=\"def\">Specific statements that inform what is to be done and what is not to be done — they reflect a managerial decision that a certain action must (or must not) be taken. Rules leave no scope for discretion, e.g. 'No Smoking'.</div><div class=\"kw-row\"><span class=\"kw\">Rule</span><span class=\"kw\">no discretion</span></div>"},
+    {cat:"Types of Plans", tag:"board", tagLabel:"Board Case Clue", front:"Type of Plan: Programme",
+     back:"<div class=\"def\">A single-use plan — a comprehensive plan that includes a complex set of goals, policies, procedures, rules, task assignments, steps to be taken, resources to be employed to carry out a given course of action, e.g. an orientation programme for new employees.</div><div class=\"kw-row\"><span class=\"kw\">Programme</span><span class=\"kw\">single-use</span></div>"},
+    {cat:"Types of Plans", tag:"board", tagLabel:"Board Case Clue", front:"Type of Plan: Budget",
+     back:"<div class=\"def\">A single-use plan expressed in numerical terms for a set period in the future — states expected results in numerical terms, e.g. rupees, product units, man-hours. Since a budget is also a controlling device, comparing planned figures with actual results.</div><div class=\"kw-row\"><span class=\"kw\">Budget</span><span class=\"kw\">numerical terms, also a control device</span></div>"},
+    {cat:"Types of Plans", tag:"pitfall", tagLabel:"Distinction", front:"Distinction: Procedure vs Method",
+     back:"<div class=\"callout\"><div class=\"callout-label\">Procedure vs Method</div><ul class=\"pts\"><li><b>Procedure</b> is about the SEQUENCE OF STEPS for a whole task (multiple steps in a chronological order).</li><li><b>Method</b> is about HOW TO PERFORM a single step within that sequence (one specific technique).</li><li>A procedure may involve several methods for its various steps — method is more detailed/granular than a procedure.</li></ul></div>"},
+    {cat:"Case Study Toolkit", tag:"cuet", tagLabel:"CUET Fact", front:"Exam Technique: Distinguishing single-use vs standing plans in a case",
+     back:"<div class=\"def\">Ask: will this plan be used again for a similar situation in future, or is it for one specific, non-repeating event? A recurring guideline = standing plan (policy/procedure/rule/method/strategy). A one-time target/numeric figure/event = single-use plan (objective/budget/programme).</div><div class=\"kw-row\"><span class=\"kw\">single-use vs standing test</span></div>"},
+    {cat:"Case Study Toolkit", tag:"cuet", tagLabel:"CUET Fact", front:"Keyword-to-Type-of-Plan Quick Map (Part 1)",
+     back:"<div class=\"callout\"><div class=\"callout-label\">Case clue → Type of Plan</div><ul class=\"pts\"><li>'No employee shall use the office car for personal use' → Rule</li><li>'Steps to be followed, in order, to process a loan application' → Procedure</li><li>'Company decides to increase market share by 10% via aggressive discounting' → Strategy</li><li>'Recruitment shall give preference to internal candidates' → Policy</li><li>'₹50 lakh allocated for the marketing department for the quarter' → Budget</li></ul></div>"},
+    {cat:"Case Study Toolkit", tag:"cuet", tagLabel:"CUET Fact", front:"Keyword-to-Type-of-Plan Quick Map (Part 2)",
+     back:"<div class=\"callout\"><div class=\"callout-label\">Case clue → Type of Plan</div><ul class=\"pts\"><li>'A month-long induction plan with sessions, mentors and assessments for new hires' → Programme</li><li>'The specific way a machine operator should thread the fabric' → Method</li><li>'Achieve a 15% growth in revenue this year' → Objective</li></ul></div>"},
+    {cat:"Case Study Toolkit", tag:"pitfall", tagLabel:"Distinction", front:"Common Pitfall: Confusing Policy with Rule",
+     back:"<div class=\"callout\"><div class=\"callout-label\">Don't mix these up</div><ul class=\"pts\"><li><b>Policy</b> is a GENERAL GUIDELINE that leaves ROOM FOR MANAGERIAL DISCRETION/interpretation while deciding.</li><li><b>Rule</b> is a SPECIFIC, RIGID statement that leaves NO SCOPE for discretion — it must be followed exactly as stated.</li><li>Case clue: 'considered while deciding' = Policy; 'strictly must/must not' = Rule.</li></ul></div>"},
+    {cat:"Case Study Toolkit", tag:"pitfall", tagLabel:"Distinction", front:"Common Pitfall: Planning vs Forecasting",
+     back:"<div class=\"callout\"><div class=\"callout-label\">Key distinction</div><ul class=\"pts\"><li><b>Forecasting</b> is only PREDICTING future events (part of the planning premises step).</li><li><b>Planning</b> is a much broader process that includes setting objectives, evaluating alternatives, DECIDING and taking action — forecasting alone is not planning.</li></ul></div>"},
+    {cat:"Case Study Toolkit", tag:"worked", tagLabel:"Example", front:"Worked Example: Applying a Limitation of Planning",
+     back:"<div class=\"def\">Case line: 'Despite a detailed 5-year plan, the firm's sales collapsed overnight when a sudden regulatory ban was imposed on its core product.'</div><div class=\"def\">Answer: This illustrates the limitation <b>Planning May Not Work in a Dynamic Environment</b> — even a well-prepared plan can fail because the business environment is constantly changing and outside the firm's control.</div>"},
+    {cat:"Case Study Toolkit", tag:"worked", tagLabel:"Example", front:"Worked Example: Applying the Planning Process",
+     back:"<div class=\"def\">Case line: 'The company first decided to raise revenue by 20%, then assumed stable raw material prices, then compared expanding into a new city versus launching a new product line, before finally choosing to expand into a new city.'</div><div class=\"def\">Answer: This traces the first four steps of the <b>Planning Process</b>: Setting Objectives → Developing Premises → Identifying Alternative Courses of Action → Evaluating Alternative Courses, ending in Selecting an Alternative.</div>"},
+    {cat:"Case Study Toolkit", tag:"cuet", tagLabel:"CUET Fact", front:"Answer-Writing Format for Planning Case Questions",
+     back:"<ol class=\"steps\"><li>Identify and NAME the exact feature/limitation/type-of-plan/step being described.</li><li>QUOTE or paraphrase the specific line/clue from the case that supports your identification.</li><li>EXPLAIN briefly, in 1-2 lines, what the concept means and why the clue matches it.</li></ol><div class=\"kw-row\"><span class=\"kw\">Name → Quote → Explain</span></div>"},
+  ];
+
+  CARDS.forEach(function(c, i){ c.id = i; });
+
+  /* ===================== STATE ===================== */
+  var status = {};
+  var order = CARDS.map(function(c){ return c.id; });
+  var isShuffled = false;
+  var curPos = 0;
+  var mode = 'study';
+  var filter = 'all';
+  var typeFilter = 'all';
+  var topicFilter = 'all';
+  var flipped = false;
+
+  var CATEGORIES = (function(){
+    var seen = [], set = {};
+    CARDS.forEach(function(c){ if(!set[c.cat]){ set[c.cat] = true; seen.push(c.cat); } });
+    return seen;
+  })();
+
+  var CHAPTER_ID = 'planning';
+  var STORAGE_KEY = 'bst-flashcards-' + CHAPTER_ID + '-status';
+  var STREAK_KEY = 'bst-flashcards-' + CHAPTER_ID + '-streak';
+  function loadStatus(){
+    try{
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if(raw) status = JSON.parse(raw) || {};
+    }catch(e){ status = {}; }
+  }
+  function saveStatus(){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(status)); }catch(e){}
+  }
+  loadStatus();
+
+  var streak = 0;
+  try{ streak = parseInt(localStorage.getItem(STREAK_KEY), 10) || 0; }catch(e){ streak = 0; }
+  function saveStreak(){ try{ localStorage.setItem(STREAK_KEY, String(streak)); }catch(e){} }
+  var shownMilestones = {};
+
+  /* ===================== Theme (Light / Dark / Auto) ===================== */
+  var THEME_KEY = 'bst-flashcards-' + CHAPTER_ID + '-theme';
+  var THEME_ORDER = ['system', 'light', 'dark'];
+  var THEME_TITLE = { system:'Theme: Auto (follows device)', light:'Theme: Light', dark:'Theme: Dark' };
+  var themeToggle = document.getElementById('themeToggle');
+
+  function applyTheme(t){
+    if(t === 'dark' || t === 'light'){
+      document.documentElement.setAttribute('data-theme', t);
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      t = 'system';
+    }
+    if(themeToggle){
+      themeToggle.setAttribute('data-theme-state', t);
+      themeToggle.setAttribute('title', THEME_TITLE[t]);
+    }
+    try{ localStorage.setItem(THEME_KEY, t); }catch(e){}
+  }
+  (function initTheme(){
+    var saved = 'system';
+    try{ saved = localStorage.getItem(THEME_KEY) || 'system'; }catch(e){}
+    applyTheme(saved);
+  })();
+  if(themeToggle){
+    themeToggle.addEventListener('click', function(){
+      var current = themeToggle.getAttribute('data-theme-state') || 'system';
+      var next = THEME_ORDER[(THEME_ORDER.indexOf(current) + 1) % THEME_ORDER.length];
+      applyTheme(next);
+    });
+  }
+
+  /* ===================== DOM refs ===================== */
+  var el = {
+    card: document.getElementById('card'),
+    frontTag: document.getElementById('frontTag'),
+    frontCat: document.getElementById('frontCat'),
+    frontPrompt: document.getElementById('frontPrompt'),
+    backTag: document.getElementById('backTag'),
+    backContent: document.getElementById('backContent'),
+    backStatusDot: document.getElementById('backStatusDot'),
+    progressFill: document.getElementById('progressFill'),
+    progressLabel: document.getElementById('progressLabel'),
+    studyView: document.getElementById('studyView'),
+    gridView: document.getElementById('gridView'),
+    gridCards: document.getElementById('gridCards'),
+    gridEmpty: document.getElementById('gridEmpty'),
+    btnPrev: document.getElementById('btnPrev'),
+    btnNext: document.getElementById('btnNext'),
+    btnFlip: document.getElementById('btnFlip'),
+    btnShuffle: document.getElementById('btnShuffle'),
+    shuffleChip: document.getElementById('shuffleChip'),
+    resetOrderChip: document.getElementById('resetOrderChip'),
+    btnReview: document.getElementById('btnReview'),
+    btnMastered: document.getElementById('btnMastered'),
+    studyNav: document.getElementById('studyNav'),
+    cntAll: document.getElementById('cnt-all'),
+    cntReview: document.getElementById('cnt-review'),
+    cntMastered: document.getElementById('cnt-mastered'),
+    topicSelect: document.getElementById('topicSelect'),
+    streakChip: document.getElementById('streakChip'),
+    streakCount: document.getElementById('streakCount'),
+    masteryFill: document.getElementById('masteryFill'),
+    masteryLabel: document.getElementById('masteryLabel'),
+    levelBadge: document.getElementById('levelBadge'),
+    toastStack: document.getElementById('toastStack'),
+    burstLayer: document.getElementById('burstLayer'),
+    filtersToggle: document.getElementById('filtersToggle'),
+    filtersPanel: document.getElementById('filtersPanel'),
+    activeFilterCount: document.getElementById('activeFilterCount')
+  };
+
+  var tagClass = { board:'board', cuet:'cuet', process:'process', pitfall:'pitfall', worked:'worked' };
+
+  function passesFilters(id){
+    var c = CARDS[id];
+    if(filter === 'mastered' && status[id] !== 'mastered') return false;
+    if(filter === 'review' && status[id] !== 'review') return false;
+    if(typeFilter !== 'all' && c.tag !== typeFilter) return false;
+    if(topicFilter !== 'all' && c.cat !== topicFilter) return false;
+    return true;
+  }
+  function visibleIds(){ return order.filter(passesFilters); }
+
+  function renderCounts(){
+    var mastered = 0, review = 0;
+    var typeCounts = { board:0, cuet:0, process:0, pitfall:0, worked:0 };
+    CARDS.forEach(function(c){
+      if(status[c.id] === 'mastered') mastered++;
+      else if(status[c.id] === 'review') review++;
+      typeCounts[c.tag]++;
+    });
+    el.cntAll.textContent = CARDS.length;
+    el.cntReview.textContent = review;
+    el.cntMastered.textContent = mastered;
+    Object.keys(typeCounts).forEach(function(t){
+      var node = document.getElementById('cnt-type-' + t);
+      if(node) node.textContent = typeCounts[t];
+    });
+    updateMasteryUI(mastered);
+    updateActiveFilterCount();
+  }
+
+  function updateActiveFilterCount(){
+    var n = 0;
+    if(filter !== 'all') n++;
+    if(typeFilter !== 'all') n++;
+    if(topicFilter !== 'all') n++;
+    if(n > 0){
+      el.activeFilterCount.style.display = 'inline';
+      el.activeFilterCount.textContent = n + ' active';
+    } else {
+      el.activeFilterCount.style.display = 'none';
+    }
+  }
+
+  function initTopicSelect(){
+    CATEGORIES.forEach(function(cat){
+      var count = CARDS.filter(function(c){ return c.cat === cat; }).length;
+      var opt = document.createElement('option');
+      opt.value = cat;
+      opt.textContent = cat + ' (' + count + ')';
+      el.topicSelect.appendChild(opt);
+    });
+  }
+  initTopicSelect();
+
+  /* ===================== Gamification ===================== */
+  var LEVELS = [
+    { min: 0,   cls:'lv-rookie', label:'Rookie' },
+    { min: 25,  cls:'lv-solid',  label:'Warming Up' },
+    { min: 50,  cls:'lv-sharp',  label:'Sharp' },
+    { min: 75,  cls:'lv-ace',    label:'Ace' },
+    { min: 100, cls:'lv-ace',    label:'Mastered ⭐' }
+  ];
+  var lastPct = -1;
+
+  function updateMasteryUI(mastered){
+    var total = CARDS.length || 1;
+    var pct = Math.round((mastered / total) * 100);
+    if(el.masteryFill) el.masteryFill.style.width = pct + '%';
+    if(el.masteryLabel) el.masteryLabel.textContent = mastered + ' / ' + CARDS.length + ' mastered';
+    if(el.levelBadge){
+      var lvl = LEVELS[0];
+      LEVELS.forEach(function(l){ if(pct >= l.min) lvl = l; });
+      el.levelBadge.textContent = lvl.label;
+      el.levelBadge.className = 'level-badge ' + lvl.cls;
+    }
+    checkMilestones(pct, mastered, total);
+    lastPct = pct;
+  }
+
+  function checkMilestones(pct, mastered, total){
+    if(lastPct < 0) return;
+    [25, 50, 75].forEach(function(m){
+      if(pct >= m && lastPct < m && !shownMilestones['pct'+m]){
+        shownMilestones['pct'+m] = true;
+        showToast('💪 ' + m + '% of the chapter mastered — keep going!');
+      }
+    });
+    if(mastered === total && total > 0 && lastPct < 100 && !shownMilestones.complete){
+      shownMilestones.complete = true;
+      showToast('🏆 Deck cleared! Every card in this chapter is mastered.');
+      spawnBurst();
+    }
+  }
+
+  function updateStreakUI(){
+    if(!el.streakChip) return;
+    el.streakCount.textContent = streak;
+    el.streakChip.classList.toggle('hot', streak >= 3);
+    if(streak > 0 && streak % 5 === 0 && !shownMilestones['streak'+streak]){
+      shownMilestones['streak'+streak] = true;
+      showToast('🔥 ' + streak + ' in a row! You are on fire.');
+    }
+  }
+
+  function showToast(text){
+    if(!el.toastStack) return;
+    var t = document.createElement('div');
+    t.className = 'toast';
+    t.textContent = text;
+    el.toastStack.appendChild(t);
+    setTimeout(function(){
+      t.classList.add('leaving');
+      setTimeout(function(){ t.remove(); }, 320);
+    }, 2600);
+  }
+
+  function spawnBurst(){
+    if(!el.burstLayer) return;
+    var colors = ['var(--emerald)', 'var(--amber)', 'var(--cyan)', 'var(--violet)'];
+    for(var i = 0; i < 26; i++){
+      var p = document.createElement('div');
+      p.className = 'burst-piece';
+      var angle = Math.random() * Math.PI * 2;
+      var dist = 90 + Math.random() * 160;
+      p.style.setProperty('--tx', (Math.cos(angle) * dist) + 'px');
+      p.style.setProperty('--ty', (Math.sin(angle) * dist - 40) + 'px');
+      p.style.setProperty('--rot', (Math.random()*520 - 260) + 'deg');
+      p.style.background = colors[i % colors.length];
+      p.style.borderRadius = (i % 3 === 0) ? '50%' : '2px';
+      p.style.left = (45 + Math.random()*10) + '%';
+      p.style.top = '38%';
+      el.burstLayer.appendChild(p);
+      (function(node){ setTimeout(function(){ node.remove(); }, 950); })(p);
+    }
+  }
+
+  function typeset(){ /* no-op: no math rendering needed for this subject */ }
+
+  function clampPos(){
+    var ids = visibleIds();
+    if(ids.length === 0){ curPos = 0; return; }
+    if(curPos >= ids.length) curPos = ids.length - 1;
+    if(curPos < 0) curPos = 0;
+  }
+
+  function renderStudy(){
+    var ids = visibleIds();
+    clampPos();
+    if(ids.length === 0){
+      el.frontPrompt.textContent = 'No cards in this filter yet.';
+      el.frontTag.textContent = '—';
+      el.frontCat.textContent = '';
+      el.backContent.textContent = 'Switch filters above to keep studying.';
+      el.progressLabel.textContent = '0 of 0';
+      el.progressFill.style.width = '0%';
+      return;
+    }
+    var id = ids[curPos];
+    var c = CARDS[id];
+    flipped = false;
+    el.card.classList.remove('flipped');
+
+    el.frontTag.textContent = c.tagLabel;
+    el.frontTag.className = 'tag ' + tagClass[c.tag];
+    el.frontCat.textContent = c.cat;
+    el.frontPrompt.innerHTML = c.front;
+
+    el.backTag.textContent = c.tagLabel;
+    el.backTag.className = 'tag ' + tagClass[c.tag];
+    el.backContent.innerHTML = c.back;
+
+    var st = status[c.id];
+    el.backStatusDot.className = 'status-dot' + (st ? ' ' + st : '');
+    el.btnReview.classList.toggle('active', st === 'review');
+    el.btnMastered.classList.toggle('active', st === 'mastered');
+
+    el.progressLabel.textContent = 'Card ' + (curPos+1) + ' of ' + ids.length;
+    el.progressFill.style.width = (((curPos+1)/ids.length)*100) + '%';
+    typeset();
+  }
+
+  function renderGrid(){
+    var visible = {};
+    visibleIds().forEach(function(id){ visible[id] = true; });
+    el.gridCards.innerHTML = '';
+    var shown = 0;
+    CATEGORIES.forEach(function(cat){
+      var catIds = CARDS.filter(function(c){ return c.cat === cat && visible[c.id]; }).map(function(c){ return c.id; });
+      if(catIds.length === 0) return;
+      var header = document.createElement('div');
+      header.className = 'grid-section-header';
+      header.innerHTML = '<h2>' + cat + '</h2><span class="n">' + catIds.length + ' card' + (catIds.length === 1 ? '' : 's') + '</span>';
+      el.gridCards.appendChild(header);
+      catIds.forEach(function(id){
+        shown++;
+        var c = CARDS[id];
+        var st = status[c.id];
+        var wrap = document.createElement('div');
+        wrap.className = 'mini-card';
+        wrap.innerHTML =
+          '<div class="mini-status ' + (st||'') + '"></div>' +
+          '<div class="mini-idx">#' + (id+1) + '</div>' +
+          '<span class="tag ' + tagClass[c.tag] + '">' + c.tagLabel + '</span>' +
+          '<div class="mini-front">' + c.front + '</div>' +
+          '<div class="mini-back">' + c.back + '</div>' +
+          '<div class="mini-flip-note">TAP TO FLIP</div>';
+        wrap.addEventListener('click', function(){
+          wrap.classList.toggle('flipped');
+          typeset();
+        });
+        el.gridCards.appendChild(wrap);
+      });
+    });
+    el.gridEmpty.style.display = shown ? 'none' : 'block';
+    typeset();
+  }
+
+  function render(){
+    renderCounts();
+    if(mode === 'study') renderStudy();
+    else renderGrid();
+  }
+
+  /* ===================== Interactions ===================== */
+  el.card.addEventListener('click', function(){
+    flipped = !flipped;
+    el.card.classList.toggle('flipped', flipped);
+  });
+  el.btnFlip.addEventListener('click', function(e){
+    e.stopPropagation();
+    flipped = !flipped;
+    el.card.classList.toggle('flipped', flipped);
+  });
+
+  function go(delta){
+    var ids = visibleIds();
+    if(ids.length === 0) return;
+    curPos = (curPos + delta + ids.length) % ids.length;
+    renderStudy();
+  }
+  el.btnPrev.addEventListener('click', function(){ go(-1); });
+  el.btnNext.addEventListener('click', function(){ go(1); });
+
+  function shuffle(){
+    var arr = order.slice();
+    for(var i = arr.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i+1));
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    order = arr;
+    isShuffled = true;
+    curPos = 0;
+    el.resetOrderChip.style.display = 'inline-flex';
+    render();
+  }
+  el.btnShuffle.addEventListener('click', shuffle);
+  el.shuffleChip.addEventListener('click', shuffle);
+  el.resetOrderChip.addEventListener('click', function(){
+    order = CARDS.map(function(c){ return c.id; });
+    isShuffled = false;
+    curPos = 0;
+    el.resetOrderChip.style.display = 'none';
+    render();
+  });
+
+  function setStatusFor(id, value){
+    var prev = status[id];
+    if(prev === value){
+      delete status[id];
+      if(value === 'mastered'){ streak = Math.max(0, streak - 1); }
+    } else {
+      status[id] = value;
+      if(value === 'mastered'){ streak++; }
+      else { streak = 0; }
+    }
+    saveStatus();
+    saveStreak();
+    updateStreakUI();
+    render();
+  }
+  el.btnReview.addEventListener('click', function(e){
+    e.stopPropagation();
+    var ids = visibleIds();
+    if(!ids.length) return;
+    setStatusFor(ids[curPos], 'review');
+  });
+  el.btnMastered.addEventListener('click', function(e){
+    e.stopPropagation();
+    var ids = visibleIds();
+    if(!ids.length) return;
+    setStatusFor(ids[curPos], 'mastered');
+  });
+
+  document.querySelectorAll('.mode-tab').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.mode-tab').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      mode = btn.getAttribute('data-mode');
+      el.studyView.style.display = mode === 'study' ? 'flex' : 'none';
+      el.gridView.style.display = mode === 'grid' ? 'block' : 'none';
+      el.studyNav.style.display = mode === 'study' ? 'flex' : 'none';
+      render();
+    });
+  });
+
+  document.querySelectorAll('.chip[data-filter]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.chip[data-filter]').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      filter = btn.getAttribute('data-filter');
+      curPos = 0;
+      render();
+    });
+  });
+
+  document.querySelectorAll('.type-chip').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.type-chip').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      typeFilter = btn.getAttribute('data-type');
+      curPos = 0;
+      render();
+    });
+  });
+
+  el.topicSelect.addEventListener('change', function(){
+    topicFilter = el.topicSelect.value;
+    curPos = 0;
+    render();
+  });
+
+  /* Collapsible filters widget */
+  el.filtersToggle.addEventListener('click', function(){
+    var isOpen = el.filtersPanel.classList.toggle('open');
+    el.filtersToggle.classList.toggle('open', isOpen);
+    el.filtersToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+
+  document.addEventListener('keydown', function(e){
+    if(mode !== 'study') return;
+    if(e.code === 'Space' || e.code === 'ArrowUp'){
+      e.preventDefault();
+      flipped = !flipped;
+      el.card.classList.toggle('flipped', flipped);
+    } else if(e.code === 'ArrowLeft'){
+      e.preventDefault(); go(-1);
+    } else if(e.code === 'ArrowRight'){
+      e.preventDefault(); go(1);
+    } else if(e.key === 'r' || e.key === 'R'){
+      e.preventDefault(); shuffle();
+    }
+  });
+
+  updateStreakUI();
+  render();
+})();
+</script>
+</body>
+</html>

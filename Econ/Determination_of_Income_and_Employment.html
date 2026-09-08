@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Determination of Income and Employment — Flashcards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#070B14;
+    --bg-1:#0B1220;
+    --bg-2:#0F1830;
+    --glass:rgba(255,255,255,0.055);
+    --glass-strong:rgba(255,255,255,0.09);
+    --border:rgba(255,255,255,0.12);
+    --border-soft:rgba(255,255,255,0.07);
+    --text-hi:#EEF2F9;
+    --text-mid:#AAB4C7;
+    --text-low:#6C7690;
+    --emerald:#33E6A4;
+    --cyan:#3FD9FF;
+    --amber:#FFC24B;
+    --crimson:#FF6B81;
+    --violet:#B79CFF;
+    --shadow:0 20px 60px rgba(0,0,0,0.45);
+    --radius-lg:22px;
+    --radius-md:14px;
+    --radius-sm:9px;
+  }
+  [data-theme="light"]{
+    --bg-0:#EFF3FA;
+    --bg-1:#F6F8FC;
+    --bg-2:#E7ECF6;
+    --glass:rgba(255,255,255,0.75);
+    --glass-strong:rgba(255,255,255,0.92);
+    --border:rgba(15,24,48,0.10);
+    --border-soft:rgba(15,24,48,0.06);
+    --text-hi:#0E1526;
+    --text-mid:#4A5573;
+    --text-low:#8994AC;
+    --emerald:#0FA870;
+    --cyan:#0090C4;
+    --amber:#B77A00;
+    --crimson:#D43A57;
+    --violet:#6E4CD9;
+    --shadow:0 20px 50px rgba(20,30,60,0.12);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;height:100%;}
+  body{
+    font-family:'IBM Plex Sans', sans-serif;
+    background:
+      radial-gradient(circle at 12% 8%, rgba(63,217,255,0.10), transparent 40%),
+      radial-gradient(circle at 88% 92%, rgba(51,230,164,0.09), transparent 42%),
+      linear-gradient(180deg, var(--bg-0), var(--bg-1) 45%, var(--bg-2));
+    color:var(--text-hi);
+    min-height:100vh;
+    transition:background .4s ease, color .4s ease;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:112px;
+  }
+  h1,h2,h3, .display{font-family:'Sora', sans-serif;}
+
+  /* ============ TOP BAR ============ */
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 20px 8px;
+    max-width:920px; margin:0 auto;
+  }
+  .brand{display:flex; flex-direction:column; gap:2px;}
+  .brand .eyebrow{
+    font-size:12.5px; color:var(--cyan); font-weight:600; letter-spacing:0.02em;
+  }
+  .brand h1{
+    font-size:20px; margin:0; font-weight:700; line-height:1.15;
+    background:linear-gradient(90deg, var(--text-hi), var(--cyan));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .top-actions{display:flex; gap:8px;}
+  .icon-btn{
+    width:40px; height:40px; border-radius:12px;
+    background:var(--glass); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; color:var(--text-hi);
+    transition:transform .15s ease, background .2s ease, border-color .2s ease;
+  }
+  .icon-btn:hover{background:var(--glass-strong); transform:translateY(-1px);}
+  .icon-btn svg{width:18px; height:18px;}
+
+  /* ============ PROGRESS ============ */
+  .progress-wrap{
+    max-width:920px; margin:6px auto 0; padding:0 20px;
+  }
+  .progress-row{
+    display:flex; align-items:center; justify-content:space-between;
+    font-size:13px; color:var(--text-mid); margin-bottom:7px;
+  }
+  .progress-row .count strong{color:var(--emerald); font-weight:700;}
+  .progress-track{
+    height:5px; border-radius:99px; background:var(--border-soft); overflow:hidden;
+  }
+  .progress-fill{
+    height:100%; border-radius:99px;
+    background:linear-gradient(90deg, var(--cyan), var(--emerald));
+    transition:width .35s cubic-bezier(.4,0,.2,1);
+  }
+
+  /* ============ FILTER PANEL ============ */
+  .filter-shell{max-width:920px; margin:14px auto 0; padding:0 20px;}
+  .filter-toggle{
+    display:flex; align-items:center; gap:8px;
+    background:var(--glass); border:1px solid var(--border);
+    border-radius:12px; padding:9px 14px; cursor:pointer;
+    font-size:13.5px; color:var(--text-mid); width:fit-content;
+    user-select:none;
+  }
+  .filter-toggle svg{width:15px; height:15px; transition:transform .2s ease;}
+  .filter-toggle.open svg.chev{transform:rotate(180deg);}
+  .filter-panel{
+    max-height:0; overflow:hidden; transition:max-height .3s ease, margin .3s ease;
+  }
+  .filter-panel.open{max-height:400px; margin-top:10px;}
+  .chip-row{display:flex; flex-wrap:wrap; gap:8px; padding:2px 2px 4px;}
+  .chip{
+    padding:8px 13px; border-radius:99px; font-size:12.5px; font-weight:600;
+    border:1px solid var(--border); background:var(--glass); color:var(--text-mid);
+    cursor:pointer; transition:all .15s ease; white-space:nowrap;
+  }
+  .chip[data-active="true"]{
+    color:var(--bg-0); border-color:transparent;
+  }
+  .chip-sub{display:flex; gap:8px; align-items:center; margin-top:4px;}
+  .mini-toggle{
+    font-size:12px; color:var(--text-mid); background:var(--glass);
+    border:1px solid var(--border); padding:7px 12px; border-radius:10px; cursor:pointer;
+  }
+  .mini-toggle[data-active="true"]{border-color:var(--crimson); color:var(--crimson);}
+
+  /* ============ STAGE ============ */
+  .stage{
+    max-width:640px; margin:22px auto 0; padding:0 20px;
+    perspective:1800px;
+  }
+  .card-badge-row{
+    display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;
+  }
+  .exam-badge{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:11.5px; font-weight:700; letter-spacing:0.01em;
+    padding:6px 11px; border-radius:99px; color:var(--bg-0);
+  }
+  .mastery-pill{
+    font-size:11.5px; font-weight:600; padding:5px 10px; border-radius:99px;
+    background:var(--glass); border:1px solid var(--border); color:var(--text-mid);
+  }
+  .mastery-pill[data-state="mastered"]{color:var(--emerald); border-color:var(--emerald);}
+
+  .flip-zone{
+    position:relative; width:100%; min-height:400px; cursor:pointer;
+  }
+  .flip-inner{
+    position:relative; width:100%; height:100%; min-height:400px;
+    transform-style:preserve-3d; transition:transform .55s cubic-bezier(.4,0.1,.2,1);
+  }
+  .flip-inner.flipped{transform:rotateY(180deg);}
+  .face{
+    position:absolute; inset:0; backface-visibility:hidden;
+    border-radius:var(--radius-lg);
+    background:var(--glass); border:1px solid var(--border);
+    box-shadow:var(--shadow);
+    padding:26px 26px 22px;
+    display:flex; flex-direction:column;
+    backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
+    overflow-y:auto;
+  }
+  .face::-webkit-scrollbar{width:6px;}
+  .face::-webkit-scrollbar-thumb{background:var(--border); border-radius:99px;}
+  .face-front{justify-content:center; align-items:center; text-align:center;}
+  .face-back{transform:rotateY(180deg); justify-content:flex-start;}
+
+  .front-tag{
+    font-size:11px; text-transform:none; color:var(--text-low);
+    font-weight:600; margin-bottom:14px; letter-spacing:0.03em;
+  }
+  .front-prompt{
+    font-family:'Sora', sans-serif; font-weight:700; font-size:22px; line-height:1.35;
+    color:var(--text-hi);
+  }
+  .front-hint{
+    margin-top:16px; font-size:12.5px; color:var(--text-low); font-style:normal;
+  }
+  .flip-cue{
+    position:absolute; bottom:16px; right:18px; font-size:11px; color:var(--text-low);
+    display:flex; align-items:center; gap:5px;
+  }
+
+  .back-title{
+    font-family:'Sora', sans-serif; font-weight:700; font-size:16.5px; margin:0 0 12px;
+    color:var(--text-hi); padding-right:70px;
+  }
+  .section-block{margin-bottom:14px;}
+  .section-label{
+    font-size:11px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase;
+    margin-bottom:6px; display:flex; align-items:center; gap:6px;
+  }
+  .section-label.def{color:var(--cyan);}
+  .section-label.formula{color:var(--amber);}
+  .section-label.graph{color:var(--violet);}
+  .section-label.pitfall{color:var(--crimson);}
+  ul.bullets{margin:0; padding-left:18px;}
+  ul.bullets li{font-size:14px; line-height:1.55; color:var(--text-mid); margin-bottom:5px;}
+  ul.bullets li strong{color:var(--text-hi); font-weight:600;}
+  .formula-box{
+    font-family:'IBM Plex Mono', monospace; font-size:13.5px; font-weight:600;
+    background:var(--glass-strong); border:1px solid var(--border-soft);
+    border-radius:var(--radius-sm); padding:9px 12px; margin-bottom:6px;
+    color:var(--amber); line-height:1.5; white-space:pre-wrap;
+  }
+
+  /* ============ NAV CLUSTER ============ */
+  .nav-cluster{
+    position:fixed; bottom:18px; left:50%; transform:translateX(-50%);
+    display:flex; align-items:center; gap:8px;
+    background:var(--glass-strong); border:1px solid var(--border);
+    border-radius:20px; padding:9px; box-shadow:var(--shadow);
+    backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+    z-index:40;
+  }
+  .nav-btn{
+    width:46px; height:46px; border-radius:14px; border:none; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    background:transparent; color:var(--text-hi); transition:background .15s ease, transform .15s ease;
+  }
+  .nav-btn:hover{background:var(--border-soft);}
+  .nav-btn:active{transform:scale(0.92);}
+  .nav-btn svg{width:19px; height:19px;}
+  .nav-btn.primary{
+    background:linear-gradient(135deg, var(--emerald), var(--cyan));
+    color:#04140F; width:52px; height:52px; border-radius:16px;
+  }
+  .nav-btn.primary:hover{filter:brightness(1.08);}
+  .nav-divider{width:1px; height:26px; background:var(--border);}
+
+  /* ============ GRID VIEW ============ */
+  .grid-shell{max-width:920px; margin:20px auto 0; padding:0 20px; display:none;}
+  .grid-shell.active{display:block;}
+  .stage.hidden{display:none;}
+  .search-box{
+    display:flex; align-items:center; gap:9px;
+    background:var(--glass); border:1px solid var(--border); border-radius:12px;
+    padding:10px 14px; margin-bottom:14px;
+  }
+  .search-box svg{width:16px; height:16px; color:var(--text-low); flex-shrink:0;}
+  .search-box input{
+    background:transparent; border:none; outline:none; color:var(--text-hi);
+    font-size:14px; width:100%; font-family:'IBM Plex Sans', sans-serif;
+  }
+  .search-box input::placeholder{color:var(--text-low);}
+  .grid-list{display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:12px;}
+  .grid-card{
+    background:var(--glass); border:1px solid var(--border); border-radius:var(--radius-md);
+    padding:15px; cursor:pointer; transition:transform .15s ease, border-color .15s ease;
+  }
+  .grid-card:hover{transform:translateY(-2px); border-color:var(--border);}
+  .grid-card .gc-badge{
+    font-size:10px; font-weight:700; padding:4px 8px; border-radius:99px; color:var(--bg-0);
+    display:inline-block; margin-bottom:9px;
+  }
+  .grid-card h4{margin:0 0 6px; font-size:14.5px; font-family:'Sora',sans-serif; color:var(--text-hi); line-height:1.3;}
+  .grid-card p{margin:0; font-size:12.5px; color:var(--text-mid); line-height:1.5;}
+  .grid-card .gc-mastered{
+    margin-top:9px; font-size:11px; font-weight:600; color:var(--emerald);
+  }
+
+  .empty-state{
+    text-align:center; padding:60px 20px; color:var(--text-mid);
+  }
+  .empty-state svg{width:40px; height:40px; opacity:0.5; margin-bottom:12px;}
+  .empty-state h3{font-size:16px; color:var(--text-hi); margin:0 0 6px;}
+  .empty-state p{font-size:13.5px; margin:0;}
+
+  .kbd-hint{
+    text-align:center; font-size:11.5px; color:var(--text-low); margin-top:16px;
+    max-width:640px; margin-left:auto; margin-right:auto; padding:0 20px;
+  }
+  .kbd-hint kbd{
+    background:var(--glass); border:1px solid var(--border); border-radius:5px;
+    padding:1px 6px; font-family:'IBM Plex Mono', monospace; font-size:10.5px;
+  }
+
+  @media (max-width:480px){
+    .front-prompt{font-size:19px;}
+    .flip-zone{min-height:430px;}
+    .flip-inner{min-height:430px;}
+    .face{padding:22px 18px 18px;}
+    .back-title{padding-right:0;}
+  }
+</style>
+</head>
+<body data-theme="dark"><a href="index.html" id="__fcBackBtn" title="Back to chapter list" style="position:fixed;top:10px;left:10px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;background:rgba(15,20,35,0.72);color:#fff;font:600 12.5px -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;text-decoration:none;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 4px 14px rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.14);">&#8592;&nbsp;Chapters</a><style>body{padding-top:46px}</style>
+
+<div class="topbar">
+  <div class="brand">
+    <span class="eyebrow">CBSE Class XII · Macroeconomics</span>
+    <h1>Determination of Income and Employment</h1>
+  </div>
+  <div class="top-actions">
+    <div class="icon-btn" id="gridToggleBtn" title="Toggle grid view">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    </div>
+    <div class="icon-btn" id="themeToggleBtn" title="Toggle theme">
+      <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8L6 18M18 6l1.8-1.8"/></svg>
+    </div>
+  </div>
+</div>
+
+<div class="progress-wrap" id="progressWrap">
+  <div class="progress-row">
+    <span class="count">Card <strong id="cardIndex">1</strong> of <span id="cardTotal">…</span></span>
+    <span id="deckLabel">All cards</span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+</div>
+
+<div class="filter-shell">
+  <div class="filter-toggle" id="filterToggle">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+    <span>Filter categories &amp; review status</span>
+    <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="filter-panel" id="filterPanel">
+    <div class="chip-row" id="chipRow"></div>
+    <div class="chip-sub">
+      <div class="mini-toggle" id="needsReviewToggle">Show only: Needs Review</div>
+    </div>
+  </div>
+</div>
+
+<div class="stage" id="stage">
+  <div class="card-badge-row">
+    <span class="exam-badge" id="examBadge">Curve &amp; Graph Shift</span>
+    <span class="mastery-pill" id="masteryPill" data-state="review">Needs Review</span>
+  </div>
+
+  <div class="flip-zone" id="flipZone">
+    <div class="flip-inner" id="flipInner">
+      <div class="face face-front">
+        <div class="front-tag" id="frontTag">Concept</div>
+        <div class="front-prompt" id="frontPrompt">Loading…</div>
+        <div class="flip-cue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3.2-6.9M21 3v6h-6"/></svg>
+          Tap to flip
+        </div>
+      </div>
+      <div class="face face-back" id="backFace">
+      </div>
+    </div>
+  </div>
+  <div class="kbd-hint">
+    <kbd>Space</kbd> flip · <kbd>&larr;</kbd> <kbd>&rarr;</kbd> navigate · <kbd>R</kbd> shuffle
+  </div>
+</div>
+
+<div class="grid-shell" id="gridShell">
+  <div class="search-box">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    <input type="text" id="gridSearch" placeholder="Search formulas, terms, schemes…">
+  </div>
+  <div class="grid-list" id="gridList"></div>
+</div>
+
+<div class="nav-cluster">
+  <button class="nav-btn" id="prevBtn" title="Previous (Left arrow)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <button class="nav-btn" id="shuffleBtn" title="Shuffle (R)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+  </button>
+  <div class="nav-divider"></div>
+  <button class="nav-btn primary" id="flipBtn" title="Flip (Space)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2.1l4 4-4 4M3 12.7V12A8 8 0 0 1 17 6.3M7 21.9l-4-4 4-4M21 11.3V12a8 8 0 0 1-14 5.7"/></svg>
+  </button>
+  <div class="nav-divider"></div>
+  <button class="nav-btn" id="masterBtn" title="Toggle mastered">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+  </button>
+  <button class="nav-btn" id="nextBtn" title="Next (Right arrow)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+</div>
+
+<script>
+/* ================= CATEGORY DEFINITIONS + CARD DATA (injected per chapter) ================= */
+/* ================= CARD DATA ================= */
+const CATEGORIES = {
+  core:      { label:"Core Concepts",             color:"var(--cyan)"    },
+  formula:   { label:"Formulas & Numericals",     color:"var(--amber)"  },
+  aggregate: { label:"Curves & Multiplier",       color:"var(--emerald)"},
+  pitfall:   { label:"Common Pitfalls",           color:"var(--crimson)"},
+  cuet:      { label:"CUET Shortcuts & Facts",    color:"var(--violet)" }
+};
+
+const CARDS = [
+{id:1, cat:"core", badge:"Board Concept", tag:"Aggregate Demand",
+ front:"What is Aggregate Demand (AD), and what are its components in a two-sector economy?",
+ back:{title:"Aggregate Demand (AD)",
+  def:["Aggregate Demand is the total value of final goods and services that all sectors of the economy plan to buy during a given period, at a given level of income","In a simple two-sector economy (households + firms): AD = Consumption (C) + Investment (I)"],
+  formulas:["AD = C + I  (two-sector, closed economy without government)"]}},
+
+{id:2, cat:"core", badge:"Board Concept", tag:"Aggregate Supply",
+ front:"What is Aggregate Supply (AS), and how is it related to National Income?",
+ back:{title:"Aggregate Supply (AS)",
+  def:["Aggregate Supply is the total value of final goods and services that all producer units plan to produce/sell during a given period, at a given level of income","AS is measured as the sum of factor payments made in the production process — hence AS is treated as identical to National Income (Y): <strong>AS = C + S</strong> (income is either consumed or saved)"],
+  formulas:["AS = Y = C + S"]}},
+
+{id:3, cat:"core", badge:"Board Numerical Clue", tag:"Consumption Function",
+ front:"Write the Consumption Function and explain Autonomous Consumption.",
+ back:{title:"Consumption Function",
+  formulas:["C = C̄ + cY", "where C̄ = Autonomous Consumption, c = Marginal Propensity to Consume, Y = Income"],
+  def:["<strong>Autonomous Consumption (C̄):</strong> the minimum consumption that occurs even at zero income — financed by past savings or borrowing, needed for survival","As income (Y) rises, total consumption rises by the fraction 'c' of that additional income"]}},
+
+{id:4, cat:"formula", badge:"Board Numerical Clue", tag:"MPC and MPS",
+ front:"Define Marginal Propensity to Consume (MPC) and Marginal Propensity to Save (MPS), and state their relationship.",
+ back:{title:"MPC and MPS",
+  formulas:["MPC (c) = ΔC / ΔY", "MPS (s) = ΔS / ΔY", "MPC + MPS = 1"],
+  def:["MPC shows the fraction of every additional rupee of income that is spent on consumption","MPS shows the fraction of every additional rupee of income that is saved","Since income is either consumed or saved, MPC and MPS must always sum to exactly 1"]}},
+
+{id:5, cat:"formula", badge:"Board Numerical Clue", tag:"APC and APS",
+ front:"Define Average Propensity to Consume (APC) and Average Propensity to Save (APS).",
+ back:{title:"APC and APS",
+  formulas:["APC = C / Y", "APS = S / Y", "APC + APS = 1"],
+  pitfalls:["APC can exceed 1 when consumption exceeds income (dissaving) at low income levels — a subtle numerical trap; MPC, by contrast, normally lies between 0 and 1"]}},
+
+{id:6, cat:"formula", badge:"Board Numerical Clue", tag:"Saving Function",
+ front:"Derive the Saving Function from the Consumption Function.",
+ back:{title:"Saving Function",
+  formulas:["Since Y = C + S, and C = C̄ + cY:", "S = Y − C = Y − C̄ − cY = −C̄ + (1−c)Y", "S = −C̄ + sY   (where s = MPS = 1 − c)"],
+  def:["At zero income, saving is negative and equal to −C̄ (dissaving), since the household must still finance autonomous consumption"]}},
+
+{id:7, cat:"core", badge:"Curve & Graph Shift", tag:"Equilibrium — AD-AS Approach",
+ front:"State the equilibrium condition for income determination using the AD-AS approach.",
+ back:{title:"Equilibrium: AD = AS Approach",
+  formulas:["Equilibrium: AD = AS", "i.e.  C + I = C + S", "⇒  I = S  (Investment = Saving)"],
+  graphRules:["On a graph with Y on the x-axis and AD on the y-axis, the AD curve (C+I) intersects the 45° line (AS = Y) at the equilibrium level of income"]}},
+
+{id:8, cat:"aggregate", badge:"Curve & Graph Shift", tag:"Excess Demand & Excess Supply",
+ front:"Explain the adjustment process when AD ≠ AS (Excess Demand and Deficient Demand).",
+ back:{title:"Excess Demand / Deficient Demand — Adjustment Process",
+  def:["<strong>Excess Demand (AD &gt; AS):</strong> planned spending exceeds planned output → unplanned fall in inventories (unintended negative investment) → producers raise output in the next period → income rises until AD = AS is restored","<strong>Deficient Demand (AD &lt; AS):</strong> planned spending falls short of planned output → unplanned pile-up of inventories (unintended positive investment) → producers cut output → income falls until AD = AS is restored"],
+  graphRules:["The gap AD − AS at the existing income level equals unplanned/unintended investment (positive if AS > AD, negative if AD > AS)"]}},
+
+{id:9, cat:"formula", badge:"Board Numerical Clue", tag:"Investment Multiplier",
+ front:"Write the Investment Multiplier formula and explain what it measures.",
+ back:{title:"Investment Multiplier (k)",
+  formulas:["k = ΔY / ΔI = 1 / (1 − MPC) = 1 / MPS"],
+  def:["The multiplier measures how many times a given initial change in autonomous investment (or any autonomous expenditure) changes final equilibrium income","A <strong>higher MPC</strong> (lower MPS) produces a <strong>larger</strong> multiplier, because more of each round of extra income is re-spent"]}},
+
+{id:10, cat:"formula", badge:"Board Numerical Clue", tag:"Multiplier — Worked Example",
+ front:"If MPC = 0.8 and autonomous investment rises by ₹100 crore, find the total change in equilibrium income.",
+ back:{title:"Multiplier — Worked Numerical",
+  formulas:["k = 1 / (1 − MPC) = 1 / (1 − 0.8) = 1 / 0.2 = 5", "ΔY = k × ΔI = 5 × 100 = ₹500 crore"],
+  def:["Round-by-round logic: ₹100cr spent → ₹80cr re-spent (0.8×100) → ₹64cr re-spent (0.8×80) → … sums to ₹500cr in total"]}},
+
+{id:11, cat:"aggregate", badge:"Curve & Graph Shift", tag:"Multiplier Process Diagram",
+ front:"Describe how a rise in autonomous investment shifts the AD curve and equilibrium income.",
+ back:{title:"Multiplier Process — Graphical Effect",
+  graphRules:["An increase in autonomous investment shifts the entire AD curve (C+I line) <strong>vertically upward</strong> by the amount of the increase, parallel to the original line","The new intersection with the 45° line occurs at a <strong>higher</strong> income level — and the horizontal (income) increase is larger than the vertical (investment) increase, by the multiplier factor k"]}},
+
+{id:12, cat:"core", badge:"Board Concept", tag:"Involuntary Unemployment",
+ front:"What is meant by Involuntary Unemployment in the Keynesian framework, and what is 'Full Employment'?",
+ back:{title:"Involuntary Unemployment and Full Employment",
+  def:["<strong>Involuntary unemployment:</strong> a situation where workers are willing to work at the prevailing wage rate but cannot find jobs, due to deficiency of aggregate demand","<strong>Full employment:</strong> a situation where all who are willing to work at the prevailing wage rate are able to find employment — it does not mean zero unemployment (frictional/structural unemployment can still exist)"],
+  pitfalls:["Keynes argued an economy can remain stuck in equilibrium <strong>below full employment</strong> — equilibrium income does not automatically equal full-employment income"]}},
+
+{id:13, cat:"pitfall", badge:"Assertion-Reasoning", tag:"Deflationary & Inflationary Gap",
+ front:"Distinguish between Deflationary Gap and Inflationary Gap.",
+ back:{title:"Deflationary Gap vs Inflationary Gap",
+  def:["<strong>Deflationary Gap:</strong> the amount by which the actual Aggregate Demand falls short of the Aggregate Demand required to achieve full-employment equilibrium — signals deficient demand and unemployment","<strong>Inflationary Gap:</strong> the amount by which actual Aggregate Demand exceeds the Aggregate Demand required for full-employment equilibrium — signals excess demand and rising prices, since output cannot rise further once resources are fully employed"],
+  graphRules:["Both gaps are measured vertically between the actual AD curve and the AD curve required to pass through the full-employment income level on the 45° line"]}},
+
+{id:14, cat:"pitfall", badge:"Board Numerical Clue", tag:"Fiscal Measures to Correct Gaps",
+ front:"What fiscal policy measures correct a Deflationary Gap and an Inflationary Gap?",
+ back:{title:"Fiscal Measures to Correct the Gaps",
+  def:["<strong>To correct a Deflationary Gap</strong> (raise AD): increase government expenditure; cut taxes to raise disposable income and consumption; increase transfer payments","<strong>To correct an Inflationary Gap</strong> (reduce AD): decrease government expenditure; raise taxes to reduce disposable income and consumption; reduce transfer payments"]}},
+
+{id:15, cat:"pitfall", badge:"Board Numerical Clue", tag:"Monetary Measures to Correct Gaps",
+ front:"What monetary policy measures correct a Deflationary Gap and an Inflationary Gap?",
+ back:{title:"Monetary Measures to Correct the Gaps",
+  def:["<strong>To correct a Deflationary Gap</strong> (expansionary/'easy money' policy): cut Repo Rate, Bank Rate, CRR, SLR; central bank purchases securities (OMO) — increases money supply and encourages investment","<strong>To correct an Inflationary Gap</strong> (contractionary/'dear money' policy): raise Repo Rate, Bank Rate, CRR, SLR; central bank sells securities (OMO) — reduces money supply and discourages investment"]}},
+
+{id:16, cat:"cuet", badge:"Assertion-Reasoning", tag:"Ex-Ante vs Ex-Post",
+ front:"Distinguish between Ex-Ante and Ex-Post concepts of Investment and Saving.",
+ back:{title:"Ex-Ante vs Ex-Post",
+  def:["<strong>Ex-ante:</strong> planned/desired values at the beginning of a period, before the period's outcomes are known — ex-ante Investment and ex-ante Saving need not be equal","<strong>Ex-post:</strong> actual/realised values, measured after the period is over — ex-post Investment always equals ex-post Saving, by definition, since both equal the actual difference between output and consumption"],
+  pitfalls:["Equilibrium (AD=AS) is reached only when <strong>ex-ante</strong> I equals <strong>ex-ante</strong> S; ex-post I = ex-post S is an <strong>accounting identity</strong> true at every level of income, not a condition of equilibrium"]}},
+
+{id:17, cat:"core", badge:"Board Numerical Clue", tag:"Effective Demand",
+ front:"What is Effective Demand?",
+ back:{title:"Effective Demand",
+  def:["Effective demand is the particular point at which Aggregate Demand equals Aggregate Supply — it identifies the actual level of employment and income the economy settles at","Named 'effective' because it is the only demand-supply combination that is actually realised in equilibrium"]}},
+
+{id:18, cat:"core", badge:"Board Concept", tag:"Summary Card",
+ front:"SUMMARY: Trace the full logic chain from AD-AS equilibrium to the multiplier and policy gaps.",
+ back:{title:"Income Determination — Full Logic Map",
+  def:[
+   "1. AD = C + I,  AS = C + S  →  Equilibrium where AD = AS, i.e. I = S",
+   "2. Away from equilibrium: unplanned inventory changes push output up (if AD>AS) or down (if AD<AS) until equality restored",
+   "3. A change in autonomous investment shifts AD and changes equilibrium Y by a multiple: ΔY = k × ΔI, where k = 1/(1−MPC)",
+   "4. If equilibrium income falls short of / exceeds full-employment income, a Deflationary / Inflationary Gap exists, correctable via fiscal and monetary policy"
+  ]}}
+];
+
+
+
+/* ================= STATE ================= */
+let state = {
+  order: CARDS.map(c=>c.id),
+  pos: 0,
+  flipped: false,
+  activeFilters: new Set(),
+  needsReviewOnly: false,
+  view: "study",
+  mastered: JSON.parse(localStorage.getItem("income_employment_mastered")||"{}"),
+  theme: localStorage.getItem("income_employment_theme") || "dark"
+};
+
+function catColor(cat){ return CATEGORIES[cat].color; }
+function byId(id){ return CARDS.find(c=>c.id===id); }
+
+function getFilteredDeck(){
+  let list = CARDS.slice();
+  if(state.activeFilters.size>0){
+    list = list.filter(c=>state.activeFilters.has(c.cat));
+  }
+  if(state.needsReviewOnly){
+    list = list.filter(c=>!state.mastered[c.id]);
+  }
+  return list;
+}
+
+function rebuildOrderPreservingCurrent(shufflePreserve){
+  const filtered = getFilteredDeck();
+  const ids = filtered.map(c=>c.id);
+  if(shufflePreserve){
+    // keep same shuffle order if possible, just filter
+    state.order = state.order.filter(id=>ids.includes(id));
+    ids.forEach(id=>{ if(!state.order.includes(id)) state.order.push(id); });
+  } else {
+    state.order = ids;
+  }
+  if(state.pos >= state.order.length) state.pos = Math.max(0, state.order.length-1);
+}
+
+/* ================= RENDER: STUDY CARD ================= */
+function renderCard(){
+  const total = state.order.length;
+  document.getElementById('cardTotal').textContent = total;
+  const emptyExisting = document.getElementById('emptyState');
+  if(emptyExisting) emptyExisting.remove();
+
+  if(total===0){
+    document.getElementById('stage').querySelector('.flip-zone').style.display='none';
+    document.querySelector('.card-badge-row').style.display='none';
+    const wrap = document.getElementById('stage');
+    const empty = document.createElement('div');
+    empty.className='empty-state';
+    empty.id='emptyState';
+    empty.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 10h.01M15 10h.01M9.5 15a4 4 0 0 0 5 0"/></svg>
+      <h3>No cards match this filter</h3><p>Clear a filter or turn off "Needs Review" to see cards again.</p>`;
+    wrap.appendChild(empty);
+    document.getElementById('cardIndex').textContent = 0;
+    document.getElementById('progressFill').style.width = '0%';
+    return;
+  }
+  document.getElementById('stage').querySelector('.flip-zone').style.display='';
+  document.querySelector('.card-badge-row').style.display='flex';
+
+  const card = byId(state.order[state.pos]);
+  document.getElementById('cardIndex').textContent = state.pos+1;
+  document.getElementById('progressFill').style.width = ((state.pos+1)/total*100)+'%';
+
+  const badge = document.getElementById('examBadge');
+  badge.textContent = card.badge;
+  badge.style.background = catColor(card.cat);
+
+  document.getElementById('frontTag').textContent = card.tag;
+  document.getElementById('frontPrompt').textContent = card.front;
+
+  const pill = document.getElementById('masteryPill');
+  const isMastered = !!state.mastered[card.id];
+  pill.textContent = isMastered ? "Mastered" : "Needs Review";
+  pill.dataset.state = isMastered ? "mastered" : "review";
+
+  const back = card.back;
+  let html = `<div class="back-title">${back.title}</div>`;
+  if(back.def && back.def.length){
+    html += `<div class="section-block"><div class="section-label def"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 3v12M6 9l6 6 6-6"/></svg>Definition &amp; Mechanism</div><ul class="bullets">${back.def.map(d=>`<li>${d}</li>`).join('')}</ul></div>`;
+  }
+  if(back.formulas && back.formulas.length){
+    html += `<div class="section-block"><div class="section-label formula"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h10M4 17h7"/></svg>Formulas</div>${back.formulas.map(f=>`<div class="formula-box">${f}</div>`).join('')}</div>`;
+  }
+  if(back.graphRules && back.graphRules.length){
+    html += `<div class="section-block"><div class="section-label graph"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3 3v18h18M7 15l4-5 3 3 5-7"/></svg>Rule / Sequence</div><ul class="bullets">${back.graphRules.map(d=>`<li>${d}</li>`).join('')}</ul></div>`;
+  }
+  if(back.pitfalls && back.pitfalls.length){
+    html += `<div class="section-block"><div class="section-label pitfall"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 9v4M12 17h.01M10.3 3.9L2.9 17a2 2 0 0 0 1.7 3h14.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>Common Pitfall / Distinction</div><ul class="bullets">${back.pitfalls.map(d=>`<li>${d}</li>`).join('')}</ul></div>`;
+  }
+  document.getElementById('backFace').innerHTML = html;
+
+  const inner = document.getElementById('flipInner');
+  inner.classList.toggle('flipped', state.flipped);
+}
+
+/* ================= RENDER: FILTER CHIPS ================= */
+function renderChips(){
+  const row = document.getElementById('chipRow');
+  row.innerHTML='';
+  Object.keys(CATEGORIES).forEach(key=>{
+    const chip = document.createElement('div');
+    chip.className='chip';
+    chip.textContent = CATEGORIES[key].label;
+    const active = state.activeFilters.has(key);
+    chip.dataset.active = active;
+    if(active){ chip.style.background = CATEGORIES[key].color; chip.style.borderColor = CATEGORIES[key].color; }
+    chip.onclick = ()=>{
+      if(state.activeFilters.has(key)) state.activeFilters.delete(key);
+      else state.activeFilters.add(key);
+      state.pos = 0; state.flipped=false;
+      rebuildOrderPreservingCurrent(false);
+      renderChips(); renderCard(); renderGrid();
+      updateDeckLabel();
+    };
+    row.appendChild(chip);
+  });
+}
+
+function updateDeckLabel(){
+  const lbl = document.getElementById('deckLabel');
+  const parts=[];
+  if(state.activeFilters.size>0) parts.push([...state.activeFilters].map(k=>CATEGORIES[k].label).join(', '));
+  if(state.needsReviewOnly) parts.push('Needs Review only');
+  lbl.textContent = parts.length ? parts.join(' · ') : 'All cards';
+}
+
+/* ================= RENDER: GRID VIEW ================= */
+function renderGrid(){
+  const list = document.getElementById('gridList');
+  const q = (document.getElementById('gridSearch').value||'').toLowerCase();
+  let deck = getFilteredDeck();
+  if(q){
+    deck = deck.filter(c=>{
+      const hay = (c.front+' '+c.tag+' '+JSON.stringify(c.back)).toLowerCase();
+      return hay.includes(q);
+    });
+  }
+  list.innerHTML='';
+  if(deck.length===0){
+    list.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><h3>No matches</h3><p>Try a different search term or filter.</p></div>`;
+    return;
+  }
+  deck.forEach(card=>{
+    const el = document.createElement('div');
+    el.className='grid-card';
+    const isMastered = !!state.mastered[card.id];
+    el.innerHTML = `<span class="gc-badge" style="background:${catColor(card.cat)}">${card.badge}</span>
+      <h4>${card.front}</h4>
+      <p>${card.tag}</p>
+      ${isMastered ? '<div class="gc-mastered">✓ Mastered</div>' : ''}`;
+    el.onclick = ()=>{
+      const idx = state.order.indexOf(card.id);
+      if(idx>=0){ state.pos = idx; } else { rebuildOrderPreservingCurrent(false); state.pos = state.order.indexOf(card.id); }
+      state.flipped = false;
+      setView('study');
+      renderCard();
+    };
+    list.appendChild(el);
+  });
+}
+
+/* ================= VIEW SWITCH ================= */
+function setView(v){
+  state.view = v;
+  document.getElementById('stage').classList.toggle('hidden', v!=='study');
+  document.getElementById('gridShell').classList.toggle('active', v==='grid');
+  document.getElementById('progressWrap').style.display = v==='study' ? '' : 'none';
+  if(v==='grid') renderGrid();
+}
+
+/* ================= ACTIONS ================= */
+function flipCard(){
+  if(state.order.length===0) return;
+  state.flipped = !state.flipped;
+  document.getElementById('flipInner').classList.toggle('flipped', state.flipped);
+}
+function nextCard(){
+  if(state.order.length===0) return;
+  state.pos = (state.pos+1) % state.order.length;
+  state.flipped=false;
+  renderCard();
+}
+function prevCard(){
+  if(state.order.length===0) return;
+  state.pos = (state.pos-1+state.order.length) % state.order.length;
+  state.flipped=false;
+  renderCard();
+}
+function shuffleDeck(){
+  for(let i=state.order.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [state.order[i], state.order[j]] = [state.order[j], state.order[i]];
+  }
+  state.pos = 0; state.flipped=false;
+  renderCard();
+}
+function toggleMastered(){
+  if(state.order.length===0) return;
+  const id = state.order[state.pos];
+  state.mastered[id] = !state.mastered[id];
+  localStorage.setItem('income_employment_mastered', JSON.stringify(state.mastered));
+  renderCard();
+}
+function toggleTheme(){
+  state.theme = state.theme==='dark' ? 'light' : 'dark';
+  document.body.dataset.theme = state.theme;
+  localStorage.setItem('income_employment_theme', state.theme);
+  updateThemeIcon();
+}
+function updateThemeIcon(){
+  const icon = document.getElementById('themeIcon');
+  if(state.theme==='light'){
+    icon.innerHTML = '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>';
+  } else {
+    icon.innerHTML = '<circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8L6 18M18 6l1.8-1.8"/>';
+  }
+}
+
+/* ================= EVENT WIRING ================= */
+document.getElementById('flipZone').addEventListener('click', flipCard);
+document.getElementById('flipBtn').addEventListener('click', flipCard);
+document.getElementById('nextBtn').addEventListener('click', nextCard);
+document.getElementById('prevBtn').addEventListener('click', prevCard);
+document.getElementById('shuffleBtn').addEventListener('click', shuffleDeck);
+document.getElementById('masterBtn').addEventListener('click', toggleMastered);
+document.getElementById('themeToggleBtn').addEventListener('click', toggleTheme);
+document.getElementById('gridSearch').addEventListener('input', renderGrid);
+
+document.getElementById('gridToggleBtn').addEventListener('click', ()=>{
+  setView(state.view==='grid' ? 'study' : 'grid');
+});
+
+document.getElementById('filterToggle').addEventListener('click', ()=>{
+  const panel = document.getElementById('filterPanel');
+  const toggle = document.getElementById('filterToggle');
+  panel.classList.toggle('open');
+  toggle.classList.toggle('open');
+});
+
+document.getElementById('needsReviewToggle').addEventListener('click', function(){
+  state.needsReviewOnly = !state.needsReviewOnly;
+  this.dataset.active = state.needsReviewOnly;
+  state.pos = 0; state.flipped=false;
+  rebuildOrderPreservingCurrent(false);
+  renderCard(); renderGrid();
+  updateDeckLabel();
+});
+
+document.addEventListener('keydown', (e)=>{
+  if(document.activeElement && document.activeElement.tagName==='INPUT') return;
+  if(e.code==='Space' || e.code==='ArrowUp'){ e.preventDefault(); flipCard(); }
+  else if(e.code==='ArrowRight'){ nextCard(); }
+  else if(e.code==='ArrowLeft'){ prevCard(); }
+  else if(e.code==='KeyR'){ shuffleDeck(); }
+});
+
+/* ================= INIT ================= */
+document.body.dataset.theme = state.theme;
+updateThemeIcon();
+renderChips();
+renderCard();
+updateDeckLabel();
+</script>
+</body>
+</html>

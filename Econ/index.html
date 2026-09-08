@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+<title>Economics</title>
+<style>
+
+:root{
+  --bg:#f5f7fc; --bg-2:#eaeef8;
+  --grid-line: rgba(40,55,100,0.055);
+  --surface: rgba(255,255,255,0.66); --surface-hi: rgba(255,255,255,0.90);
+  --surface-border: rgba(30,40,80,0.10); --surface-border-hi: rgba(30,40,80,0.18);
+  --text:#171c2c; --text-dim:#454f68; --text-mute:#7a8298;
+  --shadow-lg: 0 24px 50px -22px rgba(30,40,80,0.28);
+  --shadow-md: 0 10px 24px -10px rgba(30,40,80,0.28);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0a0e17; --bg-2:#0d1220;
+    --grid-line: rgba(150,175,255,0.05);
+    --surface: rgba(255,255,255,0.055); --surface-hi: rgba(255,255,255,0.09);
+    --surface-border: rgba(255,255,255,0.10); --surface-border-hi: rgba(255,255,255,0.18);
+    --text:#eaf0fa; --text-dim:#aab2c5; --text-mute:#737d94;
+    --shadow-lg: 0 24px 50px -18px rgba(0,0,0,0.6);
+    --shadow-md: 0 10px 24px -10px rgba(0,0,0,0.55);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0a0e17; --bg-2:#0d1220;
+  --grid-line: rgba(150,175,255,0.05);
+  --surface: rgba(255,255,255,0.055); --surface-hi: rgba(255,255,255,0.09);
+  --surface-border: rgba(255,255,255,0.10); --surface-border-hi: rgba(255,255,255,0.18);
+  --text:#eaf0fa; --text-dim:#aab2c5; --text-mute:#737d94;
+  --shadow-lg: 0 24px 50px -18px rgba(0,0,0,0.6);
+  --shadow-md: 0 10px 24px -10px rgba(0,0,0,0.55);
+  color-scheme: dark;
+}
+*{ box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+html,body{ margin:0; padding:0; background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased; }
+body{
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+  background-size: 34px 34px, 34px 34px, auto;
+  min-height:100vh;
+}
+.mono{ font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+a{ color:inherit; text-decoration:none; }
+.wrap{ max-width: 1040px; margin:0 auto; padding: 24px 16px 56px; }
+
+header.page-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:14px; flex-wrap:wrap; margin-bottom:10px; }
+.title-block{ display:flex; align-items:center; gap:12px; min-width:0; }
+.title-block .emoji{ font-size:30px; line-height:1; flex:none; }
+.title-block h1{ font-size: clamp(20px, 4.4vw, 28px); margin:0 0 3px; letter-spacing:.1px; font-weight:800; }
+.title-block p{ margin:0; color:var(--text-mute); font-family:ui-monospace,monospace; font-size:12px; letter-spacing:.3px; }
+
+.back-link{
+  display:inline-flex; align-items:center; gap:6px; font-weight:700; font-size:12.5px;
+  color:var(--text-dim); background:var(--surface); border:1px solid var(--surface-border);
+  padding:8px 13px 8px 10px; border-radius:99px; flex:none; transition:.15s ease;
+}
+.back-link:hover{ color:var(--text); background:var(--surface-hi); border-color:var(--surface-border-hi); }
+
+.theme-toggle{
+  appearance:none; cursor:pointer; width:38px; height:38px; border-radius:12px; flex:none;
+  background:var(--surface); border:1px solid var(--surface-border); color:var(--text-dim);
+  display:flex; align-items:center; justify-content:center; transition:.15s ease;
+}
+.theme-toggle:hover{ color:var(--text); background:var(--surface-hi); }
+.theme-toggle svg{ width:17px; height:17px; display:none; }
+.theme-toggle[data-state="light"] .icon-sun{ display:block; }
+.theme-toggle[data-state="dark"] .icon-moon{ display:block; }
+.theme-toggle[data-state="system"] .icon-auto{ display:block; }
+
+.head-right{ display:flex; align-items:center; gap:10px; }
+
+.summary{ display:flex; gap:9px; flex-wrap:wrap; margin: 16px 0 26px; }
+.summary .pill{
+  font-family:ui-monospace,monospace; font-size:11.5px; color:var(--text-dim);
+  background:var(--surface); border:1px solid var(--surface-border); padding:6px 12px; border-radius:99px;
+}
+
+.section{ margin-bottom: 30px; }
+.section-head{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:12px; flex-wrap:wrap; }
+.section-head h2{ font-size:14.5px; margin:0; font-weight:800; letter-spacing:.2px; color:var(--text-dim); text-transform:uppercase; }
+.section-head .section-meta{ font-family:ui-monospace,monospace; font-size:11px; color:var(--text-mute); }
+
+.grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap:14px; }
+.grid.subjects{ grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+
+.card{
+  position:relative; border-radius:18px; padding:18px 16px 16px;
+  background: linear-gradient(160deg, var(--surface-hi), var(--surface));
+  border:1px solid var(--surface-border);
+  box-shadow: var(--shadow-md);
+  display:flex; flex-direction:column; gap:10px;
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+  --accent: #2fe0c4;
+}
+.card:hover, .card:focus-visible{ transform: translateY(-3px); border-color: color-mix(in srgb, var(--accent) 45%, var(--surface-border-hi)); box-shadow: var(--shadow-lg); outline:none; }
+.card::before{
+  content:''; position:absolute; inset:0; border-radius:inherit; padding:1px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 55%, transparent), transparent 45%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude; pointer-events:none;
+}
+.card-top{ display:flex; align-items:center; justify-content:space-between; }
+.badge{
+  width:38px; height:38px; border-radius:11px; display:flex; align-items:center; justify-content:center;
+  font-family:ui-monospace,monospace; font-weight:700; font-size:14px;
+  background: color-mix(in srgb, var(--accent) 22%, var(--surface));
+  color: color-mix(in srgb, var(--accent) 75%, var(--text));
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+}
+.badge.emoji-badge{ font-size:20px; }
+.unit-tag{ font-family:ui-monospace,monospace; font-size:10px; color:var(--text-mute); letter-spacing:.3px; }
+.card h3{ font-size:15px; margin:0; font-weight:800; line-height:1.32; }
+.card p{ margin:0; font-size:12px; color:var(--text-mute); line-height:1.5; flex:1; }
+.card-foot{ display:flex; align-items:center; justify-content:space-between; margin-top:2px; }
+.count-chip{
+  font-family:ui-monospace,monospace; font-size:10.5px; color: color-mix(in srgb, var(--accent) 70%, var(--text));
+  background: color-mix(in srgb, var(--accent) 14%, transparent); padding:3px 9px; border-radius:99px;
+}
+.go{
+  width:27px; height:27px; border-radius:8px; display:flex; align-items:center; justify-content:center;
+  background: color-mix(in srgb, var(--accent) 16%, transparent); color: color-mix(in srgb, var(--accent) 70%, var(--text));
+  flex:none;
+}
+.go svg{ width:13px; height:13px; }
+
+footer.page-foot{ margin-top: 30px; text-align:center; font-family:ui-monospace,monospace; font-size:11px; color:var(--text-mute); }
+
+@media (max-width: 480px){
+  .wrap{ padding: 18px 12px 44px; }
+  .grid{ grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap:11px; }
+  .card{ padding:14px 13px 13px; border-radius:16px; }
+}
+
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="page-head">
+    <div class="title-block">
+      <div class="emoji">📊</div>
+      <div>
+        <h1>Economics</h1>
+        <p>Indian Economic Development &amp; Macroeconomics</p>
+      </div>
+    </div>
+    <div class="head-right">
+      <a class="back-link" href="../index.html">&larr; All subjects</a>
+      <button class="theme-toggle" id="themeToggle" type="button" title="Theme: Auto">
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.5v2.4M12 19.1v2.4M4.5 12H2M22 12h-2.5M5.3 5.3l1.7 1.7M17 17l1.7 1.7M18.7 5.3L17 7M7 17l-1.7 1.7"/></svg>
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.4A8.5 8.5 0 1 1 9.6 3.5a7 7 0 0 0 10.9 10.9z"/></svg>
+  <svg class="icon-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor" stroke="none"/></svg>
+</button>
+    </div>
+  </header>
+  
+<div class="summary">
+  <span class="pill">15 chapters &middot; 247 flashcards</span>
+  <span class="pill">Tap a chapter to open it</span>
+</div>
+<div class="section">
+  <div class="grid">
+    <a href="Indian_Economy_on_the_Eve_of_Independence.html" class="card" style="--accent:#fb7185"><div class="card-top"><div class="badge">EV</div><div class="unit-tag">Bk1 &middot; Ch1</div></div><h3>Indian Economy on the Eve of Independence</h3><p>Colonial economy structure, agriculture, industry, trade, demography.</p><div class="card-foot"><span class="count-chip">14 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="Indian_Economy_1950-1990.html" class="card" style="--accent:#f6b93b"><div class="card-top"><div class="badge">50-90</div><div class="unit-tag">Bk1 &middot; Ch2</div></div><h3>Indian Economy 1950&ndash;1990</h3><p>Planning goals, agriculture, industry, trade policy debates.</p><div class="card-foot"><span class="count-chip">15 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="Economic_Reforms_Since_1991.html" class="card" style="--accent:#fb7185"><div class="card-top"><div class="badge">LPG</div><div class="unit-tag">Bk1 &middot; Ch3</div></div><h3>Liberalisation, Privatisation &amp; Globalisation: An Appraisal</h3><p>1991 crisis, LPG reforms, outcomes and criticisms.</p><div class="card-foot"><span class="count-chip">20 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="Human_Capital_Formation_in_India.html" class="card" style="--accent:#f6b93b"><div class="card-top"><div class="badge">HC</div><div class="unit-tag">Bk1 &middot; Ch4</div></div><h3>Human Capital Formation in India</h3><p>Sources, education/health spending, human capital vs human development.</p><div class="card-foot"><span class="count-chip">11 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="Poverty.html" class="card" style="--accent:#fb7185"><div class="card-top"><div class="badge">PV</div><div class="unit-tag">Bk1 &middot; Ch5</div></div><h3>Poverty</h3><p>Concepts, estimation, poverty alleviation programmes.</p><div class="card-foot"><span class="count-chip">12 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="Rural_Development.html" class="card" style="--accent:#f6b93b"><div class="card-top"><div class="badge">RD</div><div class="unit-tag">Bk1 &middot; Ch6</div></div><h3>Rural Development</h3><p>Credit, marketing, diversification, organic farming, sustainability.</p><div class="card-foot"><span class="count-chip">12 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="Employment_Growth_Informalisation.html" class="card" style="--accent:#fb7185"><div class="card-top"><div class="badge">EM</div><div class="unit-tag">Bk1 &middot; Ch7</div></div><h3>Employment: Growth, Informalisation and Other Issues</h3><p>Workforce concepts, formal/informal sectors, quality of employment.</p><div class="card-foot"><span class="count-chip">12 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="Infrastructure.html" class="card" style="--accent:#f6b93b"><div class="card-top"><div class="badge">IN</div><div class="unit-tag">Bk1 &middot; Ch8</div></div><h3>Infrastructure</h3><p>Economic vs social infrastructure, energy, health infrastructure.</p><div class="card-foot"><span class="count-chip">11 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="Environment_and_Sustainable_Development.html" class="card" style="--accent:#fb7185"><div class="card-top"><div class="badge">EN</div><div class="unit-tag">Bk1 &middot; Ch9</div></div><h3>Environment and Sustainable Development</h3><p>Environment as a resource, sustainability, state of India's environment.</p><div class="card-foot"><span class="count-chip">12 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="Comparative_Development_Experience.html" class="card" style="--accent:#f6b93b"><div class="card-top"><div class="badge">CD</div><div class="unit-tag">Bk1 &middot; Ch10</div></div><h3>Comparative Development Experience of India and its Neighbours</h3><p>India, Pakistan, China &mdash; development indicators compared.</p><div class="card-foot"><span class="count-chip">11 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="National_Income_and_Related_Aggregates.html" class="card" style="--accent:#fb7185"><div class="card-top"><div class="badge">NI</div><div class="unit-tag">Bk2 &middot; Ch1</div></div><h3>National Income &amp; Related Aggregates</h3><p>GDP, GNP, NNP, circular flow, methods of measurement.</p><div class="card-foot"><span class="count-chip">37 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="Money_and_Banking.html" class="card" style="--accent:#f6b93b"><div class="card-top"><div class="badge">MB</div><div class="unit-tag">Bk2 &middot; Ch2</div></div><h3>Money and Banking</h3><p>Functions of money, RBI, credit creation, monetary policy.</p><div class="card-foot"><span class="count-chip">29 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="Determination_of_Income_and_Employment.html" class="card" style="--accent:#fb7185"><div class="card-top"><div class="badge">IE</div><div class="unit-tag">Bk2 &middot; Ch3</div></div><h3>Determination of Income and Employment</h3><p>Aggregate demand/supply, consumption function, multiplier.</p><div class="card-foot"><span class="count-chip">18 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="Government_Budget_and_the_Economy.html" class="card" style="--accent:#f6b93b"><div class="card-top"><div class="badge">GB</div><div class="unit-tag">Bk2 &middot; Ch4</div></div><h3>Government Budget and the Economy</h3><p>Budget components, deficits, fiscal policy objectives.</p><div class="card-foot"><span class="count-chip">18 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="Balance_of_Payments_and_Foreign_Exchange.html" class="card" style="--accent:#fb7185"><div class="card-top"><div class="badge">BP</div><div class="unit-tag">Bk2 &middot; Ch5</div></div><h3>Balance of Payments and Foreign Exchange</h3><p>BoP accounts, exchange rate systems, forex market.</p><div class="card-foot"><span class="count-chip">15 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+  </div>
+</div>
+<footer class="page-foot">Economics &middot; Maithreya's Studies</footer>
+
+</div>
+<script>
+
+(function(){
+  var KEY = "flashcards-econ-theme";
+  var ORDER = ['system','light','dark'];
+  var TITLES = { system:'Theme: Auto', light:'Theme: Light', dark:'Theme: Dark' };
+  var btn = document.getElementById('themeToggle');
+  function apply(t){
+    if(t==='dark'||t==='light'){ document.documentElement.setAttribute('data-theme', t); }
+    else { document.documentElement.removeAttribute('data-theme'); t='system'; }
+    btn.setAttribute('data-state', t);
+    btn.setAttribute('title', TITLES[t]);
+    try{ localStorage.setItem(KEY, t); }catch(e){}
+  }
+  var saved = 'system';
+  try{ saved = localStorage.getItem(KEY) || 'system'; }catch(e){}
+  apply(saved);
+  btn.addEventListener('click', function(){
+    var cur = btn.getAttribute('data-state') || 'system';
+    apply(ORDER[(ORDER.indexOf(cur)+1) % ORDER.length]);
+  });
+})();
+
+</script>
+</body>
+</html>

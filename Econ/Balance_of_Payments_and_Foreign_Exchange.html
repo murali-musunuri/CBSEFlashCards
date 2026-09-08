@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Balance of Payments and Foreign Exchange — Flashcards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#070B14;
+    --bg-1:#0B1220;
+    --bg-2:#0F1830;
+    --glass:rgba(255,255,255,0.055);
+    --glass-strong:rgba(255,255,255,0.09);
+    --border:rgba(255,255,255,0.12);
+    --border-soft:rgba(255,255,255,0.07);
+    --text-hi:#EEF2F9;
+    --text-mid:#AAB4C7;
+    --text-low:#6C7690;
+    --emerald:#33E6A4;
+    --cyan:#3FD9FF;
+    --amber:#FFC24B;
+    --crimson:#FF6B81;
+    --violet:#B79CFF;
+    --shadow:0 20px 60px rgba(0,0,0,0.45);
+    --radius-lg:22px;
+    --radius-md:14px;
+    --radius-sm:9px;
+  }
+  [data-theme="light"]{
+    --bg-0:#EFF3FA;
+    --bg-1:#F6F8FC;
+    --bg-2:#E7ECF6;
+    --glass:rgba(255,255,255,0.75);
+    --glass-strong:rgba(255,255,255,0.92);
+    --border:rgba(15,24,48,0.10);
+    --border-soft:rgba(15,24,48,0.06);
+    --text-hi:#0E1526;
+    --text-mid:#4A5573;
+    --text-low:#8994AC;
+    --emerald:#0FA870;
+    --cyan:#0090C4;
+    --amber:#B77A00;
+    --crimson:#D43A57;
+    --violet:#6E4CD9;
+    --shadow:0 20px 50px rgba(20,30,60,0.12);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;height:100%;}
+  body{
+    font-family:'IBM Plex Sans', sans-serif;
+    background:
+      radial-gradient(circle at 12% 8%, rgba(63,217,255,0.10), transparent 40%),
+      radial-gradient(circle at 88% 92%, rgba(51,230,164,0.09), transparent 42%),
+      linear-gradient(180deg, var(--bg-0), var(--bg-1) 45%, var(--bg-2));
+    color:var(--text-hi);
+    min-height:100vh;
+    transition:background .4s ease, color .4s ease;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:112px;
+  }
+  h1,h2,h3, .display{font-family:'Sora', sans-serif;}
+
+  /* ============ TOP BAR ============ */
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 20px 8px;
+    max-width:920px; margin:0 auto;
+  }
+  .brand{display:flex; flex-direction:column; gap:2px;}
+  .brand .eyebrow{
+    font-size:12.5px; color:var(--cyan); font-weight:600; letter-spacing:0.02em;
+  }
+  .brand h1{
+    font-size:20px; margin:0; font-weight:700; line-height:1.15;
+    background:linear-gradient(90deg, var(--text-hi), var(--cyan));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .top-actions{display:flex; gap:8px;}
+  .icon-btn{
+    width:40px; height:40px; border-radius:12px;
+    background:var(--glass); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; color:var(--text-hi);
+    transition:transform .15s ease, background .2s ease, border-color .2s ease;
+  }
+  .icon-btn:hover{background:var(--glass-strong); transform:translateY(-1px);}
+  .icon-btn svg{width:18px; height:18px;}
+
+  /* ============ PROGRESS ============ */
+  .progress-wrap{
+    max-width:920px; margin:6px auto 0; padding:0 20px;
+  }
+  .progress-row{
+    display:flex; align-items:center; justify-content:space-between;
+    font-size:13px; color:var(--text-mid); margin-bottom:7px;
+  }
+  .progress-row .count strong{color:var(--emerald); font-weight:700;}
+  .progress-track{
+    height:5px; border-radius:99px; background:var(--border-soft); overflow:hidden;
+  }
+  .progress-fill{
+    height:100%; border-radius:99px;
+    background:linear-gradient(90deg, var(--cyan), var(--emerald));
+    transition:width .35s cubic-bezier(.4,0,.2,1);
+  }
+
+  /* ============ FILTER PANEL ============ */
+  .filter-shell{max-width:920px; margin:14px auto 0; padding:0 20px;}
+  .filter-toggle{
+    display:flex; align-items:center; gap:8px;
+    background:var(--glass); border:1px solid var(--border);
+    border-radius:12px; padding:9px 14px; cursor:pointer;
+    font-size:13.5px; color:var(--text-mid); width:fit-content;
+    user-select:none;
+  }
+  .filter-toggle svg{width:15px; height:15px; transition:transform .2s ease;}
+  .filter-toggle.open svg.chev{transform:rotate(180deg);}
+  .filter-panel{
+    max-height:0; overflow:hidden; transition:max-height .3s ease, margin .3s ease;
+  }
+  .filter-panel.open{max-height:400px; margin-top:10px;}
+  .chip-row{display:flex; flex-wrap:wrap; gap:8px; padding:2px 2px 4px;}
+  .chip{
+    padding:8px 13px; border-radius:99px; font-size:12.5px; font-weight:600;
+    border:1px solid var(--border); background:var(--glass); color:var(--text-mid);
+    cursor:pointer; transition:all .15s ease; white-space:nowrap;
+  }
+  .chip[data-active="true"]{
+    color:var(--bg-0); border-color:transparent;
+  }
+  .chip-sub{display:flex; gap:8px; align-items:center; margin-top:4px;}
+  .mini-toggle{
+    font-size:12px; color:var(--text-mid); background:var(--glass);
+    border:1px solid var(--border); padding:7px 12px; border-radius:10px; cursor:pointer;
+  }
+  .mini-toggle[data-active="true"]{border-color:var(--crimson); color:var(--crimson);}
+
+  /* ============ STAGE ============ */
+  .stage{
+    max-width:640px; margin:22px auto 0; padding:0 20px;
+    perspective:1800px;
+  }
+  .card-badge-row{
+    display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;
+  }
+  .exam-badge{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:11.5px; font-weight:700; letter-spacing:0.01em;
+    padding:6px 11px; border-radius:99px; color:var(--bg-0);
+  }
+  .mastery-pill{
+    font-size:11.5px; font-weight:600; padding:5px 10px; border-radius:99px;
+    background:var(--glass); border:1px solid var(--border); color:var(--text-mid);
+  }
+  .mastery-pill[data-state="mastered"]{color:var(--emerald); border-color:var(--emerald);}
+
+  .flip-zone{
+    position:relative; width:100%; min-height:400px; cursor:pointer;
+  }
+  .flip-inner{
+    position:relative; width:100%; height:100%; min-height:400px;
+    transform-style:preserve-3d; transition:transform .55s cubic-bezier(.4,0.1,.2,1);
+  }
+  .flip-inner.flipped{transform:rotateY(180deg);}
+  .face{
+    position:absolute; inset:0; backface-visibility:hidden;
+    border-radius:var(--radius-lg);
+    background:var(--glass); border:1px solid var(--border);
+    box-shadow:var(--shadow);
+    padding:26px 26px 22px;
+    display:flex; flex-direction:column;
+    backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
+    overflow-y:auto;
+  }
+  .face::-webkit-scrollbar{width:6px;}
+  .face::-webkit-scrollbar-thumb{background:var(--border); border-radius:99px;}
+  .face-front{justify-content:center; align-items:center; text-align:center;}
+  .face-back{transform:rotateY(180deg); justify-content:flex-start;}
+
+  .front-tag{
+    font-size:11px; text-transform:none; color:var(--text-low);
+    font-weight:600; margin-bottom:14px; letter-spacing:0.03em;
+  }
+  .front-prompt{
+    font-family:'Sora', sans-serif; font-weight:700; font-size:22px; line-height:1.35;
+    color:var(--text-hi);
+  }
+  .front-hint{
+    margin-top:16px; font-size:12.5px; color:var(--text-low); font-style:normal;
+  }
+  .flip-cue{
+    position:absolute; bottom:16px; right:18px; font-size:11px; color:var(--text-low);
+    display:flex; align-items:center; gap:5px;
+  }
+
+  .back-title{
+    font-family:'Sora', sans-serif; font-weight:700; font-size:16.5px; margin:0 0 12px;
+    color:var(--text-hi); padding-right:70px;
+  }
+  .section-block{margin-bottom:14px;}
+  .section-label{
+    font-size:11px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase;
+    margin-bottom:6px; display:flex; align-items:center; gap:6px;
+  }
+  .section-label.def{color:var(--cyan);}
+  .section-label.formula{color:var(--amber);}
+  .section-label.graph{color:var(--violet);}
+  .section-label.pitfall{color:var(--crimson);}
+  ul.bullets{margin:0; padding-left:18px;}
+  ul.bullets li{font-size:14px; line-height:1.55; color:var(--text-mid); margin-bottom:5px;}
+  ul.bullets li strong{color:var(--text-hi); font-weight:600;}
+  .formula-box{
+    font-family:'IBM Plex Mono', monospace; font-size:13.5px; font-weight:600;
+    background:var(--glass-strong); border:1px solid var(--border-soft);
+    border-radius:var(--radius-sm); padding:9px 12px; margin-bottom:6px;
+    color:var(--amber); line-height:1.5; white-space:pre-wrap;
+  }
+
+  /* ============ NAV CLUSTER ============ */
+  .nav-cluster{
+    position:fixed; bottom:18px; left:50%; transform:translateX(-50%);
+    display:flex; align-items:center; gap:8px;
+    background:var(--glass-strong); border:1px solid var(--border);
+    border-radius:20px; padding:9px; box-shadow:var(--shadow);
+    backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+    z-index:40;
+  }
+  .nav-btn{
+    width:46px; height:46px; border-radius:14px; border:none; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    background:transparent; color:var(--text-hi); transition:background .15s ease, transform .15s ease;
+  }
+  .nav-btn:hover{background:var(--border-soft);}
+  .nav-btn:active{transform:scale(0.92);}
+  .nav-btn svg{width:19px; height:19px;}
+  .nav-btn.primary{
+    background:linear-gradient(135deg, var(--emerald), var(--cyan));
+    color:#04140F; width:52px; height:52px; border-radius:16px;
+  }
+  .nav-btn.primary:hover{filter:brightness(1.08);}
+  .nav-divider{width:1px; height:26px; background:var(--border);}
+
+  /* ============ GRID VIEW ============ */
+  .grid-shell{max-width:920px; margin:20px auto 0; padding:0 20px; display:none;}
+  .grid-shell.active{display:block;}
+  .stage.hidden{display:none;}
+  .search-box{
+    display:flex; align-items:center; gap:9px;
+    background:var(--glass); border:1px solid var(--border); border-radius:12px;
+    padding:10px 14px; margin-bottom:14px;
+  }
+  .search-box svg{width:16px; height:16px; color:var(--text-low); flex-shrink:0;}
+  .search-box input{
+    background:transparent; border:none; outline:none; color:var(--text-hi);
+    font-size:14px; width:100%; font-family:'IBM Plex Sans', sans-serif;
+  }
+  .search-box input::placeholder{color:var(--text-low);}
+  .grid-list{display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:12px;}
+  .grid-card{
+    background:var(--glass); border:1px solid var(--border); border-radius:var(--radius-md);
+    padding:15px; cursor:pointer; transition:transform .15s ease, border-color .15s ease;
+  }
+  .grid-card:hover{transform:translateY(-2px); border-color:var(--border);}
+  .grid-card .gc-badge{
+    font-size:10px; font-weight:700; padding:4px 8px; border-radius:99px; color:var(--bg-0);
+    display:inline-block; margin-bottom:9px;
+  }
+  .grid-card h4{margin:0 0 6px; font-size:14.5px; font-family:'Sora',sans-serif; color:var(--text-hi); line-height:1.3;}
+  .grid-card p{margin:0; font-size:12.5px; color:var(--text-mid); line-height:1.5;}
+  .grid-card .gc-mastered{
+    margin-top:9px; font-size:11px; font-weight:600; color:var(--emerald);
+  }
+
+  .empty-state{
+    text-align:center; padding:60px 20px; color:var(--text-mid);
+  }
+  .empty-state svg{width:40px; height:40px; opacity:0.5; margin-bottom:12px;}
+  .empty-state h3{font-size:16px; color:var(--text-hi); margin:0 0 6px;}
+  .empty-state p{font-size:13.5px; margin:0;}
+
+  .kbd-hint{
+    text-align:center; font-size:11.5px; color:var(--text-low); margin-top:16px;
+    max-width:640px; margin-left:auto; margin-right:auto; padding:0 20px;
+  }
+  .kbd-hint kbd{
+    background:var(--glass); border:1px solid var(--border); border-radius:5px;
+    padding:1px 6px; font-family:'IBM Plex Mono', monospace; font-size:10.5px;
+  }
+
+  @media (max-width:480px){
+    .front-prompt{font-size:19px;}
+    .flip-zone{min-height:430px;}
+    .flip-inner{min-height:430px;}
+    .face{padding:22px 18px 18px;}
+    .back-title{padding-right:0;}
+  }
+</style>
+</head>
+<body data-theme="dark"><a href="index.html" id="__fcBackBtn" title="Back to chapter list" style="position:fixed;top:10px;left:10px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;background:rgba(15,20,35,0.72);color:#fff;font:600 12.5px -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;text-decoration:none;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 4px 14px rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.14);">&#8592;&nbsp;Chapters</a><style>body{padding-top:46px}</style>
+
+<div class="topbar">
+  <div class="brand">
+    <span class="eyebrow">CBSE Class XII · Macroeconomics</span>
+    <h1>Balance of Payments and Foreign Exchange</h1>
+  </div>
+  <div class="top-actions">
+    <div class="icon-btn" id="gridToggleBtn" title="Toggle grid view">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    </div>
+    <div class="icon-btn" id="themeToggleBtn" title="Toggle theme">
+      <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8L6 18M18 6l1.8-1.8"/></svg>
+    </div>
+  </div>
+</div>
+
+<div class="progress-wrap" id="progressWrap">
+  <div class="progress-row">
+    <span class="count">Card <strong id="cardIndex">1</strong> of <span id="cardTotal">…</span></span>
+    <span id="deckLabel">All cards</span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+</div>
+
+<div class="filter-shell">
+  <div class="filter-toggle" id="filterToggle">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+    <span>Filter categories &amp; review status</span>
+    <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="filter-panel" id="filterPanel">
+    <div class="chip-row" id="chipRow"></div>
+    <div class="chip-sub">
+      <div class="mini-toggle" id="needsReviewToggle">Show only: Needs Review</div>
+    </div>
+  </div>
+</div>
+
+<div class="stage" id="stage">
+  <div class="card-badge-row">
+    <span class="exam-badge" id="examBadge">Curve &amp; Graph Shift</span>
+    <span class="mastery-pill" id="masteryPill" data-state="review">Needs Review</span>
+  </div>
+
+  <div class="flip-zone" id="flipZone">
+    <div class="flip-inner" id="flipInner">
+      <div class="face face-front">
+        <div class="front-tag" id="frontTag">Concept</div>
+        <div class="front-prompt" id="frontPrompt">Loading…</div>
+        <div class="flip-cue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3.2-6.9M21 3v6h-6"/></svg>
+          Tap to flip
+        </div>
+      </div>
+      <div class="face face-back" id="backFace">
+      </div>
+    </div>
+  </div>
+  <div class="kbd-hint">
+    <kbd>Space</kbd> flip · <kbd>&larr;</kbd> <kbd>&rarr;</kbd> navigate · <kbd>R</kbd> shuffle
+  </div>
+</div>
+
+<div class="grid-shell" id="gridShell">
+  <div class="search-box">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    <input type="text" id="gridSearch" placeholder="Search formulas, terms, schemes…">
+  </div>
+  <div class="grid-list" id="gridList"></div>
+</div>
+
+<div class="nav-cluster">
+  <button class="nav-btn" id="prevBtn" title="Previous (Left arrow)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <button class="nav-btn" id="shuffleBtn" title="Shuffle (R)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+  </button>
+  <div class="nav-divider"></div>
+  <button class="nav-btn primary" id="flipBtn" title="Flip (Space)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2.1l4 4-4 4M3 12.7V12A8 8 0 0 1 17 6.3M7 21.9l-4-4 4-4M21 11.3V12a8 8 0 0 1-14 5.7"/></svg>
+  </button>
+  <div class="nav-divider"></div>
+  <button class="nav-btn" id="masterBtn" title="Toggle mastered">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+  </button>
+  <button class="nav-btn" id="nextBtn" title="Next (Right arrow)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+</div>
+
+<script>
+/* ================= CATEGORY DEFINITIONS + CARD DATA (injected per chapter) ================= */
+/* ================= CARD DATA ================= */
+const CATEGORIES = {
+  core:      { label:"Core Concepts",             color:"var(--cyan)"    },
+  formula:   { label:"Formulas & Numericals",     color:"var(--amber)"  },
+  aggregate: { label:"BoP Components",            color:"var(--emerald)"},
+  pitfall:   { label:"Common Pitfalls",           color:"var(--crimson)"},
+  cuet:      { label:"CUET Shortcuts & Facts",    color:"var(--violet)" }
+};
+
+const CARDS = [
+{id:1, cat:"core", badge:"Board Concept", tag:"Balance of Payments — Meaning",
+ front:"What is the Balance of Payments (BoP)?",
+ back:{title:"Balance of Payments (BoP)",
+  def:["BoP is a systematic record of all economic transactions between the residents of a country and the rest of the world during a given period, usually one year","It is prepared on the principle of <strong>double-entry bookkeeping</strong> — every transaction has a credit and a debit side, so total credits always equal total debits in an accounting sense"]}},
+
+{id:2, cat:"core", badge:"Board Concept", tag:"Credit vs Debit in BoP",
+ front:"Distinguish between a Credit item and a Debit item in the Balance of Payments.",
+ back:{title:"Credit vs Debit Items",
+  def:["<strong>Credit item:</strong> any transaction that leads to a receipt of foreign exchange / inflow of money from the rest of the world — e.g. exports, receiving remittances, foreign investment inflows","<strong>Debit item:</strong> any transaction that leads to a payment of foreign exchange / outflow of money to the rest of the world — e.g. imports, sending remittances abroad, foreign investment made abroad"]}},
+
+{id:3, cat:"aggregate", badge:"Board Concept", tag:"Current Account",
+ front:"What does the Current Account of the Balance of Payments record?",
+ back:{title:"Current Account",
+  def:["Records transactions relating to (i) trade in goods (visible trade — exports/imports of merchandise), (ii) trade in services (invisible trade — e.g. banking, insurance, tourism), and (iii) unilateral/unrequited transfers (gifts, remittances, donations) and investment income (interest, profit, dividend)"],
+  formulas:["Balance of Trade = Exports of Goods − Imports of Goods", "Current Account Balance = Balance of Trade + Net Services + Net Transfers + Net Investment Income"]}},
+
+{id:4, cat:"aggregate", badge:"Board Concept", tag:"Capital Account",
+ front:"What does the Capital Account of the Balance of Payments record?",
+ back:{title:"Capital Account",
+  def:["Records all transactions that cause a change in the <strong>assets or liabilities</strong> of residents of a country vis-à-vis the rest of the world — it deals with claims and liabilities, not with the sale/purchase of goods and services","Includes: foreign direct investment (FDI), foreign portfolio investment (FPI), external commercial borrowings, loans from international institutions (IMF, World Bank), and changes in foreign exchange reserves"]}},
+
+{id:5, cat:"pitfall", badge:"Assertion-Reasoning", tag:"Current vs Capital Account",
+ front:"What is the key distinguishing test between a Current Account and a Capital Account transaction?",
+ back:{title:"Current Account vs Capital Account — Key Test",
+  def:["<strong>Current Account:</strong> affects the <em>current income/output flow</em> — a transaction in goods, services, income, or a one-way transfer","<strong>Capital Account:</strong> affects the <em>stock of assets and liabilities</em> — a transaction that creates or extinguishes a financial claim between residents and non-residents"],
+  pitfalls:["Export of a good is a Current Account item; a foreign company setting up a factory in India (FDI) is a Capital Account item — despite both bringing in foreign exchange, they differ in whether they alter external assets/liabilities"]}},
+
+{id:6, cat:"formula", badge:"Board Numerical Clue", tag:"Autonomous vs Accommodating Transactions",
+ front:"Distinguish between Autonomous and Accommodating transactions in the BoP.",
+ back:{title:"Autonomous vs Accommodating Transactions",
+  def:["<strong>Autonomous transactions:</strong> undertaken for their own economic motives (profit, trade), independent of the BoP position — these determine whether BoP is in surplus or deficit; also called 'above the line' items","<strong>Accommodating transactions:</strong> undertaken specifically to balance any gap left by autonomous transactions — e.g. the central bank drawing down/adding to foreign exchange reserves; also called 'below the line' items"],
+  pitfalls:["BoP is always <strong>balanced</strong> in the accounting sense (accommodating items adjust to make total credits = total debits), but can be in <strong>surplus or deficit</strong> in the autonomous sense"]}},
+
+{id:7, cat:"pitfall", badge:"Board Numerical Clue", tag:"BoP Surplus vs Deficit",
+ front:"When is the Balance of Payments said to be in Surplus or Deficit?",
+ back:{title:"BoP Surplus and Deficit (Autonomous Sense)",
+  def:["<strong>BoP Surplus:</strong> autonomous receipts (credits) exceed autonomous payments (debits) — the excess is reflected as an addition to foreign exchange reserves (an accommodating item)","<strong>BoP Deficit:</strong> autonomous payments (debits) exceed autonomous receipts (credits) — the gap is met by drawing down foreign exchange reserves or borrowing (accommodating items)"]}},
+
+{id:8, cat:"core", badge:"Board Concept", tag:"Foreign Exchange Rate",
+ front:"What is a Foreign Exchange Rate?",
+ back:{title:"Foreign Exchange Rate",
+  def:["The rate at which the currency of one country can be exchanged for the currency of another country — e.g. how many rupees are needed to buy one US dollar","It links the price systems of two different countries, enabling trade and comparison of costs and prices across countries"]}},
+
+{id:9, cat:"aggregate", badge:"Curve & Graph Shift", tag:"Flexible Exchange Rate",
+ front:"How is the exchange rate determined under a Flexible (Floating) Exchange Rate system?",
+ back:{title:"Flexible Exchange Rate System",
+  def:["The exchange rate is determined entirely by the forces of demand for and supply of foreign exchange in the foreign exchange market, without any government/central bank intervention","<strong>Demand for foreign exchange</strong> arises from imports, foreign investment outflows, and other payments to non-residents","<strong>Supply of foreign exchange</strong> arises from exports, foreign investment inflows, and other receipts from non-residents"],
+  graphRules:["Demand for foreign exchange curve slopes downward (more depreciation of domestic currency = imports costlier = lower quantity demanded); Supply curve slopes upward. Equilibrium exchange rate is at their intersection"]}},
+
+{id:10, cat:"aggregate", badge:"Board Numerical Clue", tag:"Depreciation vs Appreciation",
+ front:"Distinguish between Depreciation and Appreciation of a currency under a Flexible Exchange Rate system.",
+ back:{title:"Depreciation vs Appreciation",
+  def:["<strong>Depreciation:</strong> a fall in the value of domestic currency in terms of a foreign currency, due to market forces — more units of domestic currency are now needed to buy one unit of foreign currency","<strong>Appreciation:</strong> a rise in the value of domestic currency in terms of a foreign currency, due to market forces — fewer units of domestic currency are now needed to buy one unit of foreign currency"],
+  graphRules:["A rightward shift of the demand curve for forex (e.g. rising imports) causes depreciation; a rightward shift of the supply curve for forex (e.g. rising exports) causes appreciation"]}},
+
+{id:11, cat:"aggregate", badge:"Board Numerical Clue", tag:"Devaluation vs Revaluation",
+ front:"Distinguish between Devaluation and Revaluation, and how do they differ from Depreciation/Appreciation?",
+ back:{title:"Devaluation vs Revaluation (Fixed Exchange Rate)",
+  def:["<strong>Devaluation:</strong> a deliberate, official reduction in the value of domestic currency in terms of foreign currency, announced by the government/central bank under a fixed exchange rate system","<strong>Revaluation:</strong> a deliberate, official increase in the value of domestic currency, announced under a fixed exchange rate system"],
+  pitfalls:["Devaluation/Revaluation are <strong>policy decisions</strong> under a fixed exchange rate regime; Depreciation/Appreciation happen automatically due to <strong>market forces</strong> under a flexible exchange rate regime — one of the most frequently tested distinctions in this chapter"]}},
+
+{id:12, cat:"core", badge:"Board Concept", tag:"Fixed Exchange Rate",
+ front:"What is a Fixed Exchange Rate system, and who determines the rate?",
+ back:{title:"Fixed Exchange Rate System",
+  def:["The exchange rate is officially fixed by the government/central monetary authority of the country, rather than being allowed to fluctuate with market demand and supply","The central bank intervenes in the forex market — buying or selling foreign currency — to maintain the announced fixed rate, using its foreign exchange reserves"]}},
+
+{id:13, cat:"core", badge:"CUET Fact/Date", tag:"Managed Floating Exchange Rate",
+ front:"What is a Managed Floating Exchange Rate system? Which system does India currently follow?",
+ back:{title:"Managed Floating Exchange Rate",
+  def:["A hybrid system where the exchange rate is largely market-determined (as under a flexible system), but the central bank intervenes occasionally to smoothen excessive volatility, without committing to any fixed target rate","<strong>India currently follows a Managed Floating Exchange Rate system</strong>, with the RBI intervening periodically in the forex market"]}},
+
+{id:14, cat:"pitfall", badge:"Assertion-Reasoning", tag:"Foreign Exchange Reserves",
+ front:"What constitutes a country's Foreign Exchange Reserves?",
+ back:{title:"Foreign Exchange Reserves",
+  def:["Foreign currency assets held by the central bank of a country, including foreign currencies, gold reserves, Special Drawing Rights (SDRs) with the IMF, and the Reserve Tranche Position with the IMF","Used to meet BoP deficits, stabilise the exchange rate, and provide confidence for external trade and investment"]}},
+
+{id:15, cat:"core", badge:"Board Concept", tag:"Summary Card",
+ front:"SUMMARY: Map the full structure of the Balance of Payments and the two exchange rate systems.",
+ back:{title:"BoP and Exchange Rate — Full Map",
+  def:[
+   "<strong>BoP</strong> = Current Account (goods, services, transfers, income) + Capital Account (assets/liabilities: FDI, FPI, loans, reserves)",
+   "<strong>Autonomous items</strong> determine surplus/deficit; <strong>Accommodating items</strong> (reserve changes) restore the accounting balance",
+   "<strong>Flexible rate:</strong> market-determined → Depreciation / Appreciation",
+   "<strong>Fixed rate:</strong> government-determined → Devaluation / Revaluation",
+   "<strong>Managed float:</strong> market-determined with occasional central bank intervention — India's current system"
+  ]}}
+];
+
+
+
+/* ================= STATE ================= */
+let state = {
+  order: CARDS.map(c=>c.id),
+  pos: 0,
+  flipped: false,
+  activeFilters: new Set(),
+  needsReviewOnly: false,
+  view: "study",
+  mastered: JSON.parse(localStorage.getItem("bop_forex_mastered")||"{}"),
+  theme: localStorage.getItem("bop_forex_theme") || "dark"
+};
+
+function catColor(cat){ return CATEGORIES[cat].color; }
+function byId(id){ return CARDS.find(c=>c.id===id); }
+
+function getFilteredDeck(){
+  let list = CARDS.slice();
+  if(state.activeFilters.size>0){
+    list = list.filter(c=>state.activeFilters.has(c.cat));
+  }
+  if(state.needsReviewOnly){
+    list = list.filter(c=>!state.mastered[c.id]);
+  }
+  return list;
+}
+
+function rebuildOrderPreservingCurrent(shufflePreserve){
+  const filtered = getFilteredDeck();
+  const ids = filtered.map(c=>c.id);
+  if(shufflePreserve){
+    // keep same shuffle order if possible, just filter
+    state.order = state.order.filter(id=>ids.includes(id));
+    ids.forEach(id=>{ if(!state.order.includes(id)) state.order.push(id); });
+  } else {
+    state.order = ids;
+  }
+  if(state.pos >= state.order.length) state.pos = Math.max(0, state.order.length-1);
+}
+
+/* ================= RENDER: STUDY CARD ================= */
+function renderCard(){
+  const total = state.order.length;
+  document.getElementById('cardTotal').textContent = total;
+  const emptyExisting = document.getElementById('emptyState');
+  if(emptyExisting) emptyExisting.remove();
+
+  if(total===0){
+    document.getElementById('stage').querySelector('.flip-zone').style.display='none';
+    document.querySelector('.card-badge-row').style.display='none';
+    const wrap = document.getElementById('stage');
+    const empty = document.createElement('div');
+    empty.className='empty-state';
+    empty.id='emptyState';
+    empty.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 10h.01M15 10h.01M9.5 15a4 4 0 0 0 5 0"/></svg>
+      <h3>No cards match this filter</h3><p>Clear a filter or turn off "Needs Review" to see cards again.</p>`;
+    wrap.appendChild(empty);
+    document.getElementById('cardIndex').textContent = 0;
+    document.getElementById('progressFill').style.width = '0%';
+    return;
+  }
+  document.getElementById('stage').querySelector('.flip-zone').style.display='';
+  document.querySelector('.card-badge-row').style.display='flex';
+
+  const card = byId(state.order[state.pos]);
+  document.getElementById('cardIndex').textContent = state.pos+1;
+  document.getElementById('progressFill').style.width = ((state.pos+1)/total*100)+'%';
+
+  const badge = document.getElementById('examBadge');
+  badge.textContent = card.badge;
+  badge.style.background = catColor(card.cat);
+
+  document.getElementById('frontTag').textContent = card.tag;
+  document.getElementById('frontPrompt').textContent = card.front;
+
+  const pill = document.getElementById('masteryPill');
+  const isMastered = !!state.mastered[card.id];
+  pill.textContent = isMastered ? "Mastered" : "Needs Review";
+  pill.dataset.state = isMastered ? "mastered" : "review";
+
+  const back = card.back;
+  let html = `<div class="back-title">${back.title}</div>`;
+  if(back.def && back.def.length){
+    html += `<div class="section-block"><div class="section-label def"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 3v12M6 9l6 6 6-6"/></svg>Definition &amp; Mechanism</div><ul class="bullets">${back.def.map(d=>`<li>${d}</li>`).join('')}</ul></div>`;
+  }
+  if(back.formulas && back.formulas.length){
+    html += `<div class="section-block"><div class="section-label formula"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h10M4 17h7"/></svg>Formulas</div>${back.formulas.map(f=>`<div class="formula-box">${f}</div>`).join('')}</div>`;
+  }
+  if(back.graphRules && back.graphRules.length){
+    html += `<div class="section-block"><div class="section-label graph"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3 3v18h18M7 15l4-5 3 3 5-7"/></svg>Rule / Sequence</div><ul class="bullets">${back.graphRules.map(d=>`<li>${d}</li>`).join('')}</ul></div>`;
+  }
+  if(back.pitfalls && back.pitfalls.length){
+    html += `<div class="section-block"><div class="section-label pitfall"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 9v4M12 17h.01M10.3 3.9L2.9 17a2 2 0 0 0 1.7 3h14.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>Common Pitfall / Distinction</div><ul class="bullets">${back.pitfalls.map(d=>`<li>${d}</li>`).join('')}</ul></div>`;
+  }
+  document.getElementById('backFace').innerHTML = html;
+
+  const inner = document.getElementById('flipInner');
+  inner.classList.toggle('flipped', state.flipped);
+}
+
+/* ================= RENDER: FILTER CHIPS ================= */
+function renderChips(){
+  const row = document.getElementById('chipRow');
+  row.innerHTML='';
+  Object.keys(CATEGORIES).forEach(key=>{
+    const chip = document.createElement('div');
+    chip.className='chip';
+    chip.textContent = CATEGORIES[key].label;
+    const active = state.activeFilters.has(key);
+    chip.dataset.active = active;
+    if(active){ chip.style.background = CATEGORIES[key].color; chip.style.borderColor = CATEGORIES[key].color; }
+    chip.onclick = ()=>{
+      if(state.activeFilters.has(key)) state.activeFilters.delete(key);
+      else state.activeFilters.add(key);
+      state.pos = 0; state.flipped=false;
+      rebuildOrderPreservingCurrent(false);
+      renderChips(); renderCard(); renderGrid();
+      updateDeckLabel();
+    };
+    row.appendChild(chip);
+  });
+}
+
+function updateDeckLabel(){
+  const lbl = document.getElementById('deckLabel');
+  const parts=[];
+  if(state.activeFilters.size>0) parts.push([...state.activeFilters].map(k=>CATEGORIES[k].label).join(', '));
+  if(state.needsReviewOnly) parts.push('Needs Review only');
+  lbl.textContent = parts.length ? parts.join(' · ') : 'All cards';
+}
+
+/* ================= RENDER: GRID VIEW ================= */
+function renderGrid(){
+  const list = document.getElementById('gridList');
+  const q = (document.getElementById('gridSearch').value||'').toLowerCase();
+  let deck = getFilteredDeck();
+  if(q){
+    deck = deck.filter(c=>{
+      const hay = (c.front+' '+c.tag+' '+JSON.stringify(c.back)).toLowerCase();
+      return hay.includes(q);
+    });
+  }
+  list.innerHTML='';
+  if(deck.length===0){
+    list.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><h3>No matches</h3><p>Try a different search term or filter.</p></div>`;
+    return;
+  }
+  deck.forEach(card=>{
+    const el = document.createElement('div');
+    el.className='grid-card';
+    const isMastered = !!state.mastered[card.id];
+    el.innerHTML = `<span class="gc-badge" style="background:${catColor(card.cat)}">${card.badge}</span>
+      <h4>${card.front}</h4>
+      <p>${card.tag}</p>
+      ${isMastered ? '<div class="gc-mastered">✓ Mastered</div>' : ''}`;
+    el.onclick = ()=>{
+      const idx = state.order.indexOf(card.id);
+      if(idx>=0){ state.pos = idx; } else { rebuildOrderPreservingCurrent(false); state.pos = state.order.indexOf(card.id); }
+      state.flipped = false;
+      setView('study');
+      renderCard();
+    };
+    list.appendChild(el);
+  });
+}
+
+/* ================= VIEW SWITCH ================= */
+function setView(v){
+  state.view = v;
+  document.getElementById('stage').classList.toggle('hidden', v!=='study');
+  document.getElementById('gridShell').classList.toggle('active', v==='grid');
+  document.getElementById('progressWrap').style.display = v==='study' ? '' : 'none';
+  if(v==='grid') renderGrid();
+}
+
+/* ================= ACTIONS ================= */
+function flipCard(){
+  if(state.order.length===0) return;
+  state.flipped = !state.flipped;
+  document.getElementById('flipInner').classList.toggle('flipped', state.flipped);
+}
+function nextCard(){
+  if(state.order.length===0) return;
+  state.pos = (state.pos+1) % state.order.length;
+  state.flipped=false;
+  renderCard();
+}
+function prevCard(){
+  if(state.order.length===0) return;
+  state.pos = (state.pos-1+state.order.length) % state.order.length;
+  state.flipped=false;
+  renderCard();
+}
+function shuffleDeck(){
+  for(let i=state.order.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [state.order[i], state.order[j]] = [state.order[j], state.order[i]];
+  }
+  state.pos = 0; state.flipped=false;
+  renderCard();
+}
+function toggleMastered(){
+  if(state.order.length===0) return;
+  const id = state.order[state.pos];
+  state.mastered[id] = !state.mastered[id];
+  localStorage.setItem('bop_forex_mastered', JSON.stringify(state.mastered));
+  renderCard();
+}
+function toggleTheme(){
+  state.theme = state.theme==='dark' ? 'light' : 'dark';
+  document.body.dataset.theme = state.theme;
+  localStorage.setItem('bop_forex_theme', state.theme);
+  updateThemeIcon();
+}
+function updateThemeIcon(){
+  const icon = document.getElementById('themeIcon');
+  if(state.theme==='light'){
+    icon.innerHTML = '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>';
+  } else {
+    icon.innerHTML = '<circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8L6 18M18 6l1.8-1.8"/>';
+  }
+}
+
+/* ================= EVENT WIRING ================= */
+document.getElementById('flipZone').addEventListener('click', flipCard);
+document.getElementById('flipBtn').addEventListener('click', flipCard);
+document.getElementById('nextBtn').addEventListener('click', nextCard);
+document.getElementById('prevBtn').addEventListener('click', prevCard);
+document.getElementById('shuffleBtn').addEventListener('click', shuffleDeck);
+document.getElementById('masterBtn').addEventListener('click', toggleMastered);
+document.getElementById('themeToggleBtn').addEventListener('click', toggleTheme);
+document.getElementById('gridSearch').addEventListener('input', renderGrid);
+
+document.getElementById('gridToggleBtn').addEventListener('click', ()=>{
+  setView(state.view==='grid' ? 'study' : 'grid');
+});
+
+document.getElementById('filterToggle').addEventListener('click', ()=>{
+  const panel = document.getElementById('filterPanel');
+  const toggle = document.getElementById('filterToggle');
+  panel.classList.toggle('open');
+  toggle.classList.toggle('open');
+});
+
+document.getElementById('needsReviewToggle').addEventListener('click', function(){
+  state.needsReviewOnly = !state.needsReviewOnly;
+  this.dataset.active = state.needsReviewOnly;
+  state.pos = 0; state.flipped=false;
+  rebuildOrderPreservingCurrent(false);
+  renderCard(); renderGrid();
+  updateDeckLabel();
+});
+
+document.addEventListener('keydown', (e)=>{
+  if(document.activeElement && document.activeElement.tagName==='INPUT') return;
+  if(e.code==='Space' || e.code==='ArrowUp'){ e.preventDefault(); flipCard(); }
+  else if(e.code==='ArrowRight'){ nextCard(); }
+  else if(e.code==='ArrowLeft'){ prevCard(); }
+  else if(e.code==='KeyR'){ shuffleDeck(); }
+});
+
+/* ================= INIT ================= */
+document.body.dataset.theme = state.theme;
+updateThemeIcon();
+renderChips();
+renderCard();
+updateDeckLabel();
+</script>
+</body>
+</html>

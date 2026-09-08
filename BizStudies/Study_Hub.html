@@ -1,0 +1,270 @@
+<title>Maithreya's Study Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#f5f7fc; --bg-2:#eaeef8;
+    --grid-line: rgba(40,55,100,0.055);
+    --surface: rgba(255,255,255,0.62); --surface-hi: rgba(255,255,255,0.88);
+    --surface-border: rgba(30,40,80,0.10); --surface-border-hi: rgba(30,40,80,0.18);
+    --text:#171c2c; --text-dim:#454f68; --text-mute:#7a8298;
+    --teal:#0d9488; --teal-ink:#052620;
+    --shadow-lg: 0 24px 50px -22px rgba(30,40,80,0.28);
+    --shadow-md: 0 10px 24px -10px rgba(30,40,80,0.28);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0a0e17; --bg-2:#0d1220;
+      --grid-line: rgba(150,175,255,0.05);
+      --surface: rgba(255,255,255,0.055); --surface-hi: rgba(255,255,255,0.09);
+      --surface-border: rgba(255,255,255,0.10); --surface-border-hi: rgba(255,255,255,0.18);
+      --text:#eaf0fa; --text-dim:#aab2c5; --text-mute:#737d94;
+      --teal:#2fe0c4; --teal-ink:#052620;
+      --shadow-lg: 0 24px 50px -18px rgba(0,0,0,0.6);
+      --shadow-md: 0 10px 24px -10px rgba(0,0,0,0.55);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0a0e17; --bg-2:#0d1220;
+    --grid-line: rgba(150,175,255,0.05);
+    --surface: rgba(255,255,255,0.055); --surface-hi: rgba(255,255,255,0.09);
+    --surface-border: rgba(255,255,255,0.10); --surface-border-hi: rgba(255,255,255,0.18);
+    --text:#eaf0fa; --text-dim:#aab2c5; --text-mute:#737d94;
+    --teal:#2fe0c4; --teal-ink:#052620;
+    --shadow-lg: 0 24px 50px -18px rgba(0,0,0,0.6);
+    --shadow-md: 0 10px 24px -10px rgba(0,0,0,0.55);
+    color-scheme: dark;
+  }
+
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; background:var(--bg); color:var(--text); font-family:'Manrope',ui-sans-serif,sans-serif; -webkit-font-smoothing:antialiased; }
+  body{
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+      linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+    background-size: 34px 34px, 34px 34px, auto;
+    min-height:100vh;
+  }
+  .mono{ font-family:'IBM Plex Mono', ui-monospace, monospace; }
+  a{ color:inherit; text-decoration:none; }
+
+  .wrap{ max-width: 980px; margin:0 auto; padding: 28px 18px 60px; }
+
+  header{ display:flex; align-items:flex-start; justify-content:space-between; gap:14px; flex-wrap:wrap; margin-bottom:14px; }
+  .title-block h1{ font-size: clamp(22px, 4vw, 30px); margin:0 0 4px; letter-spacing:.1px; text-wrap:balance; font-weight:800; }
+  .title-block p{ margin:0; color:var(--text-mute); font-family:'IBM Plex Mono'; font-size:12.5px; letter-spacing:.3px; }
+
+  .theme-toggle{
+    appearance:none; cursor:pointer; width:38px; height:38px; border-radius:12px; flex:none;
+    background:var(--surface); border:1px solid var(--surface-border); color:var(--text-dim);
+    display:flex; align-items:center; justify-content:center; transition:.15s ease;
+  }
+  .theme-toggle:hover{ color:var(--text); background:var(--surface-hi); }
+  .theme-toggle svg{ width:17px; height:17px; display:none; }
+  .theme-toggle[data-state="light"] .icon-sun{ display:block; }
+  .theme-toggle[data-state="dark"] .icon-moon{ display:block; }
+  .theme-toggle[data-state="system"] .icon-auto{ display:block; }
+
+  .summary{
+    display:flex; gap:10px; flex-wrap:wrap; margin-bottom:30px;
+  }
+  .summary .pill{
+    font-family:'IBM Plex Mono'; font-size:11.5px; color:var(--text-dim);
+    background:var(--surface); border:1px solid var(--surface-border); padding:6px 12px; border-radius:99px;
+  }
+
+  .subject-section{ margin-bottom: 34px; }
+  .subject-head{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:12px; flex-wrap:wrap; }
+  .subject-head h2{ font-size:15px; margin:0; font-weight:800; letter-spacing:.2px; }
+  .subject-head .subject-meta{ font-family:'IBM Plex Mono'; font-size:11px; color:var(--text-mute); }
+
+  .grid{
+    display:grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap:14px;
+  }
+  .card{
+    position:relative; border-radius:18px; padding:18px 16px 16px;
+    background: linear-gradient(160deg, var(--surface-hi), var(--surface));
+    border:1px solid var(--surface-border);
+    box-shadow: var(--shadow-md);
+    display:flex; flex-direction:column; gap:10px;
+    transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    --accent: #2fe0c4;
+  }
+  .card:hover, .card:focus-visible{ transform: translateY(-3px); border-color: color-mix(in srgb, var(--accent) 45%, var(--surface-border-hi)); box-shadow: var(--shadow-lg); outline:none; }
+  .card::before{
+    content:''; position:absolute; inset:0; border-radius:inherit; padding:1px;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 55%, transparent), transparent 45%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude; pointer-events:none;
+  }
+  .card-top{ display:flex; align-items:center; justify-content:space-between; }
+  .badge{
+    width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono'; font-weight:600; font-size:14px;
+    background: color-mix(in srgb, var(--accent) 22%, var(--surface));
+    color: color-mix(in srgb, var(--accent) 75%, var(--text));
+    border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  }
+  .unit-tag{ font-family:'IBM Plex Mono'; font-size:10px; color:var(--text-mute); letter-spacing:.3px; }
+  .card h3{ font-size:15.5px; margin:0; font-weight:800; line-height:1.3; }
+  .card p{ margin:0; font-size:12px; color:var(--text-mute); line-height:1.5; flex:1; }
+  .card-foot{ display:flex; align-items:center; justify-content:space-between; margin-top:2px; }
+  .count-chip{
+    font-family:'IBM Plex Mono'; font-size:10.5px; color: color-mix(in srgb, var(--accent) 70%, var(--text));
+    background: color-mix(in srgb, var(--accent) 14%, transparent); padding:3px 9px; border-radius:99px;
+  }
+  .go{
+    width:26px; height:26px; border-radius:8px; display:flex; align-items:center; justify-content:center;
+    background: color-mix(in srgb, var(--accent) 16%, transparent); color: color-mix(in srgb, var(--accent) 70%, var(--text));
+  }
+  .go svg{ width:13px; height:13px; }
+
+  details.howto{
+    margin-top:14px; border-radius:16px; border:1px solid var(--surface-border); background:var(--surface); overflow:hidden;
+  }
+  details.howto summary{
+    cursor:pointer; list-style:none; padding:14px 16px; font-weight:700; font-size:13.5px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  details.howto summary::-webkit-details-marker{ display:none; }
+  details.howto summary::after{ content:'+'; font-family:'IBM Plex Mono'; color:var(--text-mute); font-size:16px; }
+  details.howto[open] summary::after{ content:'−'; }
+  .howto-body{ padding: 0 16px 16px; color:var(--text-dim); font-size:13px; line-height:1.7; }
+  .howto-body ol{ margin:0; padding-left: 20px; }
+  .howto-body li{ margin-bottom: 6px; }
+  .howto-body .note{ margin-top:10px; font-size:12px; color:var(--text-mute); }
+
+  footer{ margin-top: 26px; text-align:center; font-family:'IBM Plex Mono'; font-size:11px; color:var(--text-mute); }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="title-block">
+      <h1>Maithreya's Study Hub</h1>
+      <p>CBSE CLASS XII &middot; APPLIED MATHS + BUSINESS STUDIES</p>
+    </div>
+    <button class="theme-toggle" id="themeToggle" type="button" title="Theme: Auto">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.5v2.4M12 19.1v2.4M4.5 12H2M22 12h-2.5M5.3 5.3l1.7 1.7M17 17l1.7 1.7M18.7 5.3L17 7M7 17l-1.7 1.7"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.4A8.5 8.5 0 1 1 9.6 3.5a7 7 0 0 0 10.9 10.9z"/></svg>
+      <svg class="icon-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor" stroke="none"/></svg>
+    </button>
+  </header>
+
+  <div class="summary">
+    <span class="pill">20 chapters &middot; 2 subjects</span>
+    <span class="pill">Study &middot; Reference Grid &middot; Mastery tracking</span>
+    <span class="pill">Tap a chapter to open it</span>
+  </div>
+
+  <div class="subject-section">
+    <div class="subject-head">
+      <h2>📐 Applied Mathematics <span class="mono" style="color:var(--text-mute); font-weight:500;">— Code 241</span></h2>
+      <span class="subject-meta" id="am-meta"></span>
+    </div>
+    <div class="grid" id="grid-am"></div>
+  </div>
+
+  <div class="subject-section">
+    <div class="subject-head">
+      <h2>💼 Business Studies</h2>
+      <span class="subject-meta" id="bst-meta"></span>
+    </div>
+    <div class="grid" id="grid-bst"></div>
+  </div>
+
+  <details class="howto">
+    <summary>📱 Add this to your Android home screen</summary>
+    <div class="howto-body">
+      <ol>
+        <li>Open this page in <b>Chrome</b> on your phone (bookmark or share this link to yourself first).</li>
+        <li>Tap the <b>&#8942;</b> menu (top right) and choose <b>Add to Home screen</b>.</li>
+        <li>Confirm the name and tap <b>Add</b> &mdash; you'll get one icon that opens straight to this chapter menu.</li>
+      </ol>
+      <div class="note">Each chapter opens as its own page — you can also long-press any chapter after opening it and "Add to Home screen" again if you want a direct icon for just that one subject.</div>
+    </div>
+  </details>
+
+  <footer>Maithreya's Studies &middot; built chapter by chapter, matched to the CBSE syllabus</footer>
+</div>
+
+<script>
+(function(){
+  var APPLIED_MATHS = [
+    { unit:"Unit 8", title:"Linear Programming", desc:"Formulation, graphical method, corner-point theorem.", count:58, mark:"fx", accent:"#2fe0c4", url:"https://claude.ai/code/artifact/7d84380a-409a-4fa6-83da-41e78f8919cd" },
+    { unit:"Unit 1", title:"Numbers, Quantification & Numerical Applications", desc:"Modulo, alligation, boats/streams, pipes, races.", count:47, mark:"±%", accent:"#f6b93b", url:"https://claude.ai/code/artifact/bd7bf693-9604-42c6-b340-e964abd6f137" },
+    { unit:"Unit 2", title:"Algebra — Matrices & Determinants", desc:"Matrix algebra, determinants, inverse, Cramer's Rule.", count:45, mark:"[A]", accent:"#9d8cf9", url:"https://claude.ai/code/artifact/3a80a908-fd21-4342-9528-3bf18b4a93b1" },
+    { unit:"Unit 3", title:"Calculus", desc:"Derivatives, maxima-minima, integration, differential equations.", count:54, mark:"∫", accent:"#38bdf8", url:"https://claude.ai/code/artifact/39c6340a-771e-42d9-8403-4864770be811" },
+    { unit:"Unit 4", title:"Probability Distributions", desc:"Expectation, variance, Binomial, Poisson, Normal.", count:37, mark:"P%", accent:"#fb7185", url:"https://claude.ai/code/artifact/d027ed32-a07d-4ea6-a95f-741ebfc27c2f" },
+    { unit:"Unit 5", title:"Inferential Statistics", desc:"Population/sample, CLT, one-sample t-test.", count:27, mark:"t", accent:"#34d399", url:"https://claude.ai/code/artifact/8c898e29-f41e-4c5d-8b89-2b784231e90e" },
+    { unit:"Unit 6", title:"Time-Based Data", desc:"Time series components, moving averages, least squares.", count:25, mark:"Δt", accent:"#fb923c", url:"https://claude.ai/code/artifact/3097360f-c62e-4ed3-bcd4-ad848728bae9" },
+    { unit:"Unit 7", title:"Financial Mathematics", desc:"Perpetuity, sinking funds, bonds, EMI, CAGR, depreciation.", count:37, mark:"₹", accent:"#f472b6", url:"https://claude.ai/code/artifact/2e825e61-b43a-4cfd-b2ad-7fbe683b5df7" }
+  ];
+
+  var BUSINESS_STUDIES = [
+    { unit:"Ch 1", title:"Nature and Significance of Management", desc:"Characteristics, objectives, levels, coordination, Science/Art/Profession.", count:50, mark:"NM", accent:"#2af0a8", url:"https://claude.ai/code/artifact/e3933add-f85f-477c-a0c4-9a9cdcd08fee" },
+    { unit:"Ch 2", title:"Principles of Management", desc:"Fayol's 14 Principles, Taylor's Scientific Management.", count:54, mark:"PM", accent:"#3fe0f5", url:"https://claude.ai/code/artifact/8d961106-da07-4f0b-90a3-aa9d5bdda604" },
+    { unit:"Ch 3", title:"Business Environment", desc:"Dimensions of environment, the 1991 LPG reforms.", count:43, mark:"BE", accent:"#ffc247", url:"https://claude.ai/code/artifact/c6c666df-e15b-454d-b510-3e698bacbc25" },
+    { unit:"Ch 4", title:"Planning", desc:"Features, importance, limitations, process, types of plans.", count:47, mark:"PL", accent:"#b3a1ff", url:"https://claude.ai/code/artifact/3b9b81b7-68c6-4452-bad6-82ff14211634" },
+    { unit:"Ch 5", title:"Organising", desc:"Structure types, formal/informal organisation, delegation, decentralisation.", count:50, mark:"OR", accent:"#ff8fa3", url:"https://claude.ai/code/artifact/19cdf343-5d7a-483d-8309-c90e42b22aaa" },
+    { unit:"Ch 6", title:"Staffing", desc:"Recruitment sources, selection process, training and development.", count:43, mark:"ST", accent:"#2af0a8", url:"https://claude.ai/code/artifact/f61b26b9-ffcb-4303-a592-ab382187c475" },
+    { unit:"Ch 7", title:"Directing", desc:"Maslow's hierarchy, incentives, leadership styles, communication.", count:45, mark:"DR", accent:"#3fe0f5", url:"https://claude.ai/code/artifact/ab8e8c6d-f42a-4dfa-ad7c-638aa8e22dbf" },
+    { unit:"Ch 8", title:"Controlling", desc:"Process steps, limitations, relationship with Planning.", count:35, mark:"CT", accent:"#ffc247", url:"https://claude.ai/code/artifact/b6166067-e9b3-48a4-aa93-9dcf81c4b69e" },
+    { unit:"Ch 9", title:"Financial Management", desc:"Investment/financing/dividend decisions, capital structure.", count:41, mark:"FM", accent:"#b3a1ff", url:"https://claude.ai/code/artifact/a59f4a24-0dad-4987-9a7c-4d640f308b61" },
+    { unit:"Ch 10", title:"Financial Markets", desc:"Money market instruments, capital market, stock exchange, SEBI.", count:43, mark:"FN", accent:"#ff8fa3", url:"https://claude.ai/code/artifact/f57e0f36-ad4b-4549-9c3c-1a55f0bee1c8" },
+    { unit:"Ch 11", title:"Marketing Management", desc:"Marketing philosophies and the full 4 Ps mix.", count:51, mark:"MK", accent:"#2af0a8", url:"https://claude.ai/code/artifact/26a703ac-e23c-4040-b28a-f02ca056a992" },
+    { unit:"Ch 12", title:"Consumer Protection", desc:"Consumer rights/responsibilities, CPA 2019 redressal machinery.", count:42, mark:"CP", accent:"#3fe0f5", url:"https://claude.ai/code/artifact/7bdb0ee8-4dc9-4e58-b85f-6906e163e05c" }
+  ];
+
+  function renderGrid(gridId, chapters){
+    var grid = document.getElementById(gridId);
+    chapters.forEach(function(ch){
+      var a = document.createElement('a');
+      a.href = ch.url;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.className = 'card';
+      a.style.setProperty('--accent', ch.accent);
+      a.innerHTML =
+        '<div class="card-top"><div class="badge">'+ch.mark+'</div><div class="unit-tag">'+ch.unit+'</div></div>' +
+        '<h3>'+ch.title+'</h3>' +
+        '<p>'+ch.desc+'</p>' +
+        '<div class="card-foot"><span class="count-chip">'+ch.count+' cards</span>' +
+        '<span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div>';
+      grid.appendChild(a);
+    });
+  }
+
+  renderGrid('grid-am', APPLIED_MATHS);
+  renderGrid('grid-bst', BUSINESS_STUDIES);
+
+  var amTotal = APPLIED_MATHS.reduce(function(s,c){ return s+c.count; }, 0);
+  var bstTotal = BUSINESS_STUDIES.reduce(function(s,c){ return s+c.count; }, 0);
+  document.getElementById('am-meta').textContent = APPLIED_MATHS.length + ' chapters · ' + amTotal + ' cards';
+  document.getElementById('bst-meta').textContent = BUSINESS_STUDIES.length + ' chapters · ' + bstTotal + ' cards';
+
+  // theme toggle (Light / Dark / Auto)
+  var KEY = 'flashcards-hub-theme';
+  var ORDER = ['system','light','dark'];
+  var TITLES = { system:'Theme: Auto', light:'Theme: Light', dark:'Theme: Dark' };
+  var btn = document.getElementById('themeToggle');
+  function apply(t){
+    if(t==='dark'||t==='light'){ document.documentElement.setAttribute('data-theme', t); }
+    else { document.documentElement.removeAttribute('data-theme'); t='system'; }
+    btn.setAttribute('data-state', t);
+    btn.setAttribute('title', TITLES[t]);
+    try{ localStorage.setItem(KEY, t); }catch(e){}
+  }
+  var saved = 'system';
+  try{ saved = localStorage.getItem(KEY) || 'system'; }catch(e){}
+  apply(saved);
+  btn.addEventListener('click', function(){
+    var cur = btn.getAttribute('data-state') || 'system';
+    apply(ORDER[(ORDER.indexOf(cur)+1) % ORDER.length]);
+  });
+})();
+</script>

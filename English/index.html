@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+<title>English</title>
+<style>
+
+:root{
+  --bg:#f5f7fc; --bg-2:#eaeef8;
+  --grid-line: rgba(40,55,100,0.055);
+  --surface: rgba(255,255,255,0.66); --surface-hi: rgba(255,255,255,0.90);
+  --surface-border: rgba(30,40,80,0.10); --surface-border-hi: rgba(30,40,80,0.18);
+  --text:#171c2c; --text-dim:#454f68; --text-mute:#7a8298;
+  --shadow-lg: 0 24px 50px -22px rgba(30,40,80,0.28);
+  --shadow-md: 0 10px 24px -10px rgba(30,40,80,0.28);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0a0e17; --bg-2:#0d1220;
+    --grid-line: rgba(150,175,255,0.05);
+    --surface: rgba(255,255,255,0.055); --surface-hi: rgba(255,255,255,0.09);
+    --surface-border: rgba(255,255,255,0.10); --surface-border-hi: rgba(255,255,255,0.18);
+    --text:#eaf0fa; --text-dim:#aab2c5; --text-mute:#737d94;
+    --shadow-lg: 0 24px 50px -18px rgba(0,0,0,0.6);
+    --shadow-md: 0 10px 24px -10px rgba(0,0,0,0.55);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0a0e17; --bg-2:#0d1220;
+  --grid-line: rgba(150,175,255,0.05);
+  --surface: rgba(255,255,255,0.055); --surface-hi: rgba(255,255,255,0.09);
+  --surface-border: rgba(255,255,255,0.10); --surface-border-hi: rgba(255,255,255,0.18);
+  --text:#eaf0fa; --text-dim:#aab2c5; --text-mute:#737d94;
+  --shadow-lg: 0 24px 50px -18px rgba(0,0,0,0.6);
+  --shadow-md: 0 10px 24px -10px rgba(0,0,0,0.55);
+  color-scheme: dark;
+}
+*{ box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+html,body{ margin:0; padding:0; background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased; }
+body{
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+  background-size: 34px 34px, 34px 34px, auto;
+  min-height:100vh;
+}
+.mono{ font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+a{ color:inherit; text-decoration:none; }
+.wrap{ max-width: 1040px; margin:0 auto; padding: 24px 16px 56px; }
+
+header.page-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:14px; flex-wrap:wrap; margin-bottom:10px; }
+.title-block{ display:flex; align-items:center; gap:12px; min-width:0; }
+.title-block .emoji{ font-size:30px; line-height:1; flex:none; }
+.title-block h1{ font-size: clamp(20px, 4.4vw, 28px); margin:0 0 3px; letter-spacing:.1px; font-weight:800; }
+.title-block p{ margin:0; color:var(--text-mute); font-family:ui-monospace,monospace; font-size:12px; letter-spacing:.3px; }
+
+.back-link{
+  display:inline-flex; align-items:center; gap:6px; font-weight:700; font-size:12.5px;
+  color:var(--text-dim); background:var(--surface); border:1px solid var(--surface-border);
+  padding:8px 13px 8px 10px; border-radius:99px; flex:none; transition:.15s ease;
+}
+.back-link:hover{ color:var(--text); background:var(--surface-hi); border-color:var(--surface-border-hi); }
+
+.theme-toggle{
+  appearance:none; cursor:pointer; width:38px; height:38px; border-radius:12px; flex:none;
+  background:var(--surface); border:1px solid var(--surface-border); color:var(--text-dim);
+  display:flex; align-items:center; justify-content:center; transition:.15s ease;
+}
+.theme-toggle:hover{ color:var(--text); background:var(--surface-hi); }
+.theme-toggle svg{ width:17px; height:17px; display:none; }
+.theme-toggle[data-state="light"] .icon-sun{ display:block; }
+.theme-toggle[data-state="dark"] .icon-moon{ display:block; }
+.theme-toggle[data-state="system"] .icon-auto{ display:block; }
+
+.head-right{ display:flex; align-items:center; gap:10px; }
+
+.summary{ display:flex; gap:9px; flex-wrap:wrap; margin: 16px 0 26px; }
+.summary .pill{
+  font-family:ui-monospace,monospace; font-size:11.5px; color:var(--text-dim);
+  background:var(--surface); border:1px solid var(--surface-border); padding:6px 12px; border-radius:99px;
+}
+
+.section{ margin-bottom: 30px; }
+.section-head{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:12px; flex-wrap:wrap; }
+.section-head h2{ font-size:14.5px; margin:0; font-weight:800; letter-spacing:.2px; color:var(--text-dim); text-transform:uppercase; }
+.section-head .section-meta{ font-family:ui-monospace,monospace; font-size:11px; color:var(--text-mute); }
+
+.grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap:14px; }
+.grid.subjects{ grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+
+.card{
+  position:relative; border-radius:18px; padding:18px 16px 16px;
+  background: linear-gradient(160deg, var(--surface-hi), var(--surface));
+  border:1px solid var(--surface-border);
+  box-shadow: var(--shadow-md);
+  display:flex; flex-direction:column; gap:10px;
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+  --accent: #2fe0c4;
+}
+.card:hover, .card:focus-visible{ transform: translateY(-3px); border-color: color-mix(in srgb, var(--accent) 45%, var(--surface-border-hi)); box-shadow: var(--shadow-lg); outline:none; }
+.card::before{
+  content:''; position:absolute; inset:0; border-radius:inherit; padding:1px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 55%, transparent), transparent 45%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude; pointer-events:none;
+}
+.card-top{ display:flex; align-items:center; justify-content:space-between; }
+.badge{
+  width:38px; height:38px; border-radius:11px; display:flex; align-items:center; justify-content:center;
+  font-family:ui-monospace,monospace; font-weight:700; font-size:14px;
+  background: color-mix(in srgb, var(--accent) 22%, var(--surface));
+  color: color-mix(in srgb, var(--accent) 75%, var(--text));
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+}
+.badge.emoji-badge{ font-size:20px; }
+.unit-tag{ font-family:ui-monospace,monospace; font-size:10px; color:var(--text-mute); letter-spacing:.3px; }
+.card h3{ font-size:15px; margin:0; font-weight:800; line-height:1.32; }
+.card p{ margin:0; font-size:12px; color:var(--text-mute); line-height:1.5; flex:1; }
+.card-foot{ display:flex; align-items:center; justify-content:space-between; margin-top:2px; }
+.count-chip{
+  font-family:ui-monospace,monospace; font-size:10.5px; color: color-mix(in srgb, var(--accent) 70%, var(--text));
+  background: color-mix(in srgb, var(--accent) 14%, transparent); padding:3px 9px; border-radius:99px;
+}
+.go{
+  width:27px; height:27px; border-radius:8px; display:flex; align-items:center; justify-content:center;
+  background: color-mix(in srgb, var(--accent) 16%, transparent); color: color-mix(in srgb, var(--accent) 70%, var(--text));
+  flex:none;
+}
+.go svg{ width:13px; height:13px; }
+
+footer.page-foot{ margin-top: 30px; text-align:center; font-family:ui-monospace,monospace; font-size:11px; color:var(--text-mute); }
+
+@media (max-width: 480px){
+  .wrap{ padding: 18px 12px 44px; }
+  .grid{ grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap:11px; }
+  .card{ padding:14px 13px 13px; border-radius:16px; }
+}
+
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="page-head">
+    <div class="title-block">
+      <div class="emoji">📖</div>
+      <div>
+        <h1>English</h1>
+        <p>Kaleidoscope &mdash; Prose, Poetry, Drama &amp; Skills</p>
+      </div>
+    </div>
+    <div class="head-right">
+      <a class="back-link" href="../index.html">&larr; All subjects</a>
+      <button class="theme-toggle" id="themeToggle" type="button" title="Theme: Auto">
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.5v2.4M12 19.1v2.4M4.5 12H2M22 12h-2.5M5.3 5.3l1.7 1.7M17 17l1.7 1.7M18.7 5.3L17 7M7 17l-1.7 1.7"/></svg>
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.4A8.5 8.5 0 1 1 9.6 3.5a7 7 0 0 0 10.9 10.9z"/></svg>
+  <svg class="icon-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor" stroke="none"/></svg>
+</button>
+    </div>
+  </header>
+  
+<div class="summary">
+  <span class="pill">23 chapters &middot; 319 flashcards</span>
+  <span class="pill">Tap a chapter to open it</span>
+</div>
+
+<div class="section">
+  <div class="section-head">
+    <h2>Poetry</h2>
+    <span class="section-meta">7 chapters &middot; 87 cards</span>
+  </div>
+  <div class="grid">
+    <a href="A_Lecture_Upon_the_Shadow.html" class="card" style="--accent:#2fe0c4"><div class="card-top"><div class="badge">P</div><div class="unit-tag">Poetry</div></div><h3>A Lecture Upon the Shadow</h3><p>John Donne &mdash; metaphysical conceit and the arc of love.</p><div class="card-foot"><span class="count-chip">13 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="Kubla_Khan.html" class="card" style="--accent:#2fe0c4"><div class="card-top"><div class="badge">P</div><div class="unit-tag">Poetry</div></div><h3>Kubla Khan</h3><p>Coleridge &mdash; the sublime, the fragment poem, poetic imagination.</p><div class="card-foot"><span class="count-chip">13 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="Poems_by_Blake.html" class="card" style="--accent:#2fe0c4"><div class="card-top"><div class="badge">P</div><div class="unit-tag">Poetry</div></div><h3>Poems by Blake</h3><p>Innocence vs experience, symbolism, social critique.</p><div class="card-foot"><span class="count-chip">13 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="Poems_by_Milton.html" class="card" style="--accent:#2fe0c4"><div class="card-top"><div class="badge">P</div><div class="unit-tag">Poetry</div></div><h3>Poems by Milton</h3><p>Sonnet form, blindness, faith and vocation.</p><div class="card-foot"><span class="count-chip">11 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="The_Wild_Swans_at_Coole.html" class="card" style="--accent:#2fe0c4"><div class="card-top"><div class="badge">P</div><div class="unit-tag">Poetry</div></div><h3>The Wild Swans at Coole</h3><p>Yeats &mdash; time, change, and permanence in nature.</p><div class="card-foot"><span class="count-chip">12 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="Trees.html" class="card" style="--accent:#2fe0c4"><div class="card-top"><div class="badge">P</div><div class="unit-tag">Poetry</div></div><h3>Trees</h3><p>Nature imagery and the poem's central comparison.</p><div class="card-foot"><span class="count-chip">12 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="Freedom.html" class="card" style="--accent:#2fe0c4"><div class="card-top"><div class="badge">P</div><div class="unit-tag">Poetry</div></div><h3>Freedom</h3><p>The idea and cost of freedom explored through verse.</p><div class="card-foot"><span class="count-chip">13 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-head">
+    <h2>Drama</h2>
+    <span class="section-meta">2 chapters &middot; 29 cards</span>
+  </div>
+  <div class="grid">
+    <a href="Broken_Images.html" class="card" style="--accent:#9d8cf9"><div class="card-top"><div class="badge">D</div><div class="unit-tag">Drama</div></div><h3>Broken Images</h3><p>Girish Karnad &mdash; identity, language, the self on stage.</p><div class="card-foot"><span class="count-chip">14 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="Chandalika.html" class="card" style="--accent:#9d8cf9"><div class="card-top"><div class="badge">D</div><div class="unit-tag">Drama</div></div><h3>Chandalika</h3><p>Tagore &mdash; caste, dignity and self-realisation.</p><div class="card-foot"><span class="count-chip">15 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-head">
+    <h2>Short Stories</h2>
+    <span class="section-meta">8 chapters &middot; 112 cards</span>
+  </div>
+  <div class="grid">
+    <a href="A_Wedding_in_Brownsville.html" class="card" style="--accent:#f6b93b"><div class="card-top"><div class="badge">S</div><div class="unit-tag">Short Stories</div></div><h3>A Wedding in Brownsville</h3><p>Isaac Bashevis Singer &mdash; memory, guilt, the uncanny.</p><div class="card-foot"><span class="count-chip">15 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="Blood.html" class="card" style="--accent:#f6b93b"><div class="card-top"><div class="badge">S</div><div class="unit-tag">Short Stories</div></div><h3>Blood</h3><p>Family, migration and inherited trauma.</p><div class="card-foot"><span class="count-chip">13 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="Eveline.html" class="card" style="--accent:#f6b93b"><div class="card-top"><div class="badge">S</div><div class="unit-tag">Short Stories</div></div><h3>Eveline</h3><p>James Joyce &mdash; paralysis and the choice not taken.</p><div class="card-foot"><span class="count-chip">15 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="I_Sell_My_Dreams.html" class="card" style="--accent:#f6b93b"><div class="card-top"><div class="badge">S</div><div class="unit-tag">Short Stories</div></div><h3>I Sell My Dreams</h3><p>García Márquez &mdash; magical realism and coincidence.</p><div class="card-foot"><span class="count-chip">16 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="One_Centimetre.html" class="card" style="--accent:#f6b93b"><div class="card-top"><div class="badge">S</div><div class="unit-tag">Short Stories</div></div><h3>One Centimetre</h3><p>Bi Feiyu &mdash; face, pride and small humiliations.</p><div class="card-foot"><span class="count-chip">14 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="The_Mark_on_the_Wall.html" class="card" style="--accent:#f6b93b"><div class="card-top"><div class="badge">S</div><div class="unit-tag">Short Stories</div></div><h3>The Mark on the Wall</h3><p>Virginia Woolf &mdash; stream of consciousness.</p><div class="card-foot"><span class="count-chip">13 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="Time_and_Time_Again.html" class="card" style="--accent:#f6b93b"><div class="card-top"><div class="badge">S</div><div class="unit-tag">Short Stories</div></div><h3>Time and Time Again</h3><p>Perspective, memory and narrative structure.</p><div class="card-foot"><span class="count-chip">12 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="Tomorrow.html" class="card" style="--accent:#f6b93b"><div class="card-top"><div class="badge">S</div><div class="unit-tag">Short Stories</div></div><h3>Tomorrow</h3><p>Joseph Conrad &mdash; hope, waiting and self-deception.</p><div class="card-foot"><span class="count-chip">14 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-head">
+    <h2>Essays</h2>
+    <span class="section-meta">4 chapters &middot; 45 cards</span>
+  </div>
+  <div class="grid">
+    <a href="Film-making.html" class="card" style="--accent:#fb7185"><div class="card-top"><div class="badge">E</div><div class="unit-tag">Essays</div></div><h3>Film-making</h3><p>The craft and language of cinema as an essay subject.</p><div class="card-foot"><span class="count-chip">11 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="On_Science_Fiction.html" class="card" style="--accent:#fb7185"><div class="card-top"><div class="badge">E</div><div class="unit-tag">Essays</div></div><h3>On Science Fiction</h3><p>The genre's concerns, conventions and value.</p><div class="card-foot"><span class="count-chip">11 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="The_Argumentative_Indian.html" class="card" style="--accent:#fb7185"><div class="card-top"><div class="badge">E</div><div class="unit-tag">Essays</div></div><h3>The Argumentative Indian</h3><p>Amartya Sen &mdash; dialogue and dissent in Indian tradition.</p><div class="card-foot"><span class="count-chip">12 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="Why_the_Novel_Matters.html" class="card" style="--accent:#fb7185"><div class="card-top"><div class="badge">E</div><div class="unit-tag">Essays</div></div><h3>Why the Novel Matters</h3><p>The novel as a way of knowing.</p><div class="card-foot"><span class="count-chip">11 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-head">
+    <h2>Skills &amp; Grammar</h2>
+    <span class="section-meta">2 chapters &middot; 46 cards</span>
+  </div>
+  <div class="grid">
+    <a href="Applied_Grammar_and_Literary_Devices.html" class="card" style="--accent:#38bdf8"><div class="card-top"><div class="badge">G</div><div class="unit-tag">Skills &amp; Grammar</div></div><h3>Applied Grammar &amp; Literary Devices</h3><p>Grammar rules, figures of speech, exam-ready device ID.</p><div class="card-foot"><span class="count-chip">30 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+    <a href="Essay_and_Article_Writing_Frameworks.html" class="card" style="--accent:#38bdf8"><div class="card-top"><div class="badge">G</div><div class="unit-tag">Skills &amp; Grammar</div></div><h3>Essay &amp; Article Writing Frameworks</h3><p>Structure, framing and scoring approach for writing tasks.</p><div class="card-foot"><span class="count-chip">16 cards</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+  </div>
+</div>
+
+<footer class="page-foot">English &middot; Maithreya's Studies</footer>
+
+</div>
+<script>
+
+(function(){
+  var KEY = "flashcards-english-theme";
+  var ORDER = ['system','light','dark'];
+  var TITLES = { system:'Theme: Auto', light:'Theme: Light', dark:'Theme: Dark' };
+  var btn = document.getElementById('themeToggle');
+  function apply(t){
+    if(t==='dark'||t==='light'){ document.documentElement.setAttribute('data-theme', t); }
+    else { document.documentElement.removeAttribute('data-theme'); t='system'; }
+    btn.setAttribute('data-state', t);
+    btn.setAttribute('title', TITLES[t]);
+    try{ localStorage.setItem(KEY, t); }catch(e){}
+  }
+  var saved = 'system';
+  try{ saved = localStorage.getItem(KEY) || 'system'; }catch(e){}
+  apply(saved);
+  btn.addEventListener('click', function(){
+    var cur = btn.getAttribute('data-state') || 'system';
+    apply(ORDER[(ORDER.indexOf(cur)+1) % ORDER.length]);
+  });
+})();
+
+</script>
+</body>
+</html>
